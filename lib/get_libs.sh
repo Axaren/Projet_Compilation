@@ -12,5 +12,6 @@ unzip $BEAVER_ARCHIVE && rm $BEAVER_ARCHIVE
 mv "$JFLEX_DIR/lib/jflex-full-1.7.0.jar" .
 rm -rf $JFLEX_DIR
 mv -v $BEAVER_DIR/lib/* .
+rm -rf $BEAVER_DIR
 
 
