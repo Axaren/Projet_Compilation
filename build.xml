@@ -1,6 +1,4 @@
-<!-- ----------------------------------------------------------------------
--- Changements de detail par rapport a la version 20190401
----------------------------------------------------------------------- -->
+<!-- Changements de detail par rapport a la version 20190401 -->
 <project name="Projet LEA" default="help">
 
 	<target name="jflextask" unless="jflex.available" description="creates JFlex Ant task">
