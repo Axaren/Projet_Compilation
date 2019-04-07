@@ -1,5 +1,5 @@
 %package "ubordeaux.deptinfo.compilation.project.main";
-%class "Parser";
+%class "ParserLea";
 %import "ubordeaux.deptinfo.compilation.project.node.*";
 %import "ubordeaux.deptinfo.compilation.project.type.*";
 %import "ubordeaux.deptinfo.compilation.project.environment.*";
@@ -50,11 +50,13 @@
 %terminals TOKEN_LT, TOKEN_LE, TOKEN_GT, TOKEN_GE, TOKEN_EQ, TOKEN_NE;
 
 // LITERALS
-%terminals TOKEN_IDENTIFIER, TOKEN_LIT_INTEGER, TOKEN_LIT_STRING, TOKEN_TRUE, TOKEN_FALSE, TOKEN_NULL; 
+%terminals TOKEN_IDENTIFIER, TOKEN_LIT_INTEGER, TOKEN_LIT_STRING, TOKEN_TRUE, TOKEN_FALSE, TOKEN_NULL;
 
-/***
-* A completer
-***/
+%left TOKEN_TIMES, TOKEN_DIV;
+%left TOKEN_PLUS, TOKEN_MINUS;
+
+%typeof TOKEN_LIT_INTEGER = "Integer";
+%typeof TOKEN_LIT_STRING, TOKEN_IDENTIFIER = "String";
 
 %goal program;
 

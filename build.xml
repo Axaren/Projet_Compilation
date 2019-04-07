@@ -59,7 +59,7 @@
 
 	<target name="clean" description="remove compiled files">
 		<delete>
-			<fileset dir="src" includes="**/Parser.java,**/Scanner.java,**/Terminals.java" />
+			<fileset dir="src" includes="**/ParserLea.java,**/ScannerLea.java,**/Terminals.java" />
 			<fileset dir="bin" includes="**" />
 			<fileset dir="data" includes="output" />
 		</delete>
