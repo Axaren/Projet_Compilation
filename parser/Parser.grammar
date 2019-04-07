@@ -57,6 +57,25 @@
 
 %typeof TOKEN_LIT_INTEGER = "Integer";
 %typeof TOKEN_LIT_STRING, TOKEN_IDENTIFIER = "String";
+%typeof type = "Type";
+%typeof named_type = "TypeNamed";
+%typeof array_type = "TypeArray";
+%typeof range_type = "TypeRange";
+%typeof pointer_type = "TypePointer";
+%typeof structure_type = "TypeStruct";
+%typeof feature_list_type = "TypeFeatureList";
+%typeof feature_type = "TypeFeature";
+%typeof variable_declaration = "NodeId";
+%typeof new_statement = "NodeNew";
+%typeof dispose_statement = "NodeDispose";
+%typeof return_statement = "NodeReturn";
+%typeof if_statement = "NodeIf";
+%typeof while_statement = "NodeWhile";
+%typeof switch_statement = "NodeSwitch";
+%typeof case_statement_list = "NodeCaseList";
+%typeof case_statement, case_default = "NodeCase";
+%typeof expression = "NodeExp";
+%typeof literal = "NodeLiteral";
 
 %goal program;
 

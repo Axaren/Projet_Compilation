@@ -27,10 +27,8 @@ InputCharacter = [^\r\n]
 LineTerminator = \r|\n|\r\n
 
 Identifier = [a-zA-Z_][a-zA-Z0-9_]*
-String = "\""[a-zA-Z_][a-zA-Z0-9_]{64}"\""
+String = "\""[a-zA-Z_][a-zA-Z0-9_]{0,64}"\""
 Integer = [0-9]+
-Decimal = ({Integer}(\.{Integer})?)|(\.{Integer})
-Float = {Decimal}([eE][+-]?{Integer})?
 
 /* Comments */
 Comment = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
@@ -77,40 +75,43 @@ WhiteSpace = [ \t\f]
 
 /* KEYWORDS */
 "type"      { return newToken(Terminals.TOKEN_TYPE); }
-"string"    { return newToken(TOKEN_STRING); }
-"integer"   { return newToken(TOKEN_INTEGER); }
-"boolean"   { return newToken(TOKEN_BOOLEAN); }
-"array"     { return newToken(TOKEN_ARRAY); }
-"of"        { return newToken(TOKEN_OF); }
-"struct"    { return newToken(TOKEN_STRUCT); }
-"var"       { return newToken(TOKEN_VAR); }
-"procedure" { return newToken(TOKEN_PROCEDURE); }
-"function"  { return newToken(TOKEN_FUNCTION); }
-"begin"     { return newToken(TOKEN_BEGIN); }
-"end"       { return newToken(TOKEN_END); }
-"new"       { return newToken(TOKEN_NEW); }
-"dispose"   { return newToken(TOKEN_DISPOSE); }
-"println"   { return newToken(TOKEN_PRINTLN); }
-"readln"    { return newToken(TOKEN_READLN); }
-"return"    { return newToken(TOKEN_RETURN); }
-"if"        { return newToken(TOKEN_IF); }
-"then"      { return newToken(TOKEN_THEN); }
-"else"      { return newToken(TOKEN_ELSE); }
-"while"     { return newToken(TOKEN_WHILE); }
-"do"        { return newToken(TOKEN_DO); }
-"switch"    { return newToken(TOKEN_SWITCH); }
-"case"      { return newToken(TOKEN_CASE); }
-"default"   { return newToken(TOKEN_DEFAULT); }
+"string"    { return newToken(Terminals.TOKEN_STRING); }
+"integer"   { return newToken(Terminals.TOKEN_INTEGER); }
+"boolean"   { return newToken(Terminals.TOKEN_BOOLEAN); }
+"array"     { return newToken(Terminals.TOKEN_ARRAY); }
+"of"        { return newToken(Terminals.TOKEN_OF); }
+"struct"    { return newToken(Terminals.TOKEN_STRUCT); }
+"var"       { return newToken(Terminals.TOKEN_VAR); }
+"procedure" { return newToken(Terminals.TOKEN_PROCEDURE); }
+"function"  { return newToken(Terminals.TOKEN_FUNCTION); }
+"begin"     { return newToken(Terminals.TOKEN_BEGIN); }
+"end"       { return newToken(Terminals.TOKEN_END); }
+"new"       { return newToken(Terminals.TOKEN_NEW); }
+"dispose"   { return newToken(Terminals.TOKEN_DISPOSE); }
+"println"   { return newToken(Terminals.TOKEN_PRINTLN); }
+"readln"    { return newToken(Terminals.TOKEN_READLN); }
+"return"    { return newToken(Terminals.TOKEN_RETURN); }
+"if"        { return newToken(Terminals.TOKEN_IF); }
+"then"      { return newToken(Terminals.TOKEN_THEN); }
+"else"      { return newToken(Terminals.TOKEN_ELSE); }
+"while"     { return newToken(Terminals.TOKEN_WHILE); }
+"do"        { return newToken(Terminals.TOKEN_DO); }
+"switch"    { return newToken(Terminals.TOKEN_SWITCH); }
+"case"      { return newToken(Terminals.TOKEN_CASE); }
+"default"   { return newToken(Terminals.TOKEN_DEFAULT); }
 
 /* LITERALS */
-"true"       { return newToken(TOKEN_TRUE); }
-"false"      { return newToken(TOKEN_FALSE); }
-"null"       { return newToken(TOKEN_NULL); }
-{String}     { return newToken(TOKEN_LIT_STRING); }
-{Identifier} { return newToken(TOKEN_IDENTIFIER); }
-{Integer}    { return newToken(TOKEN_LIT_INTEGER); }
+"true"       { return newToken(Terminals.TOKEN_TRUE, true); }
+"false"      { return newToken(Terminals.TOKEN_FALSE, false); }
+"null"       { return newToken(Terminals.TOKEN_NULL, null); }
+{String}     { return newToken(Terminals.TOKEN_LIT_STRING, yytext()); }
+{Identifier} { return newToken(Terminals.TOKEN_IDENTIFIER, yytext()); }
+{Integer}    { return newToken(Terminals.TOKEN_LIT_INTEGER, new Integer(yytext())); }
 
 /* OTHER */
+
+{WhiteSpace} {}
+{Comment} {}
 
 [\s] {}
 

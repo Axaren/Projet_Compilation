@@ -1,5 +1,7 @@
 package ubordeaux.deptinfo.compilation.project.main;
 
+import beaver.Parser;
+import beaver.Scanner;
 import java.io.FileReader;
 
 import ubordeaux.deptinfo.compilation.project.node.Node;
@@ -13,8 +15,8 @@ public class Main {
 				if (arg.equals("-checkType"))
 					checksType = true;
 			} else {
-				Scanner input = new Scanner(new FileReader(arg));
-				Parser parser = new Parser();
+				Scanner input = new ScannerLea(new FileReader(arg));
+				Parser parser = new ParserLea();
 				try {
 					System.err.println("*** Fichier " + arg);
 					Node result = (Node) parser.parse(input);
