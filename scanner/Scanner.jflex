@@ -14,10 +14,12 @@ import beaver.Scanner;
 %column
 %{
 	private Symbol newToken(short id) {
+	  System.out.println("Detected: " + Terminals.NAMES[id]);
 		return new Symbol(id, yyline + 1, yycolumn + 1, yylength(), null);
 	}
 
 	private Symbol newToken(short id, Object value) {
+	  System.out.println("Detected: " + Terminals.NAMES[id] + " Value: " + yytext());
 		return new Symbol(id, yyline + 1, yycolumn + 1, yylength(), value);
 	}
 
@@ -69,7 +71,7 @@ WhiteSpace = [ \t\f]
 "("  { return newToken(Terminals.TOKEN_LPAR); }
 ")"  { return newToken(Terminals.TOKEN_RPAR); }
 "["  { return newToken(Terminals.TOKEN_LBRACKET); }
-"]"  { return newToken(Terminals.TOKEN_RBRAKET); }
+"]"  { return newToken(Terminals.TOKEN_RBRACKET); }
 "{"  { return newToken(Terminals.TOKEN_LBRACE); }
 "}"  { return newToken(Terminals.TOKEN_RBRACE); }
 
