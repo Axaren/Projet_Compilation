@@ -123,7 +123,7 @@ type_declaration_list=
 	;
 	
 type_declaration=
-	type_declaration_head TOKEN_AFF type TOKEN_SEMIC 
+	type_declaration_head.th TOKEN_AFF type.t TOKEN_SEMIC {: typeEnvironment.put(th,t); return new TypeNamed(th); :}
 	;
 	
 type_declaration_head=
@@ -245,8 +245,8 @@ argt_part=
 	;
 	
 argt_list=
-	argt_list TOKEN_COMMA argt
-	| argt
+	argt_list.lt TOKEN_COMMA argt.t {: nl.add(t); return nl;  :}
+	| argt.t {: TypeList nl = new TypeList(t); return nl; :}
 	;
 	
 argt=
@@ -298,28 +298,35 @@ expression_part=
 	;
 	
 expression_list=
-	expression_list TOKEN_COMMA expression
-	| expression
+	expression_list.el TOKEN_COMMA expression.e {: el.add(e); return el; :}
+	| expression.e {: NodeExp el = new NodeExp(e); return el; :}
 	;
 	
 new_statement=
-	TOKEN_NEW variable_access TOKEN_SEMIC
+	TOKEN_NEW variable_access.va TOKEN_SEMIC {: return new NodeNew(va); :}
 	;
 	
 dispose_statement=
-	TOKEN_DISPOSE variable_access TOKEN_SEMIC
+	TOKEN_DISPOSE variable_access.va TOKEN_SEMIC {: return new NodeDispose(va); :}
 	;
 	
 println_statement=
-	TOKEN_PRINTLN expression TOKEN_SEMIC
+	TOKEN_PRINTLN expression.e TOKEN_SEMIC
+	{:
+	  return new NodeCallFct(TOKEN_PRINTLN,
+  	new TypeFunc(TOKEN_PRINTLN, new TypeTuple(new TypeString()), new TypeVoid());
+  :}
 	;	
 	
 readln_statement=
-	TOKEN_READLN expression TOKEN_SEMIC
+	TOKEN_READLN expression.e TOKEN_SEMIC
+	{:
+	  return new NodeCallFct(TOKEN_READLN,
+	  new TypeFunc(TOKEN_READLN, new TypeTuple(/*Toodo*/), new TypeVoid());
 	;
 	
 return_statement=
-	TOKEN_RETURN expression TOKEN_SEMIC
+	TOKEN_RETURN expression.e TOKEN_SEMIC {: return new NodeReturn(e); :}
 	;
 	
 structured_statement=
