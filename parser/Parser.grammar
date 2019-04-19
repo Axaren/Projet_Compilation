@@ -65,6 +65,10 @@
 %typeof structure_type = "TypeStruct";
 %typeof feature_list_type = "TypeFeatureList";
 %typeof feature_type = "TypeFeature";
+%typeof argt = "TypeFeature"; /** may change to simply Type **/
+%typeof argt_list = "TypeTuple";
+%typeof type_declaration = "TypeNamed";
+%typeof variable_access = "Node";
 %typeof variable_declaration = "NodeId";
 %typeof new_statement = "NodeNew";
 %typeof dispose_statement = "NodeDispose";
@@ -75,6 +79,7 @@
 %typeof case_statement_list = "NodeCaseList";
 %typeof case_statement, case_default = "NodeCase";
 %typeof expression = "NodeExp";
+%typeof expression_list = "NodeList";
 %typeof literal = "NodeLiteral";
 
 %goal program;
@@ -101,7 +106,6 @@
 *	
 *
 ***/
-%goal program;
 
 program=
 	type_declaration_part
@@ -123,7 +127,7 @@ type_declaration_list=
 	;
 	
 type_declaration=
-	type_declaration_head.th TOKEN_AFF type.t TOKEN_SEMIC {: typeEnvironment.put(th,t); return new TypeNamed(th); :}
+	type_declaration_head.th TOKEN_AFF type.t TOKEN_SEMIC {: typeEnvironment.put(th, t); return new TypeNamed(th); :}
 	;
 	
 type_declaration_head=
@@ -245,12 +249,12 @@ argt_part=
 	;
 	
 argt_list=
-	argt_list.lt TOKEN_COMMA argt.t {: nl.add(t); return nl;  :}
-	| argt.t {: TypeList nl = new TypeList(t); return nl; :}
+	argt_list.lt TOKEN_COMMA argt.t {: lt.add(t); return lt;  :}
+	| argt.t {: TypeTuple nl = new TypeTuple(t); return nl; :}
 	;
 	
 argt=
-	TOKEN_IDENTIFIER TOKEN_COLON type
+	TOKEN_IDENTIFIER.i TOKEN_COLON type.t {: return new TypeFeature(i, t); :}
 	;
 	
 block=
@@ -299,7 +303,7 @@ expression_part=
 	
 expression_list=
 	expression_list.el TOKEN_COMMA expression.e {: el.add(e); return el; :}
-	| expression.e {: NodeExp el = new NodeExp(e); return el; :}
+	| expression.e {: NodeList el = new NodeList(e); return el; :}
 	;
 	
 new_statement=
@@ -311,18 +315,11 @@ dispose_statement=
 	;
 	
 println_statement=
-	TOKEN_PRINTLN expression.e TOKEN_SEMIC
-	{:
-	  return new NodeCallFct(TOKEN_PRINTLN,
-  	new TypeFunc(TOKEN_PRINTLN, new TypeTuple(new TypeString()), new TypeVoid());
-  :}
+	TOKEN_PRINTLN expression.e TOKEN_SEMIC /** we could do the println code here (but it won t show in the syntax tree)  **/
 	;	
 	
 readln_statement=
-	TOKEN_READLN expression.e TOKEN_SEMIC
-	{:
-	  return new NodeCallFct(TOKEN_READLN,
-	  new TypeFunc(TOKEN_READLN, new TypeTuple(/*Toodo*/), new TypeVoid());
+	TOKEN_READLN expression.e TOKEN_SEMIC  /** same here (see above) **/
 	;
 	
 return_statement=
