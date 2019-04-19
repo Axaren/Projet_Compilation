@@ -217,7 +217,9 @@ variable_declaration=
 	{:
 		NodeList decl = new NodeList();
 		for (String i : l) {
-			decl.add(new NodeId(i, t));
+			NodeLiteral var = new  NodeLiteral(t, null);
+			globalEnvironment.put(i, var);
+			decl.add(var);
 		}
 		return decl;
 	:}
