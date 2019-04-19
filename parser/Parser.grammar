@@ -24,6 +24,7 @@
 		
 	private Environment typeEnvironment = new Environment("types");
 	private Environment procedureEnvironment = new Environment("procedures");
+	private Environment globalEnvironment = new Environment("globals");
 	private StackEnvironment stackEnvironment = new StackEnvironment("local variables stack");
 	private String type_declaration_name;
 	
@@ -55,21 +56,25 @@
 %left TOKEN_TIMES, TOKEN_DIV;
 %left TOKEN_PLUS, TOKEN_MINUS;
 
-%typeof TOKEN_LIT_INTEGER = "Integer";
+
+%typeof TOKEN_LIT_INTEGER, TOKEN_INTEGER = "Integer";
 %typeof TOKEN_LIT_STRING, TOKEN_IDENTIFIER = "String";
+%typeof TOKEN_TRUE, TOKEN_FALSE, TOKEN_BOOLEAN = "Boolean";
+%typeof TOKEN_NULL = "TypeVoid";
+
 %typeof type = "Type";
-%typeof named_type = "TypeNamed";
+%typeof simple_type = "TypeAtomic";
 %typeof array_type = "TypeArray";
-%typeof range_type = "TypeRange";
+%typeof range_type, subrange_type = "TypeRange";
 %typeof pointer_type = "TypePointer";
 %typeof structure_type = "TypeStruct";
 %typeof feature_list_type = "TypeFeatureList";
-%typeof feature_type = "TypeFeature";
-%typeof argt = "TypeFeature"; /** may change to simply Type **/
+%typeof feature_type, argt = "TypeFeature";
 %typeof argt_list = "TypeTuple";
-%typeof type_declaration = "TypeNamed";
+%typeof type_declaration, named_type = "TypeNamed";
+%typeof identifier_list = "IdentifierList";
+
 %typeof variable_access = "Node";
-%typeof variable_declaration = "NodeId";
 %typeof new_statement = "NodeNew";
 %typeof dispose_statement = "NodeDispose";
 %typeof return_statement = "NodeReturn";
@@ -79,7 +84,7 @@
 %typeof case_statement_list = "NodeCaseList";
 %typeof case_statement, case_default = "NodeCase";
 %typeof expression = "NodeExp";
-%typeof expression_list = "NodeList";
+%typeof expression_list, variable_declaration, variable_declaration_list, variable_declaration_part = "NodeList";
 %typeof literal = "NodeLiteral";
 
 %goal program;
@@ -181,7 +186,7 @@ range_type=
 	;
 	
 pointer_type=
-	TOKEN_CIRC type
+	TOKEN_CIRC type.t {: return new TypePointer(t); :}
 	;
 	
 structure_type=
@@ -189,31 +194,38 @@ structure_type=
 	;
 	
 feature_list_type=
-	feature_list_type feature_type
-	| feature_type
+	feature_list_type.l feature_type.t {: l.add(t); return l; :}
+	| feature_type.t {: TypeFeatureList l = new TypeFeatureList(t); return l; :}
 	;
 	
 feature_type=
-	TOKEN_IDENTIFIER TOKEN_COLON type TOKEN_SEMIC
+	TOKEN_IDENTIFIER.i TOKEN_COLON type.t TOKEN_SEMIC {: return new TypeFeature(i, t); :}
 	;
 	
 variable_declaration_part= 
 	/* empty */ 
-	| TOKEN_VAR variable_declaration_list 
+	| TOKEN_VAR variable_declaration_list.l {: return l; :} 
 	;
 	
 variable_declaration_list=
-	variable_declaration_list variable_declaration
-	| variable_declaration
+	variable_declaration_list.l variable_declaration.d {: l.add(d); return l; :}
+	| variable_declaration.d {: NodeList l = new NodeList(d); return l; :}
 	;
 	
 variable_declaration=
-	identifier_list TOKEN_COLON type TOKEN_SEMIC 	
+	identifier_list.l TOKEN_COLON type.t TOKEN_SEMIC 
+	{:
+		NodeList decl = new NodeList();
+		for (String i : l) {
+			decl.add(new NodeId(i, t));
+		}
+		return decl;
+	:}
 	;
 	
 identifier_list=
-	identifier_list TOKEN_COMMA TOKEN_IDENTIFIER
-	| TOKEN_IDENTIFIER
+	identifier_list.l TOKEN_COMMA TOKEN_IDENTIFIER.i {: l.add(i); return l; :}
+	| TOKEN_IDENTIFIER.i {: IdentifierList l = new IdentifierList(i); return l; :}
 	;
 	
 procedure_definition_part=
@@ -315,11 +327,11 @@ dispose_statement=
 	;
 	
 println_statement=
-	TOKEN_PRINTLN expression.e TOKEN_SEMIC /** we could do the println code here (but it won t show in the syntax tree)  **/
+	TOKEN_PRINTLN expression.e TOKEN_SEMIC 
 	;	
 	
 readln_statement=
-	TOKEN_READLN expression.e TOKEN_SEMIC  /** same here (see above) **/
+	TOKEN_READLN expression.e TOKEN_SEMIC  
 	;
 	
 return_statement=
