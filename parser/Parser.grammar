@@ -124,13 +124,20 @@
 ***/
 
 program=
-	type_declaration_part
-	variable_declaration_part 
-	procedure_definition_part
+	type_declaration_part.td
+	variable_declaration_part.vd 
+	procedure_definition_part.pd
 	TOKEN_BEGIN
 	statement_list.stm
 	TOKEN_END
-	{: return stm; :}
+	{:
+	 	NodeList prog = new NodeList(); 
+		prog.add(td); 
+		prog.add(vd); 
+		prog.add(pd); 
+		prog.add(stm); 
+		return stm; 
+	:}
 	;
 	
 type_declaration_part= 
