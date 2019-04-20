@@ -232,13 +232,16 @@ variable_declaration_list=
 	;
 	
 variable_declaration=
-	identifier_list.l TOKEN_COLON type.t TOKEN_SEMIC 
-	{:
+	identifier_list.l TOKEN_COLON type.t TOKEN_SEMIC {:
 		NodeList decl = new NodeList();
 		for (String i : l) {
-			NodeLiteral var = new  NodeLiteral(t, 0);
-			globalEnvironment.put(i, var);
-			decl.add(var);
+			if (globalEnvironment.get(i) != null) 
+				System.err.format("Redefinition de l identifiant %s\n", i);
+			else {
+				NodeLiteral var = new  NodeLiteral(t, 0);
+				globalEnvironment.put(i, var);
+				decl.add(var);
+			}
 		}
 		return decl;
 	:}
@@ -350,7 +353,7 @@ dispose_statement=
 	;
 	
 println_statement=
-	TOKEN_PRINTLN expression.e TOKEN_SEMIC 
+	TOKEN_PRINTLN expression.e TOKEN_SEMIC
 	;	
 	
 readln_statement=
@@ -396,7 +399,14 @@ case_default=
 	;
 		
 variable_access=
-	TOKEN_IDENTIFIER.i {: return new NodeId(i, ((NodeExp)globalEnvironment.get(i)).getType()); :} /** need verification **/
+	TOKEN_IDENTIFIER.i {: 
+		ClonableSymbol sym = globalEnvironment.get(i);
+		if (sym == null) 
+			System.err.format("Variable %s inconnue\n", i); 
+		if (!(sym instanceof NodeExp))
+			System.err.format("Variable is not an expression ?");
+		return new NodeId(i, ((NodeExp)sym).getType()); 
+	:} 
 	| variable_access.va TOKEN_LBRACKET expression.e TOKEN_RBRACKET {: return new NodeArrayAccess(va, e); :}
 	| expression.e TOKEN_CIRC {: return new NodePtrAccess(e); :}
 	;
