@@ -162,7 +162,7 @@ type=
 	simple_type.t {: return t; :}
 	| named_type		
 	| index_type
-	| array_type
+	| array_type.t {: return t; :}
 	| pointer_type
 	| structure_type
 	;
@@ -170,7 +170,7 @@ type=
 simple_type=
 	TOKEN_STRING {: return new TypeString(); :}
 	| TOKEN_INTEGER {: return new TypeInt(0); :}
-	| TOKEN_BOOLEAN {: return new TypeString();:}
+	| TOKEN_BOOLEAN {: return new TypeBoolean(); :}
 	;
 	
 named_type=
@@ -190,18 +190,22 @@ init_enumerated_type=
 	;
 
 subrange_type= 
-	TOKEN_LIT_INTEGER TOKEN_DOTDOT TOKEN_LIT_INTEGER 
-	| TOKEN_IDENTIFIER TOKEN_DOTDOT TOKEN_IDENTIFIER	
+	TOKEN_LIT_INTEGER.i1 TOKEN_DOTDOT TOKEN_LIT_INTEGER.i2 {: return new TypeArrayRange(new TypeInt(i1), new TypeInt(i2)); :}
+	| TOKEN_IDENTIFIER.s1 TOKEN_DOTDOT TOKEN_IDENTIFIER.s2 {: return new TypeArrayRange(new TypeString(), new TypeString()); :}
 	;
 	
 array_type=
-	TOKEN_ARRAY TOKEN_LBRACKET range_type TOKEN_RBRACKET TOKEN_OF type 
+	TOKEN_ARRAY TOKEN_LBRACKET range_type.t1 TOKEN_RBRACKET TOKEN_OF type.t2
+	{:
+
+	  return new TypeArray(t1, t2);
+	:}
 	;
 	
 range_type=
 	enumerated_type
 	| subrange_type
-	| named_type	
+	| named_type
 	;
 	
 pointer_type=
