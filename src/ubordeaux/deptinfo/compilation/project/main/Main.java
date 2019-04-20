@@ -20,6 +20,7 @@ public class Main {
 				try {
 					System.err.println("*** Fichier " + arg);
 					Node result = (Node) parser.parse(input);
+					System.out.println(result.toString());
 					System.err.println("*** Analyse syntaxique ok");
 					if (checksType) {
 						if (!result.checksType())

@@ -128,9 +128,9 @@ program=
 	variable_declaration_part 
 	procedure_definition_part
 	TOKEN_BEGIN
-	statement_list
+	statement_list.stm
 	TOKEN_END
-	{: return new NodeList(); :}
+	{: return stm; :}
 	;
 	
 type_declaration_part= 
