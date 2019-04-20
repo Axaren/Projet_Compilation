@@ -57,10 +57,13 @@
 %left TOKEN_PLUS, TOKEN_MINUS;
 
 
-%typeof TOKEN_LIT_INTEGER, TOKEN_INTEGER = "Integer";
+%typeof TOKEN_LIT_INTEGER = "Integer";
 %typeof TOKEN_LIT_STRING, TOKEN_IDENTIFIER = "String";
-%typeof TOKEN_TRUE, TOKEN_FALSE, TOKEN_BOOLEAN = "Boolean";
+%typeof TOKEN_TRUE, TOKEN_FALSE = "Boolean";
 %typeof TOKEN_NULL = "TypeVoid";
+%typeof TOKEN_INTEGER = "TypeInt";
+%typeof TOKEN_STRING = "TypeString";
+%typeof TOKEN_BOOLEAN = "TypeBoolean";
 
 %typeof type = "Type";
 %typeof simple_type = "TypeAtomic";
@@ -74,7 +77,7 @@
 %typeof type_declaration, named_type = "TypeNamed";
 %typeof identifier_list = "IdentifierList";
 
-%typeof variable_access = "Node";
+%typeof statement, structured_statement = "Node";
 %typeof new_statement = "NodeNew";
 %typeof dispose_statement = "NodeDispose";
 %typeof return_statement = "NodeReturn";
@@ -83,8 +86,10 @@
 %typeof switch_statement = "NodeSwitch";
 %typeof case_statement_list = "NodeCaseList";
 %typeof case_statement, case_default = "NodeCase";
-%typeof expression = "NodeExp";
-%typeof expression_list, variable_declaration, variable_declaration_list, variable_declaration_part = "NodeList";
+%typeof variable_access, expression = "NodeExp";
+%typeof expression_list, variable_declaration, variable_declaration_list = "NodeList";
+%typeof variable_declaration_part, type_declaration_part, procedure_definition_part = "NodeList";
+%typeof statement_list, block, program = "NodeList";
 %typeof literal = "NodeLiteral";
 
 %goal program;
@@ -272,24 +277,25 @@ argt=
 	;
 	
 block=
-	variable_declaration_part 
-	TOKEN_BEGIN
-	statement_list
-	TOKEN_END 					
+	variable_declaration_part /** TODO: add to tree **/
+	TOKEN_BEGIN	
+	statement_list.stmList
+	TOKEN_END 			
+	{: return stmList; :}		
 	;
 
 statement_list=
-	statement_list statement
-	| statement
+	statement_list.stmList statement.stm {: stmList.add(stm); return stmList; :}
+	| statement.stm {: NodeList stmList = new NodeList(stm); return stmList; :}
 	;
 	
 statement=
-	simple_statement
-	| structured_statement
+	simple_statement.stm {: return stm; :}
+	| structured_statement.stm {: return stm; :}
 	;
 	
 simple_statement=
-	assignment_statement
+	assignment_statement.stm {: return stm; :}
 	| procedure_statement
 	| new_statement
 	| dispose_statement
@@ -299,7 +305,7 @@ simple_statement=
 	;
 	
 assignment_statement=
-	variable_access TOKEN_AFF expression TOKEN_SEMIC
+	variable_access.va TOKEN_AFF expression.e TOKEN_SEMIC {: return new NodeAssign(va, e); :}
 	;
 	
 procedure_statement=
@@ -341,9 +347,9 @@ return_statement=
 	;
 	
 structured_statement=
-	block
+	block.stm {: return stm; :}
 	| if_statement
-	| while_statement
+	| while_statement.stm {: return stm; :}
 	| switch_statement
 	;
 	
@@ -353,7 +359,7 @@ if_statement=
 	;
 	
 while_statement=
-	TOKEN_WHILE expression TOKEN_DO statement
+	TOKEN_WHILE expression.e TOKEN_DO statement.stm {: return new NodeWhile(e, stm); :}
 	;
 	
 switch_statement=
@@ -375,36 +381,36 @@ case_default=
 	;
 		
 variable_access=
-	TOKEN_IDENTIFIER
-	| variable_access TOKEN_LBRACKET expression TOKEN_RBRACKET 
-	| expression TOKEN_CIRC 	
+	TOKEN_IDENTIFIER.i {: return new NodeId(i, new TypeVoid()); :} /** need verification **/
+	| variable_access.va TOKEN_LBRACKET expression.e TOKEN_RBRACKET {: return new NodeArrayAccess(va, e); :}
+	| expression.e TOKEN_CIRC {: return new NodePtrAccess(e); :}
 	;
 	
 expression=
-	expression TOKEN_PLUS expression
-	| expression TOKEN_MINUS expression
-	| expression TOKEN_TIMES expression
-	| expression TOKEN_DIV expression
+	expression.a TOKEN_PLUS expression.b {: return new NodeOp("PLUS", a, b); :}
+	| expression.a TOKEN_MINUS expression.b {: return new NodeOp("MINUS", a, b); :}
+	| expression.a TOKEN_TIMES expression.b {: return new NodeOp("TIMES", a, b); :}
+	| expression.a TOKEN_DIV expression.b {: return new NodeOp("DIV", a, b); :}
 	| TOKEN_MINUS expression
 	| expression TOKEN_OR expression
 	| expression TOKEN_AND expression
 	| TOKEN_NOT expression
-	| expression TOKEN_LT expression
-	| expression TOKEN_LE expression
-	| expression TOKEN_GT expression
-	| expression TOKEN_GE expression
-	| expression TOKEN_EQ expression
-	| expression TOKEN_NE expression
-	| TOKEN_LPAR expression TOKEN_RPAR
+	| expression.a TOKEN_LT expression.b {: return new NodeRel("LT", a, b); :} 
+	| expression.a TOKEN_LE expression.b {: return new NodeRel("LE", a, b); :}
+	| expression.a TOKEN_GT expression.b {: return new NodeRel("GT", a, b); :}
+	| expression.a TOKEN_GE expression.b {: return new NodeRel("GE", a, b); :}
+	| expression.a TOKEN_EQ expression.b {: return new NodeRel("EQ", a, b); :}
+	| expression.a TOKEN_NE expression.b {: return new NodeRel("NE", a, b); :}
+	| TOKEN_LPAR expression.e TOKEN_RPAR {: return e; :}
 	| procedure_expression
-	| variable_access
-	| literal
+	| variable_access.va {: return va; :}
+	| literal.t {: return t; :}
 	;
 	
 literal=
-	TOKEN_LIT_INTEGER
-	| TOKEN_LIT_STRING
-	| TOKEN_TRUE
-	| TOKEN_FALSE
-	| TOKEN_NULL
+	TOKEN_LIT_INTEGER.i {: return new NodeLiteral(new TypeInt(i), i); :}
+	| TOKEN_LIT_STRING.s {: return new NodeLiteral(new TypeString(), s); :}
+	| TOKEN_TRUE {: return new NodeLiteral(new TypeBoolean(), true); :}
+	| TOKEN_FALSE {: return new NodeLiteral(new TypeBoolean(), false); :}
+	| TOKEN_NULL {: return new NodeLiteral(new TypeVoid(), null); :}
 	;
