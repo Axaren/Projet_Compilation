@@ -136,7 +136,7 @@ program=
 		prog.add(vd); 
 		prog.add(pd); 
 		prog.add(stm); 
-		return stm; 
+		return prog; 
 	:}
 	;
 	
@@ -396,7 +396,7 @@ case_default=
 	;
 		
 variable_access=
-	TOKEN_IDENTIFIER.i {: return new NodeId(i, new TypeVoid()); :} /** need verification **/
+	TOKEN_IDENTIFIER.i {: return new NodeId(i, ((NodeExp)globalEnvironment.get(i)).getType()); :} /** need verification **/
 	| variable_access.va TOKEN_LBRACKET expression.e TOKEN_RBRACKET {: return new NodeArrayAccess(va, e); :}
 	| expression.e TOKEN_CIRC {: return new NodePtrAccess(e); :}
 	;
