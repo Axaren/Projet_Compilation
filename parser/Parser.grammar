@@ -128,11 +128,12 @@ program=
 	TOKEN_BEGIN
 	statement_list
 	TOKEN_END
+	{: System.out.println("program ok"); return new NodeList(); :}
 	;
 	
 type_declaration_part= 
-	/* empty */	
-	| TOKEN_TYPE type_declaration_list
+	/* empty */	{: System.out.println("type_declaration_part (vide) ok!"); return new NodeList(); :}
+	| TOKEN_TYPE type_declaration_list {: System.out.println("type_declaration_part ok!"); return new NodeList(); :}
 	;
 	
 type_declaration_list=
@@ -149,7 +150,7 @@ type_declaration_head=
 	;
 	
 type=
-	simple_type
+	simple_type.t {: return t; :}
 	| named_type		
 	| index_type
 	| array_type
@@ -158,13 +159,13 @@ type=
 	;
 	
 simple_type=
-	TOKEN_STRING	
-	| TOKEN_INTEGER
-	| TOKEN_BOOLEAN
+	TOKEN_STRING {: return new TypeString(); :}
+	| TOKEN_INTEGER {: return new TypeInt(0); :}
+	| TOKEN_BOOLEAN {: return new TypeString();:}
 	;
 	
 named_type=
-	TOKEN_IDENTIFIER
+	TOKEN_IDENTIFIER.i {: return new TypeNamed(i); :}
 	;
 	
 index_type=
@@ -213,7 +214,7 @@ feature_type=
 	
 variable_declaration_part= 
 	/* empty */ 
-	| TOKEN_VAR variable_declaration_list.l {: return l; :} 
+	| TOKEN_VAR variable_declaration_list.l {: System.out.println("variable_declaration_part ok! "+l.toString()); return l; :} 
 	;
 	
 variable_declaration_list=
@@ -226,7 +227,7 @@ variable_declaration=
 	{:
 		NodeList decl = new NodeList();
 		for (String i : l) {
-			NodeLiteral var = new  NodeLiteral(t, null);
+			NodeLiteral var = new  NodeLiteral(t, 0);
 			globalEnvironment.put(i, var);
 			decl.add(var);
 		}
@@ -240,7 +241,8 @@ identifier_list=
 	;
 	
 procedure_definition_part=
-	| procedure_definition_list
+	/* empty*/ {: System.out.println("procedure_definition_part (vide) ok!!"); return new NodeList(); :}
+	| procedure_definition_list {: return new NodeList(); :}
 	;
 	
 procedure_definition_list=
@@ -290,7 +292,7 @@ block=
 
 statement_list=
 	statement_list.stmList statement.stm {: stmList.add(stm); return stmList; :}
-	| statement.stm {: NodeList stmList = new NodeList(stm); return stmList; :}
+	| statement.stm {: NodeList stmList = new NodeList(stm); System.out.println("statement_list ok ! " + stmList.toString()); return stmList; :}
 	;
 	
 statement=

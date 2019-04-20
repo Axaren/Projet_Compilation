@@ -12,6 +12,9 @@ import beaver.Scanner;
 %unicode
 %line
 %column
+%eofval{
+	return new Symbol(Terminals.EOF, "end-of-file");
+%eofval}
 %{
   StringBuffer currentString = new StringBuffer();
 
