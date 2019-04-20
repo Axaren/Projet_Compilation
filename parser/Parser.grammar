@@ -130,12 +130,12 @@ program=
 	TOKEN_BEGIN
 	statement_list
 	TOKEN_END
-	{: System.out.println("program ok"); return new NodeList(); :}
+	{: return new NodeList(); :}
 	;
 	
 type_declaration_part= 
-	/* empty */	{: System.out.println("type_declaration_part (vide) ok!"); return new NodeList(); :}
-	| TOKEN_TYPE type_declaration_list {: System.out.println("type_declaration_part ok!"); return new NodeList(); :}
+	/* empty */	{: return new NodeList(); :}
+	| TOKEN_TYPE type_declaration_list {: return new NodeList(); :}
 	;
 	
 type_declaration_list=
@@ -216,7 +216,7 @@ feature_type=
 	
 variable_declaration_part= 
 	/* empty */ 
-	| TOKEN_VAR variable_declaration_list.l {: System.out.println("variable_declaration_part ok! "+l.toString()); return l; :} 
+	| TOKEN_VAR variable_declaration_list.l {: return l; :} 
 	;
 	
 variable_declaration_list=
@@ -243,7 +243,7 @@ identifier_list=
 	;
 	
 procedure_definition_part=
-	/* empty*/ {: System.out.println("procedure_definition_part (vide) ok!!"); return new NodeList(); :}
+	/* empty*/ {: return new NodeList(); :}
 	| procedure_definition_list {: return new NodeList(); :}
 	;
 	
@@ -294,7 +294,7 @@ block=
 
 statement_list=
 	statement_list.stmList statement.stm {: stmList.add(stm); return stmList; :}
-	| statement.stm {: NodeList stmList = new NodeList(stm); System.out.println("statement_list ok ! " + stmList.toString()); return stmList; :}
+	| statement.stm {: NodeList stmList = new NodeList(stm); return stmList; :}
 	;
 	
 statement=
