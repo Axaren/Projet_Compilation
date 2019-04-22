@@ -24,6 +24,12 @@ public class StackEnvironment extends Environment {
     stack.push(new HashMap<String, Type>());
   }
 
+  public void removeScope() {
+    System.out.println("stack size "+stack.size());
+    if (stack.size() > 0)
+      stack.pop();
+  }
+
   /**
    * Retourne le type de la variable "id"
    * Retourne null si la variable n'existe pas

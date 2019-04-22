@@ -303,8 +303,11 @@ block=
 	TOKEN_BEGIN	
 	statement_list.stmList
 	TOKEN_END 			
+	block_end
 	{: return stmList; :}		
 	;
+
+block_end = {: stackEnvironment.removeScope(); return new NodeList(); :}; /* maybe create a NodeNop (see tp7 correction) */
 
 statement_list=
 	statement_list.stmList statement.stm {: stmList.add(stm); return stmList; :}
