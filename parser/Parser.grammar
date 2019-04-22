@@ -242,7 +242,7 @@ variable_declaration=
 			if (globalEnvironment.get(i) != null) 
 				System.err.format("Redefinition de l identifiant %s\n", i);
 			else {
-				NodeLiteral var = new  NodeLiteral(t, 0);
+				NodeId var = new  NodeId(i, t);
 				globalEnvironment.put(i, var);
 				decl.add(var);
 			}
@@ -370,14 +370,14 @@ return_statement=
 	
 structured_statement=
 	block.stm {: return stm; :}
-	| if_statement
+	| if_statement.stm {: return stm; :}
 	| while_statement.stm {: return stm; :}
 	| switch_statement
 	;
 	
 if_statement=
-	TOKEN_IF expression TOKEN_THEN statement
-	| TOKEN_IF expression TOKEN_THEN statement TOKEN_ELSE statement
+	TOKEN_IF expression.e TOKEN_THEN statement.stm {: return new NodeIf(e, stm); :}
+	| TOKEN_IF expression.e TOKEN_THEN statement.stm1 TOKEN_ELSE statement.stm2 {: return new NodeIf(e, stm1, stm2); :}
 	;
 	
 while_statement=
@@ -390,16 +390,16 @@ switch_statement=
 	
 case_statement_list=
 	case_statement_list case_statement case_default
-	| case_statement						
+	| case_statement
 	;
 	
 case_statement=
-	TOKEN_CASE identifier_list TOKEN_COLON statement 	
+	TOKEN_CASE identifier_list.idList TOKEN_COLON statement.stm 
 	;
 	
 case_default=
 	/* empty */
-	| TOKEN_DEFAULT TOKEN_COLON statement
+	| TOKEN_DEFAULT TOKEN_COLON statement.stm {: return new NodeCase(stm); :}
 	;
 		
 variable_access=
