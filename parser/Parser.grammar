@@ -307,7 +307,7 @@ block=
 	{: return stmList; :}		
 	;
 
-block_end = {: stackEnvironment.removeScope(); return new NodeList(); :}; /* maybe create a NodeNop (see tp7 correction) */
+block_end = {: stackEnvironment.removeScope(); return new NodeNop(); :}; /* maybe create a NodeNop (see tp7 correction) */
 
 statement_list=
 	statement_list.stmList statement.stm {: stmList.add(stm); return stmList; :}
