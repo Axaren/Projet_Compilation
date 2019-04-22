@@ -237,14 +237,14 @@ variable_declaration_list=
 	
 variable_declaration=
 	identifier_list.l TOKEN_COLON type.t TOKEN_SEMIC {:
+		stackEnvironment.newScope();
 		NodeList decl = new NodeList();
 		for (String i : l) {
-			if (globalEnvironment.get(i) != null) 
+			if (stackEnvironment.existsInScope(i)) 
 				System.err.format("Redefinition de l identifiant %s\n", i);
 			else {
-				NodeId var = new  NodeId(i, t);
-				globalEnvironment.put(i, var);
-				decl.add(var);
+				stackEnvironment.addToCurrentScope(i, t);
+				decl.add(new  NodeId(i, t));
 			}
 		}
 		return decl;
@@ -404,12 +404,10 @@ case_default=
 		
 variable_access=
 	TOKEN_IDENTIFIER.i {: 
-		ClonableSymbol sym = globalEnvironment.get(i);
-		if (sym == null) 
+		Type type = stackEnvironment.getType(i);
+		if (type == null) 
 			System.err.format("Variable %s inconnue\n", i); 
-		if (!(sym instanceof NodeExp))
-			System.err.format("Variable is not an expression ?");
-		return new NodeId(i, ((NodeExp)sym).getType()); 
+		return new NodeId(i, type); 
 	:} 
 	| variable_access.va TOKEN_LBRACKET expression.e TOKEN_RBRACKET {: return new NodeArrayAccess(va, e); :}
 	| expression.e TOKEN_CIRC {: return new NodePtrAccess(e); :}
