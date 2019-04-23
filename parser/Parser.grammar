@@ -83,11 +83,11 @@
 %typeof type_declaration, named_type = "TypeNamed";
 %typeof identifier_list = "IdentifierList";
 
-%typeof statement, structured_statement = "Node";
+%typeof statement, closed_statement, open_statement, structured_closed_statement, structured_open_statement = "Node";
 %typeof new_statement = "NodeNew";
 %typeof dispose_statement = "NodeDispose";
 %typeof return_statement = "NodeReturn";
-%typeof if_statement = "NodeIf";
+%typeof if_closed_statement, if_open_statement = "NodeIf";
 %typeof while_statement = "NodeWhile";
 %typeof switch_statement = "NodeSwitch";
 %typeof case_statement_list = "NodeCaseList";
@@ -320,11 +320,22 @@ statement_list=
 	statement_list.stmList statement.stm {: stmList.add(stm); return stmList; :}
 	| statement.stm {: NodeList stmList = new NodeList(stm); return stmList; :}
 	;
-	
+
 statement=
+    closed_statement.stm {: return stm; :}
+    | open_statement.stm {: return stm; :}
+    ;
+	
+closed_statement=
 	simple_statement.stm {: return stm; :}
-	| structured_statement.stm {: return stm; :}
+	| structured_closed_statement.stm {: return stm; :}
 	;
+
+
+open_statement=
+      structured_open_statement.stm {: return stm; :}
+        ;
+
 	
 simple_statement=
 	assignment_statement.stm {: return stm; :}
@@ -378,24 +389,37 @@ return_statement=
 	TOKEN_RETURN expression.e TOKEN_SEMIC {: return new NodeReturn(e); :}
 	;
 	
-structured_statement=
+structured_closed_statement=
 	block.stm {: return stm; :}
-	| if_statement.stm {: return stm; :}
+	| if_closed_statement.stm {: return stm; :}
 	| while_statement.stm {: return stm; :}
 	| switch_statement
 	;
-	
-if_statement=
-	TOKEN_IF expression.e TOKEN_THEN statement.stm {: return new NodeIf(e, stm); :}
-	| TOKEN_IF expression.e TOKEN_THEN statement.stm1 TOKEN_ELSE statement.stm2 {: return new NodeIf(e, stm1, stm2); :}
+
+	structured_open_statement=
+        if_open_statement.stm {: return stm; :}
+    	;
+
+
+
+	if_open_statement=
+    	TOKEN_IF expression.e TOKEN_THEN closed_statement.stm {: return new NodeIf(e, stm); :}
+    	| TOKEN_IF expression.e TOKEN_THEN open_statement.stm {: return new NodeIf(e, stm); :}
+    	|TOKEN_IF expression.e TOKEN_THEN open_statement.stm1 TOKEN_ELSE open_statement.stm2 {: return new NodeIf(e, stm1, stm2); :}
+    	;
+
+if_closed_statement=
+    TOKEN_IF expression.e TOKEN_THEN closed_statement.stm1 TOKEN_ELSE closed_statement.stm2 {: return new NodeIf(e, stm1, stm2); :}
 	;
+
+
 	
 while_statement=
 	TOKEN_WHILE expression.e TOKEN_DO statement.stm {: return new NodeWhile(e, stm); :}
 	;
 	
 switch_statement=
-	TOKEN_SWITCH expression.e TOKEN_BEGIN case_statement_list.stms TOKEN_END {: return new NodeSwitch(e, stms); :}
+	TOKEN_SWITCH expression.e TOKEN_BEGIN case_statement_list.stms {: return new NodeSwitch(e, stms); :}
 	;
 	
 case_statement_list=
