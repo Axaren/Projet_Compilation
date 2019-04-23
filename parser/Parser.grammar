@@ -348,9 +348,10 @@ statement_list=
 	| statement.stm {: NodeList stmList = new NodeList(stm); return stmList; :}
 	;
 
+/*Definition of two kind of statements to fix the Dangling Else/If-Else Ambiguity */
 statement=
-    closed_statement.stm {: return stm; :}
-    | open_statement.stm {: return stm; :}
+    closed_statement.stm {: return stm; :} /* dopen_statement: has at least one if that is not paired with a following else within the statement */
+    | open_statement.stm {: return stm; :} /* closed_statement: does not contain an if at all, or if it does, the if is paired with a following else */
     ;
 	
 closed_statement=
@@ -426,24 +427,23 @@ structured_closed_statement=
 	| switch_statement
 	;
 
-	structured_open_statement=
-        if_open_statement.stm {: return stm; :}
-    	;
+structured_open_statement=
+    if_open_statement.stm {: return stm; :}
+    ;
 
+/*TOKEN_IF depending on open_statement*/
+if_open_statement=
+   	TOKEN_IF expression.e TOKEN_THEN closed_statement.stm {: return new NodeIf(e, stm); :}
+    | TOKEN_IF expression.e TOKEN_THEN open_statement.stm {: return new NodeIf(e, stm); :}
+    | TOKEN_IF expression.e TOKEN_THEN open_statement.stm1 TOKEN_ELSE open_statement.stm2 {: return new NodeIf(e, stm1, stm2); :}
+    ;
 
-
-	if_open_statement=
-    	TOKEN_IF expression.e TOKEN_THEN closed_statement.stm {: return new NodeIf(e, stm); :}
-    	| TOKEN_IF expression.e TOKEN_THEN open_statement.stm {: return new NodeIf(e, stm); :}
-    	|TOKEN_IF expression.e TOKEN_THEN open_statement.stm1 TOKEN_ELSE open_statement.stm2 {: return new NodeIf(e, stm1, stm2); :}
-    	;
-
+/*TOKEN_IF depending on closed_statement*/
 if_closed_statement=
     TOKEN_IF expression.e TOKEN_THEN closed_statement.stm1 TOKEN_ELSE closed_statement.stm2 {: return new NodeIf(e, stm1, stm2); :}
 	;
 
 
-	
 while_statement=
 	TOKEN_WHILE expression.e TOKEN_DO statement.stm {: return new NodeWhile(e, stm); :}
 	;
