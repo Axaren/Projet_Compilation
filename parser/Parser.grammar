@@ -127,6 +127,7 @@
 ***/
 
 program=
+	program_begin
 	type_declaration_part.td
 	variable_declaration_part.vd 
 	procedure_definition_part.pd
@@ -142,6 +143,8 @@ program=
 		return prog; 
 	:}
 	;
+
+program_begin = {: stackEnvironment.newScope(); return new NodeNop(); :};
 	
 type_declaration_part= 
 	/* empty */	{: return new NodeList(); :}
@@ -186,7 +189,20 @@ index_type=
 	;
 	
 enumerated_type=
-	init_enumerated_type TOKEN_LPAR identifier_list TOKEN_RPAR 
+	init_enumerated_type TOKEN_LPAR identifier_list.ids TOKEN_RPAR {:
+		Iterator<String> it = ids.iterator();
+		int count = 0;
+		TypeItemEnum first = null;
+		TypeItemEnum last = null;
+		while (it.hasNext()) { /* add the enum values to the env (global var) */
+			String id = it.next();
+			last = new TypeItemEnum(count, id);
+			if (count == 0) first = last;
+			stackEnvironment.addToCurrentScope(id, last);
+			count++;
+		}
+		return new TypeEnumRange(first, last);
+	:}
 	;
 	
 init_enumerated_type=
@@ -198,9 +214,7 @@ subrange_type=
 	;
 	
 array_type=
-	TOKEN_ARRAY TOKEN_LBRACKET range_type.t1 TOKEN_RBRACKET TOKEN_OF type.t2
-	{:
-
+	TOKEN_ARRAY TOKEN_LBRACKET range_type.t1 TOKEN_RBRACKET TOKEN_OF type.t2 {:
 	  return new TypeArray(t1, t2);
 	:}
 	;
@@ -216,7 +230,7 @@ pointer_type=
 	;
 	
 structure_type=
-	TOKEN_STRUCT TOKEN_LBRACE feature_list_type TOKEN_RBRACE
+	TOKEN_STRUCT TOKEN_LBRACE feature_list_type.t TOKEN_RBRACE {: return new TypeStruct(t); :}
 	;
 	
 feature_list_type=
@@ -246,7 +260,6 @@ variable_declaration_list=
 	
 variable_declaration=
 	identifier_list.l TOKEN_COLON type.t TOKEN_SEMIC {:
-		stackEnvironment.newScope();
 		NodeList decl = new NodeList();
 		for (String i : l) {
 			if (stackEnvironment.existsInScope(i)) 
@@ -316,6 +329,7 @@ argt=
 	;
 	
 block=
+	block_begin
 	variable_declaration_part /** TODO: add to tree **/
 	TOKEN_BEGIN	
 	statement_list.stmList
@@ -324,7 +338,9 @@ block=
 	{: return stmList; :}		
 	;
 
-block_end = {: stackEnvironment.removeScope(); return new NodeNop(); :}; /* maybe create a NodeNop (see tp7 correction) */
+block_begin = {: stackEnvironment.newScope(); return new NodeNop(); :};
+
+block_end = {: stackEnvironment.removeScope(); return new NodeNop(); :};
 
 statement_list=
 	statement_list.stmList statement.stm {: stmList.add(stm); return stmList; :}
@@ -337,7 +353,7 @@ statement=
 	;
 	
 simple_statement=
-	assignment_statement.stm {: return stm; :}
+	assignment_statement
 	| procedure_statement
 	| new_statement
 	| dispose_statement
