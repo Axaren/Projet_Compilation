@@ -53,8 +53,8 @@
 // LITERALS
 %terminals TOKEN_IDENTIFIER, TOKEN_LIT_INTEGER, TOKEN_LIT_STRING, TOKEN_TRUE, TOKEN_FALSE, TOKEN_NULL;
 
-%right TOKEN_IF;
-%right TOKEN_ELSE;
+%right UNARY_MINUS;
+%left TOKEN_ELSE, TOKEN_IF;
 %left TOKEN_TIMES, TOKEN_DIV;
 %left TOKEN_PLUS, TOKEN_MINUS;
 %left TOKEN_NOT;
@@ -94,6 +94,8 @@
 %typeof case_statement = "NodeList";
 %typeof case_default = "NodeCase";
 %typeof variable_access, expression = "NodeExp";
+%typeof procedure_definition, procedure_definition_head, procedure_declaration_head = "NodeId";
+%typeof procedure_definition_list = "NodeList";
 %typeof expression_list, variable_declaration, variable_declaration_list = "NodeList";
 %typeof variable_declaration_part, type_declaration_part, procedure_definition_part = "NodeList";
 %typeof statement_list, block, program = "NodeList";
@@ -265,17 +267,17 @@ identifier_list=
 	
 procedure_definition_part=
 	/* empty*/ {: return new NodeList(); :}
-	| procedure_definition_list {: return new NodeList(); :}
+	| procedure_definition_list.lst {: return lst; :}
 	;
 	
 procedure_definition_list=
-	procedure_definition_list procedure_definition
-	| procedure_definition
+	procedure_definition_list.lst procedure_definition.d {: lst.add(d); return lst; :}
+	| procedure_definition.d {: NodeList lst = new NodeList(d); return lst; :}
 	;
 	
 procedure_definition=
-	procedure_definition_head block
-	| procedure_declaration_head TOKEN_SEMIC
+	procedure_definition_head.h block {: return h; :}
+	| procedure_declaration_head.h TOKEN_SEMIC {: return h; :}
 	;
 
 procedure_definition_head=
@@ -287,8 +289,16 @@ procedure_declaration_head=
 	;
 	
 procedure_head=
-	TOKEN_PROCEDURE TOKEN_IDENTIFIER TOKEN_LPAR argt_part TOKEN_RPAR 
-	| TOKEN_FUNCTION TOKEN_IDENTIFIER TOKEN_LPAR argt_part TOKEN_RPAR TOKEN_COLON type
+	TOKEN_PROCEDURE TOKEN_IDENTIFIER.i TOKEN_LPAR argt_part.args TOKEN_RPAR {: 
+		TypeFunct type = new TypeFunct(i, args, new TypeVoid());
+		procedureEnvironment.put(i, type); 
+		return new NodeId(i, type); 
+	:}
+	| TOKEN_FUNCTION TOKEN_IDENTIFIER.i TOKEN_LPAR argt_part.args TOKEN_RPAR TOKEN_COLON type.t {: 
+		TypeFunct type = new TypeFunct(i, args, t);
+		procedureEnvironment.put(i, type); 
+		return new NodeId(i, type); 
+	:}
 	;
 	
 argt_part=
@@ -345,7 +355,10 @@ procedure_statement=
 	;
 	
 procedure_expression=
-	TOKEN_IDENTIFIER TOKEN_LPAR expression_part TOKEN_RPAR
+	TOKEN_IDENTIFIER.i TOKEN_LPAR expression_part.args TOKEN_RPAR {:
+		TypeFunct type = (TypeFunct)procedureEnvironment.get(i);
+		return new NodeCallFct(i, type, args);
+	:}
 	;
 	
 expression_part=
@@ -367,7 +380,7 @@ dispose_statement=
 	;
 	
 println_statement=
-	TOKEN_PRINTLN expression.e TOKEN_SEMIC
+	TOKEN_PRINTLN expression.e TOKEN_SEMIC 
 	;	
 	
 readln_statement=
@@ -440,10 +453,10 @@ expression=
 	| expression.a TOKEN_MINUS expression.b {: return new NodeOp("MINUS", a, b); :}
 	| expression.a TOKEN_TIMES expression.b {: return new NodeOp("TIMES", a, b); :}
 	| expression.a TOKEN_DIV expression.b {: return new NodeOp("DIV", a, b); :}
-	| TOKEN_MINUS expression
-	| expression TOKEN_OR expression
-	| expression TOKEN_AND expression
-	| TOKEN_NOT expression
+	| TOKEN_MINUS expression.a @ UNARY_MINUS {: return new NodeOp("MINUS", a); :}
+	| expression.a TOKEN_OR expression.b {: return new NodeOp("OR", a, b); :}
+	| expression.a TOKEN_AND expression.b {: return new NodeOp("AND", a, b); :}
+	| TOKEN_NOT expression.a {: return new NodeOp("NOT", a); :}
 	| expression.a TOKEN_LT expression.b {: return new NodeRel("LT", a, b); :} 
 	| expression.a TOKEN_LE expression.b {: return new NodeRel("LE", a, b); :}
 	| expression.a TOKEN_GT expression.b {: return new NodeRel("GT", a, b); :}
@@ -451,7 +464,7 @@ expression=
 	| expression.a TOKEN_EQ expression.b {: return new NodeRel("EQ", a, b); :}
 	| expression.a TOKEN_NE expression.b {: return new NodeRel("NE", a, b); :}
 	| TOKEN_LPAR expression.e TOKEN_RPAR {: return e; :}
-	| procedure_expression
+	| procedure_expression.e {: return e; :}
 	| variable_access.va {: return va; :}
 	| literal.t {: return t; :}
 	;
@@ -461,5 +474,5 @@ literal=
 	| TOKEN_LIT_STRING.s {: return new NodeLiteral(new TypeString(), s); :}
 	| TOKEN_TRUE {: return new NodeLiteral(new TypeBoolean(), true); :}
 	| TOKEN_FALSE {: return new NodeLiteral(new TypeBoolean(), false); :}
-	| TOKEN_NULL {: return new NodeLiteral(new TypeVoid(), null); :}
+	| TOKEN_NULL {: return new NodeLiteral(new TypePointer(), null); :}
 	;
