@@ -54,7 +54,7 @@
 %terminals TOKEN_IDENTIFIER, TOKEN_LIT_INTEGER, TOKEN_LIT_STRING, TOKEN_TRUE, TOKEN_FALSE, TOKEN_NULL;
 
 %right UNARY_MINUS;
-%left TOKEN_ELSE, TOKEN_IF;
+%right TOKEN_ELSE, TOKEN_IF;
 %left TOKEN_TIMES, TOKEN_DIV;
 %left TOKEN_PLUS, TOKEN_MINUS;
 %left TOKEN_NOT;
@@ -81,6 +81,7 @@
 %typeof feature_type, argt = "TypeFeature";
 %typeof argt_list = "TypeTuple";
 %typeof type_declaration, named_type = "TypeNamed";
+%typeof enumerated_type = "TypeEnumRange";
 %typeof identifier_list = "IdentifierList";
 
 %typeof statement, structured_statement = "Node";
