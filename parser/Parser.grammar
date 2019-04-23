@@ -91,7 +91,8 @@
 %typeof while_statement = "NodeWhile";
 %typeof switch_statement = "NodeSwitch";
 %typeof case_statement_list = "NodeCaseList";
-%typeof case_statement, case_default = "NodeCase";
+%typeof case_statement = "NodeList";
+%typeof case_default = "NodeCase";
 %typeof variable_access, expression = "NodeExp";
 %typeof expression_list, variable_declaration, variable_declaration_list = "NodeList";
 %typeof variable_declaration_part, type_declaration_part, procedure_definition_part = "NodeList";
@@ -231,8 +232,14 @@ variable_declaration_part=
 	;
 	
 variable_declaration_list=
-	variable_declaration_list.l variable_declaration.d {: l.add(d); return l; :}
-	| variable_declaration.d {: NodeList l = new NodeList(d); return l; :}
+	variable_declaration_list.l variable_declaration.d {: 
+		Iterator<Node> it = d.iterator();
+		while (it.hasNext()) {
+			l.add(it.next());
+		}
+		return l;
+	:}
+	| variable_declaration.d {: return d; :}
 	;
 	
 variable_declaration=
@@ -388,16 +395,28 @@ while_statement=
 	;
 	
 switch_statement=
-	TOKEN_SWITCH expression TOKEN_BEGIN case_statement_list TOKEN_END
+	TOKEN_SWITCH expression.e TOKEN_BEGIN case_statement_list.stms TOKEN_END {: return new NodeSwitch(e, stms); :}
 	;
 	
 case_statement_list=
-	case_statement_list case_statement case_default
-	| case_statement
+	case_statement_list.lst case_statement.stms case_default.def {: 
+		Iterator<Node> it = stms.iterator();
+		while (it.hasNext()) {
+			lst.add(it.next());
+		}
+		return lst;
+	:}
+	| case_statement.stms {: return stms; :}
 	;
 	
 case_statement=
-	TOKEN_CASE identifier_list.idList TOKEN_COLON statement.stm 
+	TOKEN_CASE identifier_list.idList TOKEN_COLON statement.stm {: 
+		NodeList cases = new NodeList();
+		for (String i : idList) {
+			cases.add(new NodeCase(i, stm));
+		}
+		return cases;
+	:}
 	;
 	
 case_default=
