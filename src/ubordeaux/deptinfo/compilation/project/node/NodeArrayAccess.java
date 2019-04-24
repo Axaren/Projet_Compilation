@@ -24,13 +24,13 @@ public final class NodeArrayAccess extends NodeExp {
 
 				// Si l'index n'est pas du type attendu 
 		if (typeArg.getClass() != typeRangeOREnum.getFirst().getClass()) {
-			System.err.println("type de l'index incorrect");
+			System.err.println("type de l'index incorrect [1]");
 			return false;
 		}
 		// Si l'index est un enum, mais pas le bon
 		if ((typeArg instanceof TypeItemEnum)
 				&& ((TypeItemEnum) typeArg).getRefEnumRange()  != ((TypeItemEnum) typeRangeOREnum.getFirst()).getRefEnumRange()) {
-			System.err.println("type de l'index incorrect");
+			System.err.println("type de l'index incorrect [2] "+((TypeItemEnum) typeArg).getRefEnumRange()+" vs "+((TypeItemEnum) typeRangeOREnum.getFirst()).getRefEnumRange());
 			return false;
 		}		
 		// Si la valeur constante de l'index depasse
