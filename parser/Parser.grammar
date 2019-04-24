@@ -304,37 +304,35 @@ procedure_declaration_head=
 	
 procedure_head=
 	TOKEN_PROCEDURE TOKEN_IDENTIFIER.i TOKEN_LPAR argt_part.args TOKEN_RPAR {: 
-		TypeFunct type = new TypeFunct(i, (TypeTuple)args, new TypeVoid());
-		procedureEnvironment.put(i, type); 
-		return new NodeId(i, type); 
+		TypeFunct type = new TypeFunct(i, args, new TypeVoid());
+		procedureEnvironment.put(i, type);
+		return new NodeId(i, type);
 	:}
 	| TOKEN_FUNCTION TOKEN_IDENTIFIER.i TOKEN_LPAR argt_part.args TOKEN_RPAR TOKEN_COLON type.t {:
-		TypeFunct type = new TypeFunct(i, (TypeTuple)args, t);
-		procedureEnvironment.put(i, type); 
-		return new NodeId(i, type); 
+		TypeFunct type = new TypeFunct(i, args, t);
+		procedureEnvironment.put(i, type);
+		return new NodeId(i, type);
 	:}
 	;
-	
+
 argt_part=
 	/* empty */
-	| argt_list.l {: return l; :}
+	| argt_list
 	;
-	
+
 argt_list=
 	argt_list.lt TOKEN_COMMA argt.t {: lt.add(t); return lt;  :}
 	| argt.t {: TypeTuple nl = new TypeTuple(t); return nl; :}
 	;
-	
+
 argt=
 	TOKEN_IDENTIFIER.i TOKEN_COLON type.t
 	{:
-	NodeList decl = new NodeList();
-
-	/*Ajout des paramètres de fonctions dans la pile d'environnement*/
-	stackEnvironment.addToCurrentScope(i, t);
-    decl.add(new NodeId(i, t));
-	return new TypeFeature(i, t);
-	:}
+        NodeList decl = new NodeList();
+        stackEnvironment.addToCurrentScope(i, t);
+        decl.add(new NodeId(i, t));
+        return new TypeFeature(i, t);
+    :}
 	;
 	
 block=
