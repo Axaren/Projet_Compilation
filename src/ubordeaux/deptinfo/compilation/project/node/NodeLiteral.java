@@ -31,4 +31,8 @@ public final class NodeLiteral extends NodeExp {
 		return new NodeLiteral(type, value);
 	}
 
+	public void generateIntermediateCode() {
+		 
+	}
+
 }

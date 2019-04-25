@@ -80,7 +80,8 @@
 %typeof feature_list_type = "TypeFeatureList";
 %typeof feature_type, argt = "TypeFeature";
 %typeof argt_list = "TypeTuple";
-%typeof type_declaration, named_type = "TypeNamed";
+%typeof type_declaration = "TypeNamed";
+%typeof named_type = "TypeTemplate";
 %typeof enumerated_type, init_enumerated_type = "TypeEnumRange";
 %typeof identifier_list = "IdentifierList";
 
@@ -140,7 +141,7 @@ program=
 		prog.add(td); 
 		prog.add(vd); 
 		prog.add(pd); 
-		prog.add(stm); 
+		prog.add(stm);
 		return prog; 
 	:}
 	;
@@ -176,12 +177,12 @@ type=
 	
 simple_type=
 	TOKEN_STRING {: return new TypeString(); :}
-	| TOKEN_INTEGER {: return new TypeInt(0); :}
+	| TOKEN_INTEGER {: return new TypeInt(); :}
 	| TOKEN_BOOLEAN {: return new TypeBoolean(); :}
 	;
 	
 named_type=
-	TOKEN_IDENTIFIER.i {: return new TypeNamed(i); :}
+	TOKEN_IDENTIFIER.i {: return new TypeTemplate(i); :}
 	;
 	
 index_type=
@@ -224,7 +225,12 @@ array_type=
 range_type=
 	enumerated_type
 	| subrange_type
-	| named_type
+	| named_type.t {:
+		TypeRange range = (TypeRange)typeEnvironment.get(t.getName());
+		if (range == null)
+			System.err.format("TypeRange %s inconnu\n", t.getName());
+		return range; 
+	:}
 	;
 	
 pointer_type=
@@ -490,6 +496,8 @@ variable_access=
 		Type type = stackEnvironment.getType(i);
 		if (type == null) 
 			System.err.format("Variable %s inconnue\n", i); 
+		if (type instanceof TypeTemplate) // replace TypeTemplate by their real type
+			type = (Type)typeEnvironment.get(((TypeTemplate)type).getName());
 		return new NodeId(i, type); 
 	:} 
 	| variable_access.va TOKEN_LBRACKET expression.e TOKEN_RBRACKET {: return new NodeArrayAccess(va, e); :}
