@@ -22,7 +22,7 @@ public class Main {
 					System.err.println("*** Fichier " + arg);
 					Node result = (Node) parser.parse(input);
 					System.out.println(result.toString());
-					//result.toDot("data/output_tree"+count+".dot");
+					result.toDot("data/output_tree"+count+".dot");
 					count++;
 					System.err.println("*** Analyse syntaxique ok");
 					if (checksType) {

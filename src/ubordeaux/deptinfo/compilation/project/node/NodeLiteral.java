@@ -23,7 +23,10 @@ public final class NodeLiteral extends NodeExp {
 	}
 
 	public String toDotNodeName() {
-		return "NodeLiteral " + value.toString();
+		if (value != null)
+			return "NodeLiteral " + value.toString();
+		else 
+			return "NodeLiteral null";
 	}
 
 	@Override

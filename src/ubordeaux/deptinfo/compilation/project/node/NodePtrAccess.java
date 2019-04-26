@@ -15,7 +15,11 @@ public final class NodePtrAccess extends NodeExp {
 				Type tr = ((TypePointer) t).get(0);
 				if (tr != null)
 					this.type = tr;
+			} else {
+				System.err.println("Cannot dereference a non-pointer"+e.getType());
 			}
+		} else {
+			System.err.println("Cannot dereference a non-pointer "+e.getType());
 		}
 	}
 
