@@ -1,6 +1,10 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
+import ubordeaux.deptinfo.compilation.project.intermediateCode.Cjump;
+
 public final class NodeIf extends Node {
+
+	public final static int EQ = 0, NE = 1, LT = 2, GT = 3, LE = 4, GE = 5, ULT = 6, ULE = 7, UGT = 8, UGE = 9;
 
 	public NodeIf(Node boolExp, Node stm) {
 		super(boolExp, stm);
@@ -42,4 +46,32 @@ public final class NodeIf extends Node {
 		return this.get(1);
 	}
 
+
+	@Override
+	public void generateIntermediateCode() {
+		getExpNode().generateIntermediateCode();
+		getThenNode().generateIntermediateCode();
+		getElseNode().generateIntermediateCode();
+
+		NodeRel exp = (NodeRel) getExpNode();
+
+		switch (exp.name) {
+
+			case "EQ":
+				setStm(new Cjump(EQ, getThenNode().getExp(), getElseNode().getExp(), getThenNode().getLabelLocation(), getElseNode().getLabelLocation()));
+				break;
+
+			case "NE":
+				setStm(new Cjump(NE, getThenNode().getExp(), getElseNode().getExp(), getThenNode().getLabelLocation(), getElseNode().getLabelLocation()));
+				break;
+
+			case "LT":
+				setStm(new Cjump(LT, getThenNode().getExp(), getElseNode().getExp(), getThenNode().getLabelLocation(), getElseNode().getLabelLocation()));
+				break;
+
+			case "GT":
+				setStm(new Cjump(GT, getThenNode().getExp(), getElseNode().getExp(), getThenNode().getLabelLocation(), getElseNode().getLabelLocation()));
+				break;
+		}
+	}
 }

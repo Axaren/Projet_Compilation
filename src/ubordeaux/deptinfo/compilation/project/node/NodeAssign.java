@@ -1,6 +1,8 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
+import ubordeaux.deptinfo.compilation.project.intermediateCode.Exp;
 import ubordeaux.deptinfo.compilation.project.type.Type;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.Move;
 
 public final class NodeAssign extends Node {
 
@@ -35,5 +37,14 @@ public final class NodeAssign extends Node {
 	public NodeAssign clone() {
 		return new NodeAssign((NodeExp) getLhs().clone(), (NodeExp) getRhs().clone());
 	};
+
+	@Override
+	public void generateIntermediateCode() {
+		getLhs().generateIntermediateCode();
+		getRhs().generateIntermediateCode();
+
+		super.setStm(new Move(getLhs().getExp(), getRhs().getExp()));
+		
+	}
 
 }
