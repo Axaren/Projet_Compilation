@@ -136,6 +136,7 @@ program=
 	TOKEN_BEGIN
 	statement_list.stm
 	TOKEN_END
+	program_end
 	{:
 	 	NodeList prog = new NodeList(); 
 		prog.add(td); 
@@ -147,6 +148,7 @@ program=
 	;
 
 program_begin = {: stackEnvironment.newScope(); return new NodeNop(); :};
+program_end = {: stackEnvironment.removeScope(); return new NodeNop(); :};
 	
 type_declaration_part= 
 	/* empty */	{: return new NodeList(); :}
