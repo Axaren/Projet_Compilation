@@ -1,5 +1,6 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
+import java.util.Arrays;
 import ubordeaux.deptinfo.compilation.project.intermediateCode.Exp;
 import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocation;
 import ubordeaux.deptinfo.compilation.project.intermediateCode.Stm;
@@ -33,15 +34,13 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 		super();
 		this.uniqId = Node.staticUniqId++;
 		//System.err.println("Create class " + this.getClass().getSimpleName());
-		this.elts = new ArrayList<Node>();
+		this.elts = new ArrayList<>();
 		
 	}
 
 	public Node(Node ... args) {
 		this();
-		for (Node elt : args) {
-			elts.add(elt);
-		}
+		elts.addAll(Arrays.asList(args));
 	}
 
 	public String toString() {
@@ -65,8 +64,8 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 	public boolean checksType() {
 		System.err.println("--- CheckType " + this.getClass().getSimpleName());
 		return false;
-	};
-	
+	}
+
 	public void add(Node elt) {
 		this.elts.add(elt);
 	}
@@ -75,11 +74,11 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 		return elts.get(i);
 	}
 
-	public Exp getExp(){
+	public Exp getExpCode(){
 		return this.exp;
 	}
 
-	public void setExp(Exp exp){
+	public void setExpCode(Exp exp){
 		this.exp = exp;
 	}
 
@@ -87,11 +86,11 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 		return elts.size();
 	}
 
-	public Stm getStm() {
+	public Stm getStmCode() {
 		return stm;
 	}
 
-	public void setStm(Stm stm) {
+	public void setStmCode(Stm stm) {
 		this.stm = stm;
 	}
 

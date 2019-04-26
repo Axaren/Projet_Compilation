@@ -19,15 +19,12 @@ public final class NodeAssign extends Node {
 			return false;
 		Type lhsType = this.getLhs().getType();
 		Type rhsType = this.getRhs().getType();
-		if (lhsType == null || rhsType == null || !lhsType.equals(rhsType))
-			return false;
-		else
-			return true;
+		return lhsType != null && rhsType != null && lhsType.equals(rhsType);
 	}
 
 	private NodeExp getLhs() {
 		return (NodeExp) this.get(0);
-	};
+	}
 
 	private NodeExp getRhs() {
 		return (NodeExp) this.get(1);
@@ -36,14 +33,14 @@ public final class NodeAssign extends Node {
 	@Override
 	public NodeAssign clone() {
 		return new NodeAssign((NodeExp) getLhs().clone(), (NodeExp) getRhs().clone());
-	};
+	}
 
 	@Override
 	public void generateIntermediateCode() {
 		getLhs().generateIntermediateCode();
 		getRhs().generateIntermediateCode();
 
-		super.setStm(new Move(getLhs().getExp(), getRhs().getExp()));
+		super.setStmCode(new Move(getLhs().getExpCode(), getRhs().getExpCode()));
 		
 	}
 

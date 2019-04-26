@@ -57,8 +57,8 @@ public class NodeOp extends NodeExp {
 
 	private NodeExp getOp1() {
 		return (NodeExp) this.get(0);
-	};
-	
+	}
+
 	private NodeExp getOp2() {
 		return (NodeExp) this.get(1);
 	}
@@ -77,7 +77,7 @@ public class NodeOp extends NodeExp {
 		getOp1().generateIntermediateCode();
 		getOp2().generateIntermediateCode();
 
-		setExp(new Binop(operation.getOp(), getOp1().getExp(), getOp2().getExp()));
+		setExpCode(new Binop(operation.getOp(), getOp1().getExpCode(), getOp2().getExpCode()));
 
 	}
 }
