@@ -513,12 +513,12 @@ expression=
 	| expression.a TOKEN_OR expression.b {: return new NodeOp(NodeOp.Operation.OR, a, b); :}
 	| expression.a TOKEN_AND expression.b {: return new NodeOp(NodeOp.Operation.AND, a, b); :}
 	| TOKEN_NOT expression.a {: return new NodeOp(NodeOp.Operation.NOT, a); :}
-	| expression.a TOKEN_LT expression.b {: return new NodeRel("LT", a, b); :} 
-	| expression.a TOKEN_LE expression.b {: return new NodeRel("LE", a, b); :}
-	| expression.a TOKEN_GT expression.b {: return new NodeRel("GT", a, b); :}
-	| expression.a TOKEN_GE expression.b {: return new NodeRel("GE", a, b); :}
-	| expression.a TOKEN_EQ expression.b {: return new NodeRel("EQ", a, b); :}
-	| expression.a TOKEN_NE expression.b {: return new NodeRel("NE", a, b); :}
+	| expression.a TOKEN_LT expression.b {: return new NodeRel(NodeRel.BinaryRel.LT, a, b); :}
+	| expression.a TOKEN_LE expression.b {: return new NodeRel(NodeRel.BinaryRel.LE, a, b); :}
+	| expression.a TOKEN_GT expression.b {: return new NodeRel(NodeRel.BinaryRel.GT, a, b); :}
+	| expression.a TOKEN_GE expression.b {: return new NodeRel(NodeRel.BinaryRel.GE, a, b); :}
+	| expression.a TOKEN_EQ expression.b {: return new NodeRel(NodeRel.BinaryRel.EQ, a, b); :}
+	| expression.a TOKEN_NE expression.b {: return new NodeRel(NodeRel.BinaryRel.NE, a, b); :}
 	| TOKEN_LPAR expression.e TOKEN_RPAR {: return e; :}
 	| procedure_expression.e {: return e; :}
 	| variable_access.va {: return va; :}
