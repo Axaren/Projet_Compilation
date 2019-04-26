@@ -11,8 +11,12 @@ public final class NodeArrayAccess extends NodeExp {
 	// t [i]
 	public NodeArrayAccess(NodeExp t, Node i) {
 		super(t, i);
-		if ((t!=null) && (((TypeComplex) t.type).size() == 2))
-			type = ((TypeComplex) t.type).get(1);
+		if (t.type instanceof TypeComplex) {
+			if ((t!=null) && (((TypeComplex) t.type).size() == 2))
+				type = ((TypeComplex) t.type).get(1);
+		}
+		else 
+			System.err.format("error : Type error in affectation\n");
 	}
 
 	@Override
@@ -22,7 +26,7 @@ public final class NodeArrayAccess extends NodeExp {
 		TypeRange typeRangeOREnum = typeArray.getRangeOREnum();
 		Type typeArg = ((NodeExp)get(1)).getType();
 
-				// Si l'index n'est pas du type attendu 
+		// Si l'index n'est pas du type attendu 
 		if (typeArg.getClass() != typeRangeOREnum.getFirst().getClass()) {
 			System.err.println("type de l'index incorrect [1]");
 			return false;
