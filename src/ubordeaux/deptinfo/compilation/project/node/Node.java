@@ -1,9 +1,8 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
 import java.util.Arrays;
-import ubordeaux.deptinfo.compilation.project.intermediateCode.Exp;
-import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocation;
-import ubordeaux.deptinfo.compilation.project.intermediateCode.Stm;
+
+import ubordeaux.deptinfo.compilation.project.intermediateCode.*;
 import ubordeaux.deptinfo.compilation.project.main.ClonableSymbol;
 
 import java.io.BufferedWriter;
@@ -18,8 +17,8 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 	protected int uniqId;
 	private static int staticUniqId;
 
-	private Exp exp;
-	private Stm stm;
+	private ExpList expList;
+	private StmList stmList;
 	private LabelLocation labelLocation;
 
 	public LabelLocation getLabelLocation() {
@@ -74,25 +73,32 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 		return elts.get(i);
 	}
 
-	public Exp getExpCode(){
-		return this.exp;
+	public ExpList getExpList() {
+		return expList;
 	}
 
-	public void setExpCode(Exp exp){
-		this.exp = exp;
+	public void setExpList(ExpList expList) {
+		this.expList = expList;
+	}
+	public void addExpList(ExpList expList, Exp exp) {
+		this.expList.setHead(exp);
+	}
+	public StmList getStmList() {
+		return stmList;
+	}
+
+	public void setStmList(StmList stmList) {
+		this.stmList = stmList;
+	}
+
+	public void addStmList(StmList stmList, Stm stm) {
+		this.stmList.setHead(stm);
 	}
 
 	public int size() {
 		return elts.size();
 	}
 
-	public Stm getStmCode() {
-		return stm;
-	}
-
-	public void setStmCode(Stm stm) {
-		this.stm = stm;
-	}
 
 	private final void toDot(StringBuffer stringBuffer) {
 		stringBuffer.append("node_" + this.uniqId + " [shape=\"ellipse\", label=\"" + toDotNodeName() + "\"];\n");

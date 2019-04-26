@@ -8,4 +8,8 @@ public abstract class Exp implements IntermediateCode {
 		System.err.println("TODO: " + this.getClass().getSimpleName() + ".canonicalTransformation()()");
 	}
 
+	@Override
+	public String toString() {
+		return "Exp{}" + getClass().getSimpleName() ;
+	}
 }

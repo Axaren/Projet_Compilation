@@ -136,6 +136,7 @@ program=
 	TOKEN_BEGIN
 	statement_list.stm
 	TOKEN_END
+	program_end
 	{:
 	 	NodeList prog = new NodeList(); 
 		prog.add(td); 
@@ -147,6 +148,7 @@ program=
 	;
 
 program_begin = {: stackEnvironment.newScope(); return new NodeNop(); :};
+program_end = {: stackEnvironment.removeScope(); return new NodeNop(); :};
 	
 type_declaration_part= 
 	/* empty */	{: return new NodeList(); :}
@@ -399,6 +401,7 @@ procedure_statement=
 procedure_expression=
 	TOKEN_IDENTIFIER.i TOKEN_LPAR expression_part.args TOKEN_RPAR {:
 		TypeFunct type = (TypeFunct)procedureEnvironment.get(i);
+		if (type == null) System.err.println();
 		return new NodeCallFct(i, type, args);
 	:}
 	;
@@ -422,11 +425,11 @@ dispose_statement=
 	;
 	
 println_statement=
-	TOKEN_PRINTLN expression.e TOKEN_SEMIC 
+	TOKEN_PRINTLN expression.e TOKEN_SEMIC {: return new NodeCallFct("println", new TypeFunct("println", new TypeTuple(new TypeFeature("e", e.getType())), new TypeVoid()), new NodeList(e)); :}
 	;	
 	
 readln_statement=
-	TOKEN_READLN expression.e TOKEN_SEMIC  
+	TOKEN_READLN expression.e TOKEN_SEMIC  {: return new NodeCallFct("readln", new TypeFunct("readln", new TypeTuple(new TypeFeature("e", e.getType())), new TypeVoid()), new NodeList(e)); :}
 	;
 	
 return_statement=

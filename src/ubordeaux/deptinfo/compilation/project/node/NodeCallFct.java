@@ -2,6 +2,10 @@ package ubordeaux.deptinfo.compilation.project.node;
 
 import java.util.Iterator;
 
+import ubordeaux.deptinfo.compilation.project.intermediateCode.Exp;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.ExpList;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocation;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.Name;
 import ubordeaux.deptinfo.compilation.project.type.TypeFeature;
 import ubordeaux.deptinfo.compilation.project.type.TypeFunct;
 import ubordeaux.deptinfo.compilation.project.type.Type;
@@ -83,6 +87,16 @@ public final class NodeCallFct extends NodeExp {
 		return "NodeCallFct " + name + "()";
 	}
 
+	@Override
+	public void generateIntermediateCode() {
 
+		int j =0;
 
+		Name func = new Name(new LabelLocation());
+		for (int i = j; i < this.getArgs().size(); i++){
+			NodeList nodeList = new NodeList();
+			nodeList.add(this.getArgs().get(i));
+		}
+
+	}
 }
