@@ -59,10 +59,10 @@ public class NodeOp extends NodeExp {
 
 
 		switch (name){
-			case "PLUS": super.setExp(new Binop(PLUS, getOp1().getExp(), getOp2().getExp())); break;
-			case "MINUS": super.setExp(new Binop(MINUS, getOp1().getExp(), getOp2().getExp())); break;
-			case "TIMES": super.setExp(new Binop(MUL, getOp1().getExp(), getOp2().getExp())); break;
-			case "DIV": super.setExp(new Binop(DIV, getOp1().getExp(), getOp2().getExp())); break;
+			case "PLUS": super.setExpCode(new Binop(PLUS, getOp1().getExpCode(), getOp2().getExpCode())); break;
+			case "MINUS": super.setExpCode(new Binop(MINUS, getOp1().getExpCode(), getOp2().getExpCode())); break;
+			case "TIMES": super.setExpCode(new Binop(MUL, getOp1().getExpCode(), getOp2().getExpCode())); break;
+			case "DIV": super.setExpCode(new Binop(DIV, getOp1().getExpCode(), getOp2().getExpCode())); break;
 		}
 
 	}

@@ -58,19 +58,19 @@ public final class NodeIf extends Node {
 		switch (exp.name) {
 
 			case "EQ":
-				setStm(new Cjump(EQ, getThenNode().getExp(), getElseNode().getExp(), getThenNode().getLabelLocation(), getElseNode().getLabelLocation()));
+				setStmCode(new Cjump(EQ, getThenNode().getExpCode(), getElseNode().getExpCode(), getThenNode().getLabelLocation(), getElseNode().getLabelLocation()));
 				break;
 
 			case "NE":
-				setStm(new Cjump(NE, getThenNode().getExp(), getElseNode().getExp(), getThenNode().getLabelLocation(), getElseNode().getLabelLocation()));
+				setStmCode(new Cjump(NE, getThenNode().getExpCode(), getElseNode().getExpCode(), getThenNode().getLabelLocation(), getElseNode().getLabelLocation()));
 				break;
 
 			case "LT":
-				setStm(new Cjump(LT, getThenNode().getExp(), getElseNode().getExp(), getThenNode().getLabelLocation(), getElseNode().getLabelLocation()));
+				setStmCode(new Cjump(LT, getThenNode().getExpCode(), getElseNode().getExpCode(), getThenNode().getLabelLocation(), getElseNode().getLabelLocation()));
 				break;
 
 			case "GT":
-				setStm(new Cjump(GT, getThenNode().getExp(), getElseNode().getExp(), getThenNode().getLabelLocation(), getElseNode().getLabelLocation()));
+				setStmCode(new Cjump(GT, getThenNode().getExpCode(), getElseNode().getExpCode(), getThenNode().getLabelLocation(), getElseNode().getLabelLocation()));
 				break;
 		}
 	}

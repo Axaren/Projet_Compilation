@@ -75,11 +75,11 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 		return elts.get(i);
 	}
 
-	public Exp getExp(){
+	public Exp getExpCode(){
 		return this.exp;
 	}
 
-	public void setExp(Exp exp){
+	public void setExpCode(Exp exp){
 		this.exp = exp;
 	}
 
@@ -87,11 +87,11 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 		return elts.size();
 	}
 
-	public Stm getStm() {
+	public Stm getStmCode() {
 		return stm;
 	}
 
-	public void setStm(Stm stm) {
+	public void setStmCode(Stm stm) {
 		this.stm = stm;
 	}
 

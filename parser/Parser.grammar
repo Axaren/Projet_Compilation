@@ -374,8 +374,8 @@ closed_statement=
 
 
 open_statement=
-      structured_open_statement.stm {: return stm; :}
-        ;
+	structured_open_statement.stm {: return stm; :}
+	;
 
 	
 simple_statement=

@@ -43,7 +43,7 @@ public final class NodeAssign extends Node {
 		getLhs().generateIntermediateCode();
 		getRhs().generateIntermediateCode();
 
-		super.setStm(new Move(getLhs().getExp(), getRhs().getExp()));
+		super.setStmCode(new Move(getLhs().getExpCode(), getRhs().getExpCode()));
 		
 	}
 
