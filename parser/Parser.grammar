@@ -505,14 +505,14 @@ variable_access=
 	;
 	
 expression=
-	expression.a TOKEN_PLUS expression.b {: return new NodeOp("PLUS", a, b); :}
-	| expression.a TOKEN_MINUS expression.b {: return new NodeOp("MINUS", a, b); :}
-	| expression.a TOKEN_TIMES expression.b {: return new NodeOp("TIMES", a, b); :}
-	| expression.a TOKEN_DIV expression.b {: return new NodeOp("DIV", a, b); :}
-	| TOKEN_MINUS expression.a @ UNARY_MINUS {: return new NodeOp("MINUS", a); :}
-	| expression.a TOKEN_OR expression.b {: return new NodeOp("OR", a, b); :}
-	| expression.a TOKEN_AND expression.b {: return new NodeOp("AND", a, b); :}
-	| TOKEN_NOT expression.a {: return new NodeOp("NOT", a); :}
+	expression.a TOKEN_PLUS expression.b {: return new NodeOp(NodeOp.Operation.PLUS, a, b); :}
+	| expression.a TOKEN_MINUS expression.b {: return new NodeOp(NodeOp.Operation.MINUS, a, b); :}
+	| expression.a TOKEN_TIMES expression.b {: return new NodeOp(NodeOp.Operation.MUL, a, b); :}
+	| expression.a TOKEN_DIV expression.b {: return new NodeOp(NodeOp.Operation.DIV, a, b); :}
+	| TOKEN_MINUS expression.a @ UNARY_MINUS {: return new NodeOp(NodeOp.Operation.MINUS, a); :}
+	| expression.a TOKEN_OR expression.b {: return new NodeOp(NodeOp.Operation.OR, a, b); :}
+	| expression.a TOKEN_AND expression.b {: return new NodeOp(NodeOp.Operation.AND, a, b); :}
+	| TOKEN_NOT expression.a {: return new NodeOp(NodeOp.Operation.NOT, a); :}
 	| expression.a TOKEN_LT expression.b {: return new NodeRel("LT", a, b); :} 
 	| expression.a TOKEN_LE expression.b {: return new NodeRel("LE", a, b); :}
 	| expression.a TOKEN_GT expression.b {: return new NodeRel("GT", a, b); :}
