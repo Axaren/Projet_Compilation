@@ -10,4 +10,19 @@ public class StmList {
 		this.tail = tail;
 	}
 
+	public Stm getHead() {
+		return head;
+	}
+
+	public void setHead(Stm head) {
+		this.head = head;
+	}
+
+	public StmList getTail() {
+		return tail;
+	}
+
+	public void setTail(StmList tail) {
+		this.tail = tail;
+	}
 }

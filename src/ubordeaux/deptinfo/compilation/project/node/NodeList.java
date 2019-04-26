@@ -33,6 +33,7 @@ public final class NodeList extends Node {
 		return this.elts.size();
 	}
 
+
 	@Override
 	public NodeList clone() {
 		NodeList node = new NodeList();

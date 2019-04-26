@@ -97,7 +97,7 @@ public class NodeOp extends NodeExp {
 		getOp1().generateIntermediateCode();
 		getOp2().generateIntermediateCode();
 
-		setExpCode(new Binop(operation.getOp(), getOp1().getExpCode(), getOp2().getExpCode()));
+		addExpList(this.getExpList(), new Binop(operation.getOp(), getOp1().getExpList().getHead(), getOp2().getExpList().getHead()));
 
 	}
 }
