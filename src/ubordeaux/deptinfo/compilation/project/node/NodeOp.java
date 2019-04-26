@@ -1,6 +1,7 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
 import ubordeaux.deptinfo.compilation.project.intermediateCode.Binop;
+import ubordeaux.deptinfo.compilation.project.type.*;
 
 public class NodeOp extends NodeExp {
 
@@ -51,8 +52,27 @@ public class NodeOp extends NodeExp {
 	@Override
 	public boolean checksType() {
 		super.checksType();
-		return (super.size() <= 1) || getOp2() == null || this.getOp1().getType()
-				.equals(this.getOp2().getType());
+		if ((super.size() > 1) && getOp2() != null && !(this.getOp1().getType().equals(this.getOp2().getType()))) {
+			System.out.println("Both operands need to be of the same type");
+			return false;
+		}
+
+		switch (operation) {
+			case PLUS: MINUS: DIV: LSHIFT: RSHIFT: ARSHIFT: XOR: 
+				if (!(this.getOp1().getType() instanceof TypeInt)) {
+					System.err.println("Operation cannot be performed on non-integers");
+					return false;
+				}
+				break;
+			case AND: OR: NOT:
+				if (!(this.getOp1().getType() instanceof TypeBoolean)) {
+					System.err.println("Operation cannot be performed on non-booleans");
+					return false;
+				}
+				break;
+			default: break;
+		}
+		return true;
 	}
 
 	private NodeExp getOp1() {
