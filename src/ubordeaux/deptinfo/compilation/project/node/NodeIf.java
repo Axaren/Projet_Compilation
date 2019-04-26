@@ -28,7 +28,7 @@ public final class NodeIf extends Node {
 		if (elseNode == null)
 			return new NodeIf((Node) expNode.clone(), (Node) thenNode.clone());
 		else
-			return new NodeIf((Node) expNode, (Node) thenNode.clone(), (Node) elseNode.clone());
+			return new NodeIf(expNode, (Node) thenNode.clone(), (Node) elseNode.clone());
 	}
 
 	private Node getExpNode() {
