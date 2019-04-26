@@ -1,17 +1,33 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
+import ubordeaux.deptinfo.compilation.project.intermediateCode.Exp;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocation;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.Stm;
+import ubordeaux.deptinfo.compilation.project.main.ClonableSymbol;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import ubordeaux.deptinfo.compilation.project.main.ClonableSymbol;
 
 public abstract class Node extends ClonableSymbol implements NodeInterface {
 
 	protected List<Node> elts;
 	protected int uniqId;
 	private static int staticUniqId;
+
+	private Exp exp;
+	private Stm stm;
+	private LabelLocation labelLocation;
+
+	public LabelLocation getLabelLocation() {
+		return labelLocation;
+	}
+
+	public void setLabelLocation(LabelLocation labelLocation) {
+		this.labelLocation = labelLocation;
+	}
 
 	public Node() {
 		super();
@@ -59,8 +75,24 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 		return elts.get(i);
 	}
 
+	public Exp getExp(){
+		return this.exp;
+	}
+
+	public void setExp(Exp exp){
+		this.exp = exp;
+	}
+
 	public int size() {
 		return elts.size();
+	}
+
+	public Stm getStm() {
+		return stm;
+	}
+
+	public void setStm(Stm stm) {
+		this.stm = stm;
 	}
 
 	private final void toDot(StringBuffer stringBuffer) {

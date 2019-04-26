@@ -1,5 +1,7 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
+import ubordeaux.deptinfo.compilation.project.intermediateCode.Binop;
+
 public class NodeOp extends NodeExp {
 
 	protected String name;
@@ -46,6 +48,22 @@ public class NodeOp extends NodeExp {
 			return new NodeOp(name, (NodeExp) getOp1().clone(), (NodeExp) getOp2().clone());
 		return null;
 		};
-	
 
+	public final static int PLUS = 0, MINUS = 1, MUL = 2, DIV = 3, AND = 4, OR = 5, LSHIFT = 6, RSHIFT = 7, ARSHIFT = 8,
+			XOR = 9;
+
+	@Override
+	public void generateIntermediateCode() {
+		getOp1().generateIntermediateCode();
+		getOp2().generateIntermediateCode();
+
+
+		switch (name){
+			case "PLUS": super.setExp(new Binop(PLUS, getOp1().getExp(), getOp2().getExp())); break;
+			case "MINUS": super.setExp(new Binop(MINUS, getOp1().getExp(), getOp2().getExp())); break;
+			case "TIMES": super.setExp(new Binop(MUL, getOp1().getExp(), getOp2().getExp())); break;
+			case "DIV": super.setExp(new Binop(DIV, getOp1().getExp(), getOp2().getExp())); break;
+		}
+
+	}
 }
