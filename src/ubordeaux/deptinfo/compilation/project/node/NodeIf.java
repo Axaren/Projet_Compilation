@@ -5,32 +5,6 @@ import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocation;
 
 public final class NodeIf extends Node {
 
-	private Operation operation;
-
-	public enum Operation {
-		EQ(0),
-		NE(1),
-		LT(2),
-		GT(3),
-		LE(4),
-		OR(5),
-		GE(6),
-		ULT(7),
-		ULE(8),
-		UGT(9),
-		UGE(-1);
-
-		public int getOp() {
-			return op;
-		}
-
-		private int op;
-
-		Operation(int op) {
-			this.op = op;
-		}
-	}
-
 	public NodeIf(Node boolExp, Node stm) {
 		super(boolExp, stm);
 	}
@@ -80,7 +54,7 @@ public final class NodeIf extends Node {
 
 		NodeRel exp = (NodeRel) getExpNode();
 
-		addStmList(this.getStmList(), new Cjump(operation.getOp(), getThenNode().getExpList().getHead(), getElseNode().getExpList().getHead(), new LabelLocation(), new LabelLocation() ));
+		addStmList(this.getStmList(), new Cjump(exp.getRel().getCode(), getThenNode().getExpList().getHead(), getElseNode().getExpList().getHead(), new LabelLocation(), new LabelLocation() ));
 
 	}
 }
