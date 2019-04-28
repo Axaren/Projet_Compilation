@@ -10,7 +10,7 @@ public class Environment implements EnvironmentInt {
 
   public Environment(String label) {
     this.label = label;
-    map = new HashMap<>();
+    map = new HashMap<String, ClonableSymbol>();
   }
 
   public void put(String key, ClonableSymbol symbol) {

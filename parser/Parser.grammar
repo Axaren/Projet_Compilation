@@ -85,11 +85,11 @@
 %typeof enumerated_type, init_enumerated_type = "TypeEnumRange";
 %typeof identifier_list = "IdentifierList";
 
-%typeof statement, closed_statement, open_statement, structured_closed_statement, structured_open_statement = "Node";
+%typeof statement, structured_statement = "Node";
 %typeof new_statement = "NodeNew";
 %typeof dispose_statement = "NodeDispose";
 %typeof return_statement = "NodeReturn";
-%typeof if_closed_statement, if_open_statement = "NodeIf";
+%typeof if_statement = "NodeIf";
 %typeof while_statement = "NodeWhile";
 %typeof switch_statement = "NodeSwitch";
 %typeof case_statement_list = "NodeCaseList";
@@ -149,6 +149,10 @@ program=
 
 program_begin = {: stackEnvironment.newScope(); return new NodeNop(); :};
 program_end = {: stackEnvironment.removeScope(); return new NodeNop(); :};
+
+///////////////////////
+// TYPE DECLARATION  //
+///////////////////////
 	
 type_declaration_part= 
 	/* empty */	{: return new NodeList(); :}
@@ -169,10 +173,10 @@ type_declaration_head=
 	;
 	
 type=
-	simple_type.t {: return t; :}
+	simple_type.t
 	| named_type		
 	| index_type
-	| array_type.t {: return t; :}
+	| array_type.t 
 	| pointer_type
 	| structure_type
 	;
@@ -215,7 +219,13 @@ init_enumerated_type= {: return new TypeEnumRange(); :};
 
 subrange_type= 
 	TOKEN_LIT_INTEGER.i1 TOKEN_DOTDOT TOKEN_LIT_INTEGER.i2 {: return new TypeArrayRange(new TypeInt(i1), new TypeInt(i2)); :}
-	| TOKEN_IDENTIFIER.s1 TOKEN_DOTDOT TOKEN_IDENTIFIER.s2 {: return new TypeArrayRange(stackEnvironment.getType(s1), stackEnvironment.getType(s2)); :}
+	| TOKEN_IDENTIFIER.s1 TOKEN_DOTDOT TOKEN_IDENTIFIER.s2 {: 
+		Type t1 = stackEnvironment.getType(s1);
+		Type t2 = stackEnvironment.getType(s2);
+		if (t1 == null || t2 == null) 
+			System.err.println("Error | Unrecognized identifier: "+s1+" or "+s2);
+		return new TypeArrayRange(t1, t2); 
+	:}
 	;
 	
 array_type=
@@ -230,7 +240,7 @@ range_type=
 	| named_type.t {:
 		TypeRange range = (TypeRange)typeEnvironment.get(t.getName());
 		if (range == null)
-			System.err.format("TypeRange %s inconnu\n", t.getName());
+			System.err.println("Error | Unrecognized TypeRange: "+t.getName());
 		return range; 
 	:}
 	;
@@ -252,6 +262,10 @@ feature_type=
 	TOKEN_IDENTIFIER.i TOKEN_COLON type.t TOKEN_SEMIC {: return new TypeFeature(i, t); :}
 	;
 	
+///////////////////////////
+// VARIABLE DECLARATION  //
+///////////////////////////
+
 variable_declaration_part= 
 	/* empty */ 
 	| TOKEN_VAR variable_declaration_list.l {: return l; :} 
@@ -273,7 +287,7 @@ variable_declaration=
 		NodeList decl = new NodeList();
 		for (String i : l) {
 			if (stackEnvironment.existsInScope(i)) 
-				System.err.format("Redefinition de l identifiant %s\n", i);
+				System.err.println("Error | identifer redeclared: "+ i);
 			else {
 				stackEnvironment.addToCurrentScope(i, t);
 				decl.add(new  NodeId(i, t));
@@ -287,6 +301,10 @@ identifier_list=
 	identifier_list.l TOKEN_COMMA TOKEN_IDENTIFIER.i {: l.add(i); return l; :}
 	| TOKEN_IDENTIFIER.i {: IdentifierList l = new IdentifierList(i); return l; :}
 	;
+
+//////////////////////////
+// PROCEDURE DEFINITION //
+//////////////////////////
 	
 procedure_definition_part=
 	/* empty*/ {: return new NodeList(); :}
@@ -358,28 +376,20 @@ block_begin = {: stackEnvironment.newScope(); return new NodeNop(); :};
 
 block_end = {: stackEnvironment.removeScope(); return new NodeNop(); :};
 
+//////////////////////////////
+// STATEMENTS & EXPRESSIONS //
+//////////////////////////////
+
 statement_list=
 	statement_list.stmList statement.stm {: stmList.add(stm); return stmList; :}
 	| statement.stm {: NodeList stmList = new NodeList(stm); return stmList; :}
 	;
 
-/*Definition of two kind of statements to fix the Dangling Else/If-Else Ambiguity */
 statement=
-    closed_statement.stm {: return stm; :} /* dopen_statement: has at least one if that is not paired with a following else within the statement */
-    | open_statement.stm {: return stm; :} /* closed_statement: does not contain an if at all, or if it does, the if is paired with a following else */
-    ;
-	
-closed_statement=
-	simple_statement.stm {: return stm; :}
-	| structured_closed_statement.stm {: return stm; :}
+    simple_statement
+	| structured_statement
 	;
 
-
-open_statement=
-	structured_open_statement.stm {: return stm; :}
-	;
-
-	
 simple_statement=
 	assignment_statement
 	| procedure_statement
@@ -436,29 +446,17 @@ return_statement=
 	TOKEN_RETURN expression.e TOKEN_SEMIC {: return new NodeReturn(e); :}
 	;
 	
-structured_closed_statement=
-	block.stm {: return stm; :}
-	| if_closed_statement.stm {: return stm; :}
-	| while_statement.stm {: return stm; :}
+structured_statement=
+	block.stm
+	| if_statement.stm 
+	| while_statement.stm 
 	| switch_statement
 	;
 
-structured_open_statement=
-    if_open_statement.stm {: return stm; :}
+if_statement=
+   	TOKEN_IF expression.e TOKEN_THEN statement.stm {: return new NodeIf(e, stm); :}
+    | TOKEN_IF expression.e TOKEN_THEN statement.stm1 TOKEN_ELSE statement.stm2 {: return new NodeIf(e, stm1, stm2); :}
     ;
-
-/*TOKEN_IF depending on open_statement*/
-if_open_statement=
-   	TOKEN_IF expression.e TOKEN_THEN closed_statement.stm {: return new NodeIf(e, stm); :}
-    | TOKEN_IF expression.e TOKEN_THEN open_statement.stm {: return new NodeIf(e, stm); :}
-    | TOKEN_IF expression.e TOKEN_THEN open_statement.stm1 TOKEN_ELSE open_statement.stm2 {: return new NodeIf(e, stm1, stm2); :}
-    ;
-
-/*TOKEN_IF depending on closed_statement*/
-if_closed_statement=
-    TOKEN_IF expression.e TOKEN_THEN closed_statement.stm1 TOKEN_ELSE closed_statement.stm2 {: return new NodeIf(e, stm1, stm2); :}
-	;
-
 
 while_statement=
 	TOKEN_WHILE expression.e TOKEN_DO statement.stm {: return new NodeWhile(e, stm); :}

@@ -8,6 +8,11 @@ import ubordeaux.deptinfo.compilation.project.type.Type;
 
 public class StackEnvironment extends Environment {
 
+  /**
+   * On utilise une ArrayList comme un stack, car la classe
+   * Stack ne nous permet pas d'itérer de haut en bas de la pile
+   * facilement.
+   */
   private ArrayList<HashMap<String, Type>> stack;
 
   public StackEnvironment(String label) {
@@ -15,21 +20,33 @@ public class StackEnvironment extends Environment {
     stack = new ArrayList<HashMap<String, Type>>();
   }
 
+  /**
+   * Retourne la portée la plus haute
+   */
   public HashMap<String, Type> peek() {
     if (stack.size() == 0) return null;
     return stack.get(stack.size() - 1);
   }
 
+  /**
+   * Enregistre la variable donnée à la portée la plus haute
+   */
   public void addToCurrentScope(String id, Type t) {
     HashMap<String, Type> currentScope = peek();
     if (currentScope != null) currentScope.put(id, t);
   }
 
+  /**
+   * Créé une nouvelle portée de variable 
+   */
   public void newScope() {
     stack.add(new HashMap<String, Type>());
     System.out.println("added scope, size="+stack.size());
   }
 
+  /**
+   * Supprime la portée la plus haute
+   */
   public void removeScope() {
     if (stack.size() > 0)
       stack.remove(stack.size() - 1);
@@ -53,7 +70,7 @@ public class StackEnvironment extends Environment {
   }
 
   /**
-   * Retourne vrai s'il existe une variable de nom "id" qui existe dans la portée actuelle
+   * Retourne vrai s'il existe une variable de nom "id" qui existe dans la portée actuelle (la plus haute)
    */
   public boolean existsInScope(String id) {
     HashMap<String, Type> currentScope = peek();
