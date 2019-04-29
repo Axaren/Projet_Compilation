@@ -18,6 +18,7 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 	private static int staticUniqId;
 
 	private ExpList expList;
+	private ExpList argsList;
 	private StmList stmList;
 	private LabelLocation labelLocation;
 
@@ -72,6 +73,19 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 	public Node get(int i) {
 		return elts.get(i);
 	}
+
+	public ExpList getArgsList() {
+		return argsList;
+	}
+
+	public void setArgsList(ExpList argsList) {
+		this.argsList = argsList;
+	}
+
+	public void addArgsList(Exp exp) {
+		this.argsList.setHead(exp);
+	}
+
 
 	public ExpList getExpList() {
 		return expList;
