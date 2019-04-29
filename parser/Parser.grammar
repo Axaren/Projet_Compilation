@@ -317,8 +317,26 @@ procedure_definition_list=
 	;
 	
 procedure_definition=
-	procedure_definition_head.h block {: return h; :}
-	| procedure_declaration_head.h TOKEN_SEMIC {: return h; :}
+	procedure_definition_head.h block {: 
+		TypeFunct type = (TypeFunct)h.getType();
+		TypeFunct type2 = (TypeFunct)procedureEnvironment.get(h.getName());
+		if (type2 != null && type2.getDefined()) 
+			System.err.println("Error | Function already defined!");
+		else {
+			if (type2 != null)
+				type2.setDefined(true);
+			else 
+				procedureEnvironment.put(h.getName(), type);
+		}
+		return h; 
+	:}
+	| procedure_declaration_head.h TOKEN_SEMIC {: 
+		if (procedureEnvironment.get(h.getName()) != null)
+			System.err.println("Error | Function already declared!");
+		else 
+			procedureEnvironment.put(h.getName(), h.getType());
+		return h; 
+	:}
 	;
 
 procedure_definition_head=
@@ -331,13 +349,11 @@ procedure_declaration_head=
 
 procedure_head=
 	TOKEN_PROCEDURE TOKEN_IDENTIFIER.i TOKEN_LPAR argt_part.args TOKEN_RPAR {: 
-		TypeFunct type = new TypeFunct(i, args, new TypeVoid());
-		procedureEnvironment.put(i, type);
+		TypeFunct type = new TypeFunct(i, args, new TypeVoid()); 
 		return new NodeId(i, type);
 	:}
 	| TOKEN_FUNCTION TOKEN_IDENTIFIER.i TOKEN_LPAR argt_part.args TOKEN_RPAR TOKEN_COLON type.t {:
 		TypeFunct type = new TypeFunct(i, args, t);
-		procedureEnvironment.put(i, type);
 		return new NodeId(i, type);
 	:}
 	;

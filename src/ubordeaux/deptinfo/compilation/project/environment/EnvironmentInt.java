@@ -1,12 +1,12 @@
 package ubordeaux.deptinfo.compilation.project.environment;
 
-import ubordeaux.deptinfo.compilation.project.main.ClonableSymbol;
+import ubordeaux.deptinfo.compilation.project.type.Type;
 
 public interface EnvironmentInt {
 
-  void put(String key, ClonableSymbol symbol);
+  void put(String key, Type symbol);
 
-  ClonableSymbol get(String key);
+  Type get(String key);
 
   String getLabel();
 }

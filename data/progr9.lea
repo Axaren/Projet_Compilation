@@ -51,15 +51,7 @@ month : Months;
 function goo(i : integer, j : integer) : boolean;
 function goo(i : integer, j : integer) : boolean; //error "procedure or function declared twice"
 
-function foo(i : integer, j : integer) : ^boolean
-var
-	result : ^boolean;
-begin
-	new result;
-	//result^ = hoo(i, j); // error "function not declared"
-	result^ = goo(i, j);
-	return result;
-end
+
 
 function goo(i : integer, j : integer) : boolean
 begin

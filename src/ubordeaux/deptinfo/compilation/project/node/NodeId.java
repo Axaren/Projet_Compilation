@@ -16,6 +16,10 @@ public final class NodeId extends NodeExp {
 		return this.getClass().getSimpleName() + "#" + name + ':' + type + '#';
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	@Override
 	public boolean checksType() {
 		super.checksType();
