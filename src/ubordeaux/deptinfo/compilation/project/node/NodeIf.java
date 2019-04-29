@@ -54,7 +54,7 @@ public final class NodeIf extends Node {
 
 		NodeRel exp = (NodeRel) getExpNode();
 
-		addStmList(this.getStmList(), new Cjump(exp.getRel().getCode(), getThenNode().getExpList().getHead(), getElseNode().getExpList().getHead(), new LabelLocation(), new LabelLocation() ));
+		addStmList(new Cjump(exp.getRel().getCode(), getThenNode().getExpList().getHead(), getElseNode().getExpList().getHead(), new LabelLocation(), new LabelLocation() ));
 
 	}
 }

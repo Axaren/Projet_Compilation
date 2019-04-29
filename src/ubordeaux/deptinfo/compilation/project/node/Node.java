@@ -80,7 +80,7 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 	public void setExpList(ExpList expList) {
 		this.expList = expList;
 	}
-	public void addExpList(ExpList expList, Exp exp) {
+	public void addExpList(Exp exp) {
 		this.expList.setHead(exp);
 	}
 	public StmList getStmList() {
@@ -91,7 +91,7 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 		this.stmList = stmList;
 	}
 
-	public void addStmList(StmList stmList, Stm stm) {
+	public void addStmList(Stm stm) {
 		this.stmList.setHead(stm);
 	}
 
