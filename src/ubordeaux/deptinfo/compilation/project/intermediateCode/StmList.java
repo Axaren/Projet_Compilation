@@ -14,6 +14,10 @@ public class StmList {
 		return head;
 	}
 
+	public Stm get(int i) {
+		return this.get(i);
+	}
+
 	public void setHead(Stm head) {
 		this.head = head;
 	}

@@ -1,5 +1,9 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
+import ubordeaux.deptinfo.compilation.project.intermediateCode.Cjump;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.Exp;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocation;
+
 public final class NodeWhile extends Node {
 
 	public NodeWhile(Node boolExpr, Node stm) {
@@ -29,5 +33,21 @@ public final class NodeWhile extends Node {
 		return this.get(0);
 	}
 
+	@Override
+	public void generateIntermediateCode() {
+		getStm().generateIntermediateCode();
+		getExp().generateIntermediateCode();
+		NodeRel exp = (NodeRel) getExp();
+
+		Exp rel = getExp().getExpList().get(0);
+		Exp expLeft = getExp().getExpList().get(1);
+		Exp expRight = getExp().getExpList().get(2);
+
+		LabelLocation z = new LabelLocation();
+		LabelLocation f = new LabelLocation();
+
+		addStmList( new Cjump(exp.getRel().getCode(), expLeft, expRight, z, f) );
+
+	}
 
 }
