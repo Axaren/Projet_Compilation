@@ -3,6 +3,7 @@
 %import "ubordeaux.deptinfo.compilation.project.node.*";
 %import "ubordeaux.deptinfo.compilation.project.type.*";
 %import "ubordeaux.deptinfo.compilation.project.environment.*";
+%import "ubordeaux.deptinfo.compilation.project.exceptions.*";
 %import "java.util.ArrayList";
 %import "java.util.Iterator";
 
@@ -167,7 +168,7 @@ type_declaration_list=
 type_declaration=
 	type_declaration_head.th TOKEN_AFF type.t TOKEN_SEMIC {: 
 		if (typeEnvironment.get(th) != null)
-			System.err.println("Error | Type variable already exists");	
+			throw new VariableRedeclarationException("Type variable already exists");
 		else
 			typeEnvironment.put(th, t); 
 		return new TypeNamed(th); 
@@ -229,7 +230,7 @@ subrange_type=
 		Type t1 = stackEnvironment.getType(s1);
 		Type t2 = stackEnvironment.getType(s2);
 		if (t1 == null || t2 == null) 
-			System.err.println("Error | Unrecognized identifier: "+s1+" or "+s2);
+			throw new UnknownVariableException("Unrecognized identifier: "+s1+" or "+s2);
 		return new TypeArrayRange(t1, t2); 
 	:}
 	;
@@ -246,7 +247,7 @@ range_type=
 	| named_type.t {:
 		TypeRange range = (TypeRange)typeEnvironment.get(t.getName());
 		if (range == null)
-			System.err.println("Error | Unrecognized TypeRange: "+t.getName());
+			throw new UnknownTypeException("Unrecognized TypeRange: "+t.getName());
 		return range; 
 	:}
 	;
@@ -293,7 +294,7 @@ variable_declaration=
 		NodeList decl = new NodeList();
 		for (String i : l) {
 			if (stackEnvironment.existsInScope(i)) 
-				System.err.println("Error | identifer redeclared: "+ i);
+				throw new VariableRedeclarationException("Identifer redeclared: "+ i);
 			else {
 				stackEnvironment.addToCurrentScope(i, t);
 				decl.add(new  NodeId(i, t));
@@ -327,7 +328,7 @@ procedure_definition=
 		TypeFunct type = (TypeFunct)h.getType();
 		TypeFunct type2 = (TypeFunct)procedureEnvironment.get(h.getName());
 		if (type2 != null && type2.getDefined()) 
-			System.err.println("Error | Function already defined!");
+			return new FunctionRedefinitionException("Function already defined : " + h.getName());
 		else {
 			if (type2 != null)
 				type2.setDefined(true);
@@ -338,7 +339,7 @@ procedure_definition=
 	:}
 	| procedure_declaration_head.h TOKEN_SEMIC {: 
 		if (procedureEnvironment.get(h.getName()) != null)
-			System.err.println("Error | Function already declared!");
+			throw new FunctionRedeclarationException("Function already declared : " + h.getName());
 		else 
 			procedureEnvironment.put(h.getName(), h.getType());
 		return h; 
@@ -518,18 +519,18 @@ variable_access=
 	TOKEN_IDENTIFIER.i {: 
 		Type type = stackEnvironment.getType(i);
 		if (type == null) 
-			System.err.println("Error | Variable doesn't exist : "+i); 
+			throw new UnknownVariableException("Variable doesn't exist : " + i);
 		if (type instanceof TypeTemplate) { // replace TypeTemplate by their real type
 			String name = ((TypeTemplate)type).getName();
 			type = (Type)typeEnvironment.get(name);
 			if (type == null)
-				System.out.println("Error | Type variable doesn't exists : "+name);
+				throw new UnknownTypeException("Type variable doesn't exist : " + name);
 		}
 		return new NodeId(i, type); 
 	:} 
 	| variable_access.va TOKEN_LBRACKET expression.e TOKEN_RBRACKET {: 
 		if (!(va.getType() instanceof TypeComplex))
-			System.err.println("Error | Must be TypeArray");
+			throw new IllegalOperationException("Must be TypeArray");
 		return new NodeArrayAccess(va, e); 
 	:}
 	| expression.e TOKEN_CIRC {: return new NodePtrAccess(e); :}
