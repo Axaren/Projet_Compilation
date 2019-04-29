@@ -1,7 +1,6 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
-import ubordeaux.deptinfo.compilation.project.intermediateCode.Cjump;
-import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocation;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.*;
 
 public final class NodeIf extends Node {
 
@@ -53,8 +52,25 @@ public final class NodeIf extends Node {
 		getElseNode().generateIntermediateCode();
 
 		NodeRel exp = (NodeRel) getExpNode();
+		NodeRel thenExp = (NodeRel) getThenNode();
+		NodeRel elseExp = (NodeRel) getElseNode();
 
-		addStmList(new Cjump(exp.getRel().getCode(), getThenNode().getExpList().getHead(), getElseNode().getExpList().getHead(), new LabelLocation(), new LabelLocation() ));
+
+		LabelLocation z = new LabelLocation();
+		LabelLocation f = new LabelLocation();
+		LabelLocation t = new LabelLocation();
+
+
+		Exp expIfLeft = getExpNode().getExpList().getHead();
+		Exp expIfRight = getExpNode().getExpList().getHead();
+		Exp expThenLeft = getThenNode().getExpList().getHead();
+		Exp expThenRight = getThenNode().getExpList().getHead();
+		Exp expElseLeft = getElseNode().getExpList().getHead();
+		Exp expElseRight = getElseNode().getExpList().getHead();
+
+		addStmList( new Seq(new Cjump(exp.getRel().getCode(), expIfLeft, expIfRight,  z, f),
+						new Seq(new Seq(new Label(z), new Cjump(thenExp.getRel().getCode(), expThenLeft, expThenRight,  t, f)),
+								new Seq (new Label(f), new Cjump(elseExp.getRel().getCode(), expElseLeft, expElseRight, f, f))) ));
 
 	}
 }
