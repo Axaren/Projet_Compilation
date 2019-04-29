@@ -8,6 +8,7 @@ import ubordeaux.deptinfo.compilation.project.node.Node;
 
 public class Main {
 	private static boolean checksType;
+	private static boolean debug;
 
 	public static void main(String[] args) throws Exception {
 		int count = 1;
@@ -15,8 +16,11 @@ public class Main {
 			if (arg.charAt(0) == '-') {
 				if (arg.equals("-checkType"))
 					checksType = true;
+				else if (arg.equals("-debug"))
+					debug = true;
 			} else {
-				Scanner input = new ScannerLea(new FileReader(arg));
+				ScannerLea input = new ScannerLea(new FileReader(arg));
+				input.setDebug(debug);
 				Parser parser = new ParserLea();
 				try {
 					System.err.println("*** Fichier " + arg);
