@@ -2,10 +2,7 @@ package ubordeaux.deptinfo.compilation.project.node;
 
 import java.util.Iterator;
 
-import ubordeaux.deptinfo.compilation.project.intermediateCode.Exp;
-import ubordeaux.deptinfo.compilation.project.intermediateCode.ExpList;
-import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocation;
-import ubordeaux.deptinfo.compilation.project.intermediateCode.Name;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.*;
 import ubordeaux.deptinfo.compilation.project.type.TypeFeature;
 import ubordeaux.deptinfo.compilation.project.type.TypeFunct;
 import ubordeaux.deptinfo.compilation.project.type.Type;
@@ -92,11 +89,15 @@ public final class NodeCallFct extends NodeExp {
 
 		int j =0;
 
-		Name func = new Name(new LabelLocation());
-		for (int i = j; i < this.getArgs().size(); i++){
-			NodeList nodeList = new NodeList();
-			nodeList.add(this.getArgs().get(i));
+		Iterator<Node> itArgs = this.getArgs().iterator();
+
+		while(itArgs.hasNext()){
+			this.addArgsList(itArgs.next().getExpList().getHead());
 		}
+
+		Name name = new Name(new LabelLocation(this.name));
+
+		addExpList(new Call(name, this.getExpList()));
 
 	}
 }
