@@ -14,6 +14,10 @@ public class ExpList implements IntermediateCode {
 		return head;
 	}
 
+	public Exp get(int i) {
+		return this.get(i);
+	}
+
 	public void setHead(Exp head) {
 		this.head = head;
 	}
