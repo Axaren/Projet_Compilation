@@ -165,7 +165,13 @@ type_declaration_list=
 	;
 	
 type_declaration=
-	type_declaration_head.th TOKEN_AFF type.t TOKEN_SEMIC {: typeEnvironment.put(th, t); return new TypeNamed(th); :}
+	type_declaration_head.th TOKEN_AFF type.t TOKEN_SEMIC {: 
+		if (typeEnvironment.get(th) != null)
+			System.err.println("Error | Type variable already exists");	
+		else
+			typeEnvironment.put(th, t); 
+		return new TypeNamed(th); 
+	:}
 	;
 	
 type_declaration_head=
@@ -512,15 +518,23 @@ variable_access=
 	TOKEN_IDENTIFIER.i {: 
 		Type type = stackEnvironment.getType(i);
 		if (type == null) 
-			System.err.format("Variable %s inconnue\n", i); 
-		if (type instanceof TypeTemplate) // replace TypeTemplate by their real type
-			type = (Type)typeEnvironment.get(((TypeTemplate)type).getName());
+			System.err.println("Error | Variable doesn't exist : "+i); 
+		if (type instanceof TypeTemplate) { // replace TypeTemplate by their real type
+			String name = ((TypeTemplate)type).getName();
+			type = (Type)typeEnvironment.get(name);
+			if (type == null)
+				System.out.println("Error | Type variable doesn't exists : "+name);
+		}
 		return new NodeId(i, type); 
 	:} 
-	| variable_access.va TOKEN_LBRACKET expression.e TOKEN_RBRACKET {: return new NodeArrayAccess(va, e); :}
+	| variable_access.va TOKEN_LBRACKET expression.e TOKEN_RBRACKET {: 
+		if (!(va.getType() instanceof TypeComplex))
+			System.err.println("Error | Must be TypeArray");
+		return new NodeArrayAccess(va, e); 
+	:}
 	| expression.e TOKEN_CIRC {: return new NodePtrAccess(e); :}
 	;
-	
+
 expression=
 	expression.a TOKEN_PLUS expression.b {: return new NodeOp(NodeOp.Operation.PLUS, a, b); :}
 	| expression.a TOKEN_MINUS expression.b {: return new NodeOp(NodeOp.Operation.MINUS, a, b); :}

@@ -11,12 +11,9 @@ public final class NodeArrayAccess extends NodeExp {
 	// t [i]
 	public NodeArrayAccess(NodeExp t, Node i) {
 		super(t, i);
-		if (t.type instanceof TypeComplex) {
-			if ((t!=null) && (((TypeComplex) t.type).size() == 2))
+		if ((t!=null) && (((TypeComplex) t.type).size() == 2)) {
 				type = ((TypeComplex) t.type).get(1);
 		}
-		else 
-			System.err.format("error : Type error in affectation\n");
 	}
 
 	@Override
