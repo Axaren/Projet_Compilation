@@ -39,8 +39,8 @@ x, y, z : integer;
 b : boolean;
 z2 : array [ 1 .. 32] of integer;
 //k : array [ range2 ] of integer;
-//l : array [ range2 ] of boolean;
-//m2 : array [ Monday .. Thursday ] of boolean;
+l : array [ range2 ] of boolean;
+m2 : array [ Monday .. Thursday ] of boolean;
 p : ptr1;
 m : Months;
 r1: range1;
@@ -49,7 +49,7 @@ r2: range2;
 month : Months;
 
 function goo(i : integer, j : integer) : boolean;
-function goo(i : integer, j : integer) : boolean; //error "procedure or function declared twice"
+//function goo(i : integer, j : integer) : boolean; //error "procedure or function declared twice"
 
 function foo(i : integer, j : integer) : ^boolean
 var
@@ -67,7 +67,7 @@ begin
 end
 
 
-function goo(i : integer, j : integer) : boolean begin  return false; end // error "function already defined"
+//function goo(i : integer, j : integer) : boolean begin  return false; end // error "function already defined"
 
 begin
 	//b = false;
@@ -86,7 +86,7 @@ begin
 	//x = z2 [ 1 ];
 	// b = goo(z2 [ 1 ], 1);
 	// y = z [ false ]; b = 2; // error "Type error in affectation"
-	// l = m2; // error "Type error in affectation"
+	 l = m2; // error "Type error in affectation"
 	// l = l;
 	
 	// b = foo(3, 7)^;

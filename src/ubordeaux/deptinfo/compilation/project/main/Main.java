@@ -33,6 +33,8 @@ public class Main {
 					}
 				} catch (beaver.Parser.Exception e) {
 					System.err.println("*** Erreur de syntaxe: " + arg + ":" + e.getMessage());
+				} catch (RuntimeException e) {
+					System.err.println("*** Compilation error in \""+arg+"\" : "+e.getMessage());
 				}
 			}
 

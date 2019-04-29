@@ -25,7 +25,6 @@
 		
 	private Environment typeEnvironment = new Environment("types");
 	private Environment procedureEnvironment = new Environment("procedures");
-	private Environment globalEnvironment = new Environment("globals");
 	private StackEnvironment stackEnvironment = new StackEnvironment("local variables stack");
 	private String type_declaration_name;
 	
@@ -328,7 +327,7 @@ procedure_definition=
 		TypeFunct type = (TypeFunct)h.getType();
 		TypeFunct type2 = (TypeFunct)procedureEnvironment.get(h.getName());
 		if (type2 != null && type2.getDefined()) 
-			return new FunctionRedefinitionException("Function already defined : " + h.getName());
+			throw new FunctionRedefinitionException("Function already defined : " + h.getName());
 		else {
 			if (type2 != null)
 				type2.setDefined(true);
