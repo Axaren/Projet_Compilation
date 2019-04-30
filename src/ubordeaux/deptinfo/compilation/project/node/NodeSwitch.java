@@ -29,4 +29,12 @@ public final class NodeSwitch extends Node {
 		return this.get(0);
 	}
 
+	@Override
+	public void generateIntermediateCode() {
+		getExp().generateIntermediateCode();
+		getStm().generateIntermediateCode();
+
+
+
+	}
 }

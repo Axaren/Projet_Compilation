@@ -1,5 +1,9 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
+import ubordeaux.deptinfo.compilation.project.intermediateCode.Jump;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.Label;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocation;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocationList;
 import ubordeaux.deptinfo.compilation.project.type.Type;
 import ubordeaux.deptinfo.compilation.project.type.TypeComplex;
 import ubordeaux.deptinfo.compilation.project.type.TypePointer;
@@ -34,4 +38,11 @@ public final class NodePtrAccess extends NodeExp {
 		return new NodePtrAccess((NodeExp) this.get(0).clone());
 	}
 
+
+	@Override
+	public void generateIntermediateCode() {
+		this.get(0).generateIntermediateCode();
+
+		addStmList(new Jump(this.get(0).getExpList().getHead(), new LabelLocationList(new LabelLocation(), null)));
+	}
 }

@@ -35,4 +35,8 @@ public final class NodeId extends NodeExp {
 		return new NodeId(name, type);
 	}
 
+	@Override
+	public void generateIntermediateCode() {
+
+	}
 }

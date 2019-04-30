@@ -34,6 +34,7 @@ public final class NodeWhile extends Node {
 		return this.get(0);
 	}
 
+
 	@Override
 	public IntermediateCode generateIntermediateCode() {
 		getStm().generateIntermediateCode();
@@ -47,8 +48,7 @@ public final class NodeWhile extends Node {
 		LabelLocation z = new LabelLocation();
 		LabelLocation f = new LabelLocation();
 
-		addStmList( new Cjump(exp.getRel().getCode(), expLeft, expRight, z, f) );
-
+		addStmList( new Cjump(exp.getRel().getCode(), expLeft, expRight, z, f) );	
 	}
 
 }
