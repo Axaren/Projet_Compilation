@@ -19,6 +19,7 @@ public final class NodeAssign extends Node {
 			return false;
 		Type lhsType = this.getLhs().getType();
 		Type rhsType = this.getRhs().getType();
+		System.out.println(lhsType.toString()+ " | "+rhsType.toString());
 		return lhsType != null && rhsType != null && lhsType.equals(rhsType);
 	}
 

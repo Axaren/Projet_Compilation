@@ -17,14 +17,19 @@ import beaver.Scanner;
 %eofval}
 %{
   StringBuffer currentString = new StringBuffer();
+  boolean debug = false;
+
+  public void setDebug(boolean deb) {
+    debug = deb;
+  }
 
 	private Symbol newToken(short id) {
-	  System.out.println("Detected: " + Terminals.NAMES[id]);
+	  if (debug) System.out.println("Detected: " + Terminals.NAMES[id]);
 		return new Symbol(id, yyline + 1, yycolumn + 1, yylength(), null);
 	}
 
 	private Symbol newToken(short id, Object value) {
-	  System.out.println("Detected: " + Terminals.NAMES[id] + " Value: " + value);
+	  if (debug) System.out.println("Detected: " + Terminals.NAMES[id] + " Value: " + value);
 		return new Symbol(id, yyline + 1, yycolumn + 1, yylength(), value);
 	}
 
