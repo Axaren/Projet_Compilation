@@ -41,7 +41,6 @@ public class Main {
 					System.err.println("*** Compilation error in \""+arg+"\" : "+e.getMessage());
 				}
 			}
-
 		}
 	}
 }
