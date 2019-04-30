@@ -31,4 +31,12 @@ public class TypeArray extends TypeComplex {
 		return result;
 	}
 
+	@Override
+	public boolean equals(Type obj) {
+		if (this.getClass() != obj.getClass())
+			return false;
+		TypeArray arr = (TypeArray)obj;
+		return this.getRangeOREnum().equals(arr.getRangeOREnum()) && this.getType().equals(arr.getType());
+	}
+
 }

@@ -44,7 +44,6 @@ public final class NodeIf extends Node {
 		return this.get(1);
 	}
 
-
 	@Override
 	public IntermediateCode generateIntermediateCode() {
 		IntermediateCode expIf = getExpNode().generateIntermediateCode();
