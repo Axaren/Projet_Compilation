@@ -1,5 +1,9 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
+import ubordeaux.deptinfo.compilation.project.intermediateCode.IntermediateCode;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.Label;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocation;
+
 public final class NodeCase extends Node {
 
 	private String nameValue;
@@ -35,4 +39,17 @@ public final class NodeCase extends Node {
 		return defaultValue;
 	}
 
+	@Override
+	public IntermediateCode generateIntermediateCode() {
+		getStm().generateIntermediateCode();
+		LabelLocation lloc;
+		if (defaultValue) {
+			lloc = new LabelLocation();
+		}
+		else {
+			lloc = new LabelLocation(nameValue);
+		}
+		addStmList();
+		addStmList(new Label(lloc));
+	}
 }

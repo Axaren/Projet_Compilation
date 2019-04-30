@@ -17,19 +17,6 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 	protected int uniqId;
 	private static int staticUniqId;
 
-	private ExpList expList;
-	private ExpList argsList;
-	private StmList stmList;
-	private LabelLocation labelLocation;
-
-	public LabelLocation getLabelLocation() {
-		return labelLocation;
-	}
-
-	public void setLabelLocation(LabelLocation labelLocation) {
-		this.labelLocation = labelLocation;
-	}
-
 	public Node() {
 		super();
 		this.uniqId = Node.staticUniqId++;
@@ -74,41 +61,6 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 		return elts.get(i);
 	}
 
-	public ExpList getArgsList() {
-		return argsList;
-	}
-
-	public void setArgsList(ExpList argsList) {
-		this.argsList = argsList;
-	}
-
-	public void addArgsList(Exp exp) {
-		this.argsList.setHead(exp);
-	}
-
-
-	public ExpList getExpList() {
-		return expList;
-	}
-
-	public void setExpList(ExpList expList) {
-		this.expList = expList;
-	}
-	public void addExpList(Exp exp) {
-		this.expList.setHead(exp);
-	}
-	public StmList getStmList() {
-		return stmList;
-	}
-
-	public void setStmList(StmList stmList) {
-		this.stmList = stmList;
-	}
-
-	public void addStmList(Stm stm) {
-		this.stmList.setHead(stm);
-	}
-
 	public int size() {
 		return elts.size();
 	}
@@ -142,7 +94,7 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 	}
 
 	@Override
-	public void generateIntermediateCode() {
+	public IntermediateCode generateIntermediateCode() {
 		// TODO Auto-generated method stub
 		System.err.println("TODO: " + this.getClass().getSimpleName() + ".generateIntermediateCode()");
 	}

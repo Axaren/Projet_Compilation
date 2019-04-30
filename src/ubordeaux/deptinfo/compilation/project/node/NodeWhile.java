@@ -2,6 +2,7 @@ package ubordeaux.deptinfo.compilation.project.node;
 
 import ubordeaux.deptinfo.compilation.project.intermediateCode.Cjump;
 import ubordeaux.deptinfo.compilation.project.intermediateCode.Exp;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.IntermediateCode;
 import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocation;
 
 public final class NodeWhile extends Node {
@@ -34,7 +35,7 @@ public final class NodeWhile extends Node {
 	}
 
 	@Override
-	public void generateIntermediateCode() {
+	public IntermediateCode generateIntermediateCode() {
 		getStm().generateIntermediateCode();
 		getExp().generateIntermediateCode();
 		NodeRel exp = (NodeRel) getExp();

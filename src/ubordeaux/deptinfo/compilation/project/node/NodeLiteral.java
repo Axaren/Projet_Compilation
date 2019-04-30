@@ -1,5 +1,6 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
+import ubordeaux.deptinfo.compilation.project.intermediateCode.IntermediateCode;
 import ubordeaux.deptinfo.compilation.project.type.Type;
 
 public final class NodeLiteral extends NodeExp {
@@ -34,7 +35,7 @@ public final class NodeLiteral extends NodeExp {
 		return new NodeLiteral(type, value);
 	}
 
-	public void generateIntermediateCode() {
+	public IntermediateCode generateIntermediateCode() {
 		 
 	}
 

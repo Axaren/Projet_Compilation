@@ -46,7 +46,7 @@ public final class NodeIf extends Node {
 
 
 	@Override
-	public void generateIntermediateCode() {
+	public IntermediateCode generateIntermediateCode() {
 		getExpNode().generateIntermediateCode();
 		getThenNode().generateIntermediateCode();
 		getElseNode().generateIntermediateCode();

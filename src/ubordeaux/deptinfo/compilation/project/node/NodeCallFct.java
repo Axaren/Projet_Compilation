@@ -85,7 +85,7 @@ public final class NodeCallFct extends NodeExp {
 	}
 
 	@Override
-	public void generateIntermediateCode() {
+	public IntermediateCode generateIntermediateCode() {
 
 		int j =0;
 

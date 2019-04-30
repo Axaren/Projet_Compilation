@@ -1,6 +1,7 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
 import ubordeaux.deptinfo.compilation.project.intermediateCode.Binop;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.IntermediateCode;
 import ubordeaux.deptinfo.compilation.project.type.*;
 
 public class NodeOp extends NodeExp {
@@ -93,7 +94,7 @@ public class NodeOp extends NodeExp {
 		}
 
 	@Override
-	public void generateIntermediateCode() {
+	public IntermediateCode generateIntermediateCode() {
 		getOp1().generateIntermediateCode();
 		getOp2().generateIntermediateCode();
 
