@@ -1,33 +1,20 @@
 package ubordeaux.deptinfo.compilation.project.intermediateCode;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class ExpList implements IntermediateCode {
-	private Exp head;
-	private ExpList tail;
+	private List<Exp> exps;
 
-	public ExpList(Exp head, ExpList tail) {
+	public ExpList(Exp ... exps) {
 		super();
-		this.head = head;
-		this.tail = tail;
-	}
-
-	public Exp getHead() {
-		return head;
+		this.exps = new ArrayList<>();
+		this.exps.addAll(Arrays.asList(exps));
 	}
 
 	public Exp get(int i) {
-		return this.get(i);
-	}
-
-	public void setHead(Exp head) {
-		this.head = head;
-	}
-
-	public ExpList getTail() {
-		return tail;
-	}
-
-	public void setTail(ExpList tail) {
-		this.tail = tail;
+		return exps.get(i);
 	}
 
 	@Override
