@@ -47,7 +47,7 @@ public final class NodeIf extends Node {
 
 	@Override
 	public IntermediateCode generateIntermediateCode() {
-		getExpNode().generateIntermediateCode();
+		IntermediateCode expIf = getExpNode().generateIntermediateCode();
 		getThenNode().generateIntermediateCode();
 		getElseNode().generateIntermediateCode();
 
@@ -60,17 +60,17 @@ public final class NodeIf extends Node {
 		LabelLocation f = new LabelLocation();
 		LabelLocation t = new LabelLocation();
 
+		Exp expIfLeft=  ((ExpList)expIf).get(0);
+		Exp expIfRight =  ((ExpList)expIf).get(1);
+		Exp expThenLeft=  ((ExpList)expIf).get(0);
+		Exp expThenRight =  ((ExpList)expIf).get(1);
+		Exp expElseLeft=  ((ExpList)expIf).get(0);
+		Exp expElseRight =  ((ExpList)expIf).get(1);
 
-		Exp expIfLeft = getExpNode().getExpList().getHead();
-		Exp expIfRight = getExpNode().getExpList().getHead();
-		Exp expThenLeft = getThenNode().getExpList().getHead();
-		Exp expThenRight = getThenNode().getExpList().getHead();
-		Exp expElseLeft = getElseNode().getExpList().getHead();
-		Exp expElseRight = getElseNode().getExpList().getHead();
+		return new Seq(new Cjump(exp.getRel().getCode(), expIfLeft, expIfRight,  z, f),
+				new Seq(new Seq(new Label(z), new Cjump(thenExp.getRel().getCode(), expThenLeft, expThenRight,  t, f)),
+						new Seq (new Label(f), new Cjump(elseExp.getRel().getCode(), expElseLeft, expElseRight, f, f))) );
 
-		addStmList( new Seq(new Cjump(exp.getRel().getCode(), expIfLeft, expIfRight,  z, f),
-						new Seq(new Seq(new Label(z), new Cjump(thenExp.getRel().getCode(), expThenLeft, expThenRight,  t, f)),
-								new Seq (new Label(f), new Cjump(elseExp.getRel().getCode(), expElseLeft, expElseRight, f, f))) ));
 
 	}
 }
