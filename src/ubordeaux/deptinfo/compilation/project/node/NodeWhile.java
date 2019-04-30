@@ -46,8 +46,7 @@ public final class NodeWhile extends Node {
 		LabelLocation z = new LabelLocation();
 		LabelLocation f = new LabelLocation();
 
-		addStmList( new Cjump(exp.getRel().getCode(), expLeft, expRight, z, f) );
-
+		addStmList( new Cjump(exp.getRel().getCode(), expLeft, expRight, z, f) );	
 	}
 
 }
