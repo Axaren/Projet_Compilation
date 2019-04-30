@@ -80,7 +80,6 @@
 %typeof feature_list_type = "TypeFeatureList";
 %typeof feature_type, argt = "TypeFeature";
 %typeof argt_list = "TypeTuple";
-%typeof type_declaration = "TypeNamed";
 %typeof named_type = "TypeTemplate";
 %typeof enumerated_type, init_enumerated_type = "TypeEnumRange";
 %typeof identifier_list = "IdentifierList";
@@ -96,10 +95,12 @@
 %typeof case_statement = "NodeList";
 %typeof case_default = "NodeCase";
 %typeof variable_access, expression = "NodeExp";
-%typeof procedure_definition, procedure_definition_head, procedure_declaration_head = "NodeId";
+%typeof procedure_definition = "Node";
+%typeof procedure_definition_head, procedure_declaration_head = "NodeId";
+%typeof type_declaration = "NodeId";
 %typeof procedure_definition_list = "NodeList";
 %typeof expression_list, variable_declaration, variable_declaration_list = "NodeList";
-%typeof variable_declaration_part, type_declaration_part, procedure_definition_part = "NodeList";
+%typeof variable_declaration_part, type_declaration_list, type_declaration_part, procedure_definition_part = "NodeList";
 %typeof statement_list, block, program = "NodeList";
 %typeof literal = "NodeLiteral";
 
@@ -139,9 +140,9 @@ program=
 	program_end
 	{:
 	 	NodeList prog = new NodeList(); 
-		prog.add(td); 
-		prog.add(vd); 
-		prog.add(pd); 
+		if (td.size() != 0)	prog.add(td); 
+		if (vd.size() != 0)	prog.add(vd); 
+		if (pd.size() != 0)	prog.add(pd); 
 		prog.add(stm);
 		return prog; 
 	:}
@@ -156,12 +157,12 @@ program_end = {: stackEnvironment.removeScope(); return new NodeNop(); :};
 	
 type_declaration_part= 
 	/* empty */	{: return new NodeList(); :}
-	| TOKEN_TYPE type_declaration_list {: return new NodeList(); :}
+	| TOKEN_TYPE type_declaration_list
 	;
 	
 type_declaration_list=
-	type_declaration_list type_declaration
-	| type_declaration
+	type_declaration_list.lst type_declaration.t {: lst.add(t); return lst; :} 
+	| type_declaration.t {: NodeList lst =  new NodeList(t); return lst; :}
 	;
 	
 type_declaration=
@@ -170,7 +171,7 @@ type_declaration=
 			throw new VariableRedeclarationException("Type variable already exists");
 		else
 			typeEnvironment.put(th, t); 
-		return new TypeNamed(th); 
+		return new NodeId(th, t); 
 	:}
 	;
 	
@@ -323,7 +324,7 @@ procedure_definition_list=
 	;
 	
 procedure_definition=
-	procedure_definition_head.h block {: 
+	procedure_definition_head.h block.stm {: 
 		TypeFunct type = (TypeFunct)h.getType();
 		TypeFunct type2 = (TypeFunct)procedureEnvironment.get(h.getName());
 		if (type2 != null && type2.getDefined()) 
@@ -546,7 +547,7 @@ expression=
 	| TOKEN_MINUS expression.a @ UNARY_MINUS {: return new NodeOp(NodeOp.Operation.MINUS, a); :}
 	| expression.a TOKEN_OR expression.b {: return new NodeOp(NodeOp.Operation.OR, a, b); :}
 	| expression.a TOKEN_AND expression.b {: return new NodeOp(NodeOp.Operation.AND, a, b); :}
-	| TOKEN_NOT expression.a {: return new NodeOp(NodeOp.Operation.NOT, a); :}
+	| TOKEN_NOT expression.a {: return new NodeRel(NodeRel.EQ, a, new NodeLiteral(new TypeBoolean(), false)); :}
 	| expression.a TOKEN_LT expression.b {: return new NodeRel(NodeRel.BinaryRel.LT, a, b); :}
 	| expression.a TOKEN_LE expression.b {: return new NodeRel(NodeRel.BinaryRel.LE, a, b); :}
 	| expression.a TOKEN_GT expression.b {: return new NodeRel(NodeRel.BinaryRel.GT, a, b); :}
