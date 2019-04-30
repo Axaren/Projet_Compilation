@@ -64,7 +64,7 @@
 %left TOKEN_EQ, TOKEN_NE;
 
 %typeof TOKEN_LIT_INTEGER = "Integer";
-%typeof TOKEN_LIT_STRING, TOKEN_IDENTIFIER = "String";
+%typeof TOKEN_LIT_STRING, TOKEN_IDENTIFIER, TOKEN_PRINTLN, TOKEN_READLN = "String";
 %typeof TOKEN_TRUE, TOKEN_FALSE = "Boolean";
 %typeof TOKEN_NULL = "TypeVoid";
 %typeof TOKEN_INTEGER = "TypeInt";
@@ -457,11 +457,11 @@ dispose_statement=
 	;
 	
 println_statement=
-	TOKEN_PRINTLN expression.e TOKEN_SEMIC {: return new NodeCallFct("println", new TypeFunct("println", new TypeTuple(new TypeFeature("e", e.getType())), new TypeVoid()), new NodeList(e)); :}
+	TOKEN_PRINTLN.func expression.e TOKEN_SEMIC {: return new NodeCallFct(func, new TypeFunct("println", new TypeTuple(new TypeFeature("e", e.getType())), new TypeVoid()), new NodeList(e)); :}
 	;	
 	
 readln_statement=
-	TOKEN_READLN expression.e TOKEN_SEMIC  {: return new NodeCallFct("readln", new TypeFunct("readln", new TypeTuple(new TypeFeature("e", e.getType())), new TypeVoid()), new NodeList(e)); :}
+	TOKEN_READLN.func expression.e TOKEN_SEMIC  {: return new NodeCallFct(func, new TypeFunct("readln", new TypeTuple(new TypeFeature("e", e.getType())), new TypeVoid()), new NodeList(e)); :}
 	;
 	
 return_statement=
