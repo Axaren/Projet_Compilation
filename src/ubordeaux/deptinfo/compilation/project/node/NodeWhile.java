@@ -41,8 +41,8 @@ public final class NodeWhile extends Node {
 		Exp expLeft = ((ExpList)getExp).get(0);
 		Exp expRight = ((ExpList)getExp).get(1);
 
-		// LabelLocation z = new LabelLocation();
-		// LabelLocation f = new LabelLocation();
+		LabelLocation z = new LabelLocation();
+		LabelLocation f = new LabelLocation();
 
 		return new Seq( new Cjump(exp.getRel().getCode(), expLeft, expRight, z, f) ,
 				new Seq( new Seq(new Label(z), (Stm)getStm ),
