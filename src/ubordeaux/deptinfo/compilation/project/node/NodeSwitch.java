@@ -1,5 +1,7 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
+import ubordeaux.deptinfo.compilation.project.intermediateCode.IntermediateCode;
+
 public final class NodeSwitch extends Node {
 
 	public NodeSwitch(Node e, Node stm) {
@@ -30,11 +32,11 @@ public final class NodeSwitch extends Node {
 	}
 
 	@Override
-	public void generateIntermediateCode() {
+	public IntermediateCode generateIntermediateCode() {
 		getExp().generateIntermediateCode();
 		getStm().generateIntermediateCode();
 
-
+		return null; 
 
 	}
 }
