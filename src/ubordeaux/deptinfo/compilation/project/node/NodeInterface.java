@@ -1,5 +1,7 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
+import ubordeaux.deptinfo.compilation.project.intermediateCode.IntermediateCode;
+
 public interface NodeInterface {
 	
 	// Cette méthode vérifie le type localement au Node
@@ -8,7 +10,7 @@ public interface NodeInterface {
 	boolean checksType();
 
 	// Cette méthode, non encore implémentée produit le code intermédiaire Exp ou Stm
-	void generateIntermediateCode();
+	IntermediateCode generateIntermediateCode();
 	
 	// Affiche sous forme parenthésée ce Node
 	String toString();
