@@ -38,7 +38,7 @@ public final class NodeAssign extends Node {
 
 	@Override
 	public IntermediateCode generateIntermediateCode() {
-		return (new Move(new Mem(getLhs().generateIntermediateCode()), getRhs().generateIntermediateCode()));
+		return (new Move(new Mem((Exp)getLhs().generateIntermediateCode()), (Exp)getRhs().generateIntermediateCode()));
 		
 	}
 
