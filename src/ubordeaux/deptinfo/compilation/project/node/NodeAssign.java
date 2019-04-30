@@ -39,10 +39,7 @@ public final class NodeAssign extends Node {
 
 	@Override
 	public IntermediateCode generateIntermediateCode() {
-		getLhs().generateIntermediateCode();
-		getRhs().generateIntermediateCode();
-
-		addStmList(new Move( new Mem(getLhs().getExpList().getHead()), getRhs().getExpList().getHead()));
+		return (new Move(new Mem(getLhs().generateIntermediateCode()), getRhs().generateIntermediateCode()));
 		
 	}
 
