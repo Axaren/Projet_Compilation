@@ -95,10 +95,12 @@ public class NodeOp extends NodeExp {
 
 	@Override
 	public IntermediateCode generateIntermediateCode() {
-		getOp1().generateIntermediateCode();
-		getOp2().generateIntermediateCode();
 
-		addExpList(new Binop(operation.getOp(), getOp1().getExpList().getHead(), getOp2().getExpList().getHead()));
+		if (getOp2() != null)
+			return (new Binop(operation.getOp(), (Exp)getOp1().generateIntermediateCode(), (Exp)getOp2().generateIntermediateCode()));
+		else {
+			return (new Binop(operation.getOp(), new Const(0), (Exp)getOp1().generateIntermediateCode()));
+		}
 
 	}
 }

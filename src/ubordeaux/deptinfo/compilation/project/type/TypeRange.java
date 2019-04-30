@@ -24,4 +24,12 @@ public abstract class TypeRange extends TypeAtomic {
 		return super.toString() + '[' + first.toString() + ".." + last.toString() + ']';
 	}
 
+	@Override
+	public boolean equals(Type obj) {
+		if (this.getClass() != obj.getClass())
+			return false;
+		TypeRange range = (TypeRange)obj;
+		return range.getFirst().equals(this.getFirst()) && range.getLast().equals(this.getLast());
+	}
+
 }

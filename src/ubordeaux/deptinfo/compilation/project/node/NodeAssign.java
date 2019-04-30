@@ -20,7 +20,6 @@ public final class NodeAssign extends Node {
 			return false;
 		Type lhsType = this.getLhs().getType();
 		Type rhsType = this.getRhs().getType();
-		System.out.println(lhsType.toString()+ " | "+rhsType.toString());
 		return lhsType != null && rhsType != null && lhsType.equals(rhsType);
 	}
 
@@ -39,10 +38,7 @@ public final class NodeAssign extends Node {
 
 	@Override
 	public IntermediateCode generateIntermediateCode() {
-		getLhs().generateIntermediateCode();
-		getRhs().generateIntermediateCode();
-
-		addStmList(new Move( new Mem(getLhs().getExpList().getHead()), getRhs().getExpList().getHead()));
+		return (new Move(new Mem((Exp)getLhs().generateIntermediateCode()), (Exp)getRhs().generateIntermediateCode()));
 		
 	}
 
