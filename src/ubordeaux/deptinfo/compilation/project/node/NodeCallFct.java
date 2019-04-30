@@ -86,20 +86,13 @@ public final class NodeCallFct extends NodeExp {
 
 	@Override
 	public IntermediateCode generateIntermediateCode() {
-
-		int j =0;
-
-		Iterator<Node> itArgs = this.getArgs().iterator();
-
-		while(itArgs.hasNext()){
-			itArgs.next().generateIntermediateCode();
-			this.addArgsList(itArgs.next().getExpList().getHead());
+		Iterator<Node> it = this.getArgs().iterator();
+		ExpList expList = new ExpList();
+		while(it.hasNext()) {
+			Node n = it.next();
+			expList.add((Exp)n.generateIntermediateCode());
 		}
-
 		Name name = new Name(new LabelLocation(this.name));
-
-
-		return new Call(name, this.getExpList());
-
+		return new Call(name, expList);
 	}
 }

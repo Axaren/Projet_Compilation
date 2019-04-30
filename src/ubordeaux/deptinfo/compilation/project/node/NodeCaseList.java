@@ -25,12 +25,13 @@ public final class NodeCaseList extends NodeExp {
 
 	@Override
 	public IntermediateCode generateIntermediateCode() {
-		Label switchEnd = new Label(new LabelLocation());
-		for (Node child : elts) {
-			child.generateIntermediateCode();
-			child.addStmList(new Jump(switchEnd.getLabel()));
-		}
-		addStmList(switchEnd);
+		// Label switchEnd = new Label(new LabelLocation());
+		// for (Node child : elts) {
+		// 	child.generateIntermediateCode();
+		// 	child.addStmList(new Jump(switchEnd.getLabel()));
+		// }
+		// addStmList(switchEnd);
+		return null;
 	}
 
 }

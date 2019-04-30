@@ -1,6 +1,7 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
 import java.util.Iterator;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.*;
 
 public final class NodeList extends Node {
 
@@ -41,6 +42,16 @@ public final class NodeList extends Node {
 			node.add((Node) elt.clone());
 		}
 		return node;
+	}
+
+	public Seq generateSeq(int i) {
+		if (i >= this.size()) return null;
+		return new Seq((Stm)this.elts.get(i).generateIntermediateCode(), (Stm)generateSeq(i+1));
+	}
+
+	@Override
+	public IntermediateCode generateIntermediateCode() {
+		return generateSeq(0);
 	}
 
 }

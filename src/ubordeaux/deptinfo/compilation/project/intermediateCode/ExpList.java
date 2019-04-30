@@ -13,6 +13,10 @@ public class ExpList implements IntermediateCode {
 		this.exps.addAll(Arrays.asList(exps));
 	}
 
+	public void add(Exp exp) {
+		this.exps.add(exp);
+	}
+
 	public Exp get(int i) {
 		return exps.get(i);
 	}

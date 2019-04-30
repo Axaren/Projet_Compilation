@@ -9,4 +9,13 @@ public class Seq extends Stm {
 		this.right = right;
 	}
 
+	@Override
+	public String toString() {
+		if (this.left == null)
+			return "Seq(vide...)";
+		if (this.right == null)
+			return "Seq(" + this.left.toString() + ")";
+		return "Seq(" + this.left.toString() + ", " + this.right.toString() + ")";
+	}
+
 }

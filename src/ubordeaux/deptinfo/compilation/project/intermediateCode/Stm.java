@@ -13,6 +13,6 @@ public abstract class Stm implements IntermediateCode {
 
 	@Override
 	public String toString() {
-		return "Stm{}" + getClass().getSimpleName();
+		return "" + getClass().getSimpleName();
 	}
 }

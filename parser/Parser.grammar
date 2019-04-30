@@ -547,7 +547,7 @@ expression=
 	| TOKEN_MINUS expression.a @ UNARY_MINUS {: return new NodeOp(NodeOp.Operation.MINUS, a); :}
 	| expression.a TOKEN_OR expression.b {: return new NodeOp(NodeOp.Operation.OR, a, b); :}
 	| expression.a TOKEN_AND expression.b {: return new NodeOp(NodeOp.Operation.AND, a, b); :}
-	| TOKEN_NOT expression.a {: return new NodeRel(NodeRel.EQ, a, new NodeLiteral(new TypeBoolean(), false)); :}
+	| TOKEN_NOT expression.a {: return new NodeRel(NodeRel.BinaryRel.EQ, a, new NodeLiteral(new TypeBoolean(), false)); :}
 	| expression.a TOKEN_LT expression.b {: return new NodeRel(NodeRel.BinaryRel.LT, a, b); :}
 	| expression.a TOKEN_LE expression.b {: return new NodeRel(NodeRel.BinaryRel.LE, a, b); :}
 	| expression.a TOKEN_GT expression.b {: return new NodeRel(NodeRel.BinaryRel.GT, a, b); :}

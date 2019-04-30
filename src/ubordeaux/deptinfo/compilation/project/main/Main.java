@@ -5,6 +5,8 @@ import beaver.Scanner;
 import java.io.FileReader;
 
 import ubordeaux.deptinfo.compilation.project.node.Node;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.*;
+
 
 public class Main {
 	private static boolean checksType;
@@ -35,10 +37,14 @@ public class Main {
 						else
 							System.err.println("*** Typage correct");
 					}
+					Seq seq = (Seq)result.generateIntermediateCode();
+					System.out.println("**** CODE INTER");					
+					System.out.println(seq.toString());
 				} catch (beaver.Parser.Exception e) {
 					System.err.println("*** Erreur de syntaxe: " + arg + ":" + e.getMessage());
 				} catch (RuntimeException e) {
 					System.err.println("*** Compilation error in \""+arg+"\" : "+e.getMessage());
+					e.printStackTrace();
 				}
 			}
 		}
