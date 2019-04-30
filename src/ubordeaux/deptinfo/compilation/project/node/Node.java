@@ -97,6 +97,8 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 	public IntermediateCode generateIntermediateCode() {
 		// TODO Auto-generated method stub
 		System.err.println("TODO: " + this.getClass().getSimpleName() + ".generateIntermediateCode()");
+		return null;
+
 	}
 
 }

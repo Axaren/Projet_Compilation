@@ -1,9 +1,6 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
-import ubordeaux.deptinfo.compilation.project.intermediateCode.Jump;
-import ubordeaux.deptinfo.compilation.project.intermediateCode.Label;
-import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocation;
-import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocationList;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.*;
 import ubordeaux.deptinfo.compilation.project.type.TypeRange;
 import ubordeaux.deptinfo.compilation.project.type.TypeItemEnum;
 import ubordeaux.deptinfo.compilation.project.type.Type;
@@ -54,10 +51,8 @@ public final class NodeArrayAccess extends NodeExp {
 
 
 	@Override
-	public void generateIntermediateCode() {
-		this.get(0).generateIntermediateCode();
-		addStmList(new Jump(this.get(0).getExpList().getHead(), new LabelLocationList(new LabelLocation(), null)));
-
-
+	public IntermediateCode generateIntermediateCode() {
+		IntermediateCode exp = this.get(0).generateIntermediateCode();
+		return new Jump((Exp)exp, new LabelLocationList(new LabelLocation(), null));
 	}
 }

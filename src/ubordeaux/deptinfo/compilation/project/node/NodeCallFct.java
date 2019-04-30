@@ -98,7 +98,8 @@ public final class NodeCallFct extends NodeExp {
 
 		Name name = new Name(new LabelLocation(this.name));
 
-		addExpList(new Call(name, this.getExpList()));
+
+		return new Call(name, this.getExpList());
 
 	}
 }

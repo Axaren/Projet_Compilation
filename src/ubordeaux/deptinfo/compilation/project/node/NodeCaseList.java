@@ -17,6 +17,12 @@ public final class NodeCaseList extends NodeExp {
 		return true;
 	}
 
+
+	@Override
+	public NodeCaseList clone() {
+		return new NodeCaseList();
+	}
+
 	@Override
 	public IntermediateCode generateIntermediateCode() {
 		Label switchEnd = new Label(new LabelLocation());
@@ -25,11 +31,6 @@ public final class NodeCaseList extends NodeExp {
 			child.addStmList(new Jump(switchEnd.getLabel()));
 		}
 		addStmList(switchEnd);
-	}
-
-	@Override
-	public NodeCaseList clone() {
-		return new NodeCaseList();
 	}
 
 }
