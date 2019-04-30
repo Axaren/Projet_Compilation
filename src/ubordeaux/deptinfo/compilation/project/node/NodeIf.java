@@ -59,12 +59,12 @@ public final class NodeIf extends Node {
 		LabelLocation f = new LabelLocation();
 		LabelLocation t = new LabelLocation();
 
-		Exp expIfLeft=  ((ExpList)expIf).get(0);
-		Exp expIfRight =  ((ExpList)expIf).get(1);
-		Exp expThenLeft=  ((ExpList)expIf).get(0);
-		Exp expThenRight =  ((ExpList)expIf).get(1);
-		Exp expElseLeft=  ((ExpList)expIf).get(0);
-		Exp expElseRight =  ((ExpList)expIf).get(1);
+		Exp expIfLeft = ((ExpList)expIf).get(0);
+		Exp expIfRight = ((ExpList)expIf).get(1);
+		Exp expThenLeft = ((ExpList)expIf).get(0);
+		Exp expThenRight = ((ExpList)expIf).get(1);
+		Exp expElseLeft = ((ExpList)expIf).get(0);
+		Exp expElseRight = ((ExpList)expIf).get(1);
 
 		return new Seq(new Cjump(exp.getRel().getCode(), expIfLeft, expIfRight,  z, f),
 				new Seq(new Seq(new Label(z), new Cjump(thenExp.getRel().getCode(), expThenLeft, expThenRight,  t, f)),

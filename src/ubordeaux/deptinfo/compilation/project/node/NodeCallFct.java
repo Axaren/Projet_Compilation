@@ -90,16 +90,15 @@ public final class NodeCallFct extends NodeExp {
 		int j =0;
 
 		Iterator<Node> itArgs = this.getArgs().iterator();
+		ExpList expList = new ExpList();
 
 		while(itArgs.hasNext()){
-			itArgs.next().generateIntermediateCode();
-			this.addArgsList(itArgs.next().getExpList().getHead());
+			expList.addExpList((Exp)itArgs.next().generateIntermediateCode());
 		}
 
 		Name name = new Name(new LabelLocation(this.name));
 
-
-		return new Call(name, this.getExpList());
+		return new Call(name, expList);
 
 	}
 }

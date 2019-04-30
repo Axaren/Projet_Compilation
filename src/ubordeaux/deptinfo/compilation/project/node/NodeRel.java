@@ -1,5 +1,7 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
+import ubordeaux.deptinfo.compilation.project.intermediateCode.Exp;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.ExpList;
 import ubordeaux.deptinfo.compilation.project.intermediateCode.IntermediateCode;
 import ubordeaux.deptinfo.compilation.project.type.TypeBoolean;
 import ubordeaux.deptinfo.compilation.project.type.TypeInt;
@@ -63,6 +65,6 @@ public class NodeRel extends NodeExp {
 
 	@Override
 	public IntermediateCode generateIntermediateCode() {
-		return  super.generateIntermediateCode();
+		return new ExpList((Exp)getOp1().generateIntermediateCode(), (Exp)getOp2().generateIntermediateCode());
 	}
 }
