@@ -33,6 +33,7 @@ public final class NodeWhile extends Node {
 		return this.get(0);
 	}
 
+
 	@Override
 	public void generateIntermediateCode() {
 		getStm().generateIntermediateCode();
