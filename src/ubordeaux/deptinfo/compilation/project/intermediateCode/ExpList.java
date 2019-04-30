@@ -21,6 +21,10 @@ public class ExpList implements IntermediateCode {
 		return exps.get(i);
 	}
 
+	public void addExpList(Exp exp){
+		this.exps.add(exp);
+	}
+
 	@Override
 	public void canonicalTransformation() {
 		// TODO Auto-generated method stub

@@ -1,7 +1,11 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
+<<<<<<< HEAD
 import ubordeaux.deptinfo.compilation.project.intermediateCode.*;
 
+=======
+import ubordeaux.deptinfo.compilation.project.intermediateCode.IntermediateCode;
+>>>>>>> ef47619272b87caeeef466cb0a6cea49fe408f21
 
 public final class NodeSwitch extends Node {
 
@@ -36,8 +40,6 @@ public final class NodeSwitch extends Node {
 	public IntermediateCode generateIntermediateCode() {
 		// getExp().generateIntermediateCode();
 		// getStm().generateIntermediateCode();
-
-
 		return null;
 	}
 }

@@ -1,9 +1,6 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
-import ubordeaux.deptinfo.compilation.project.intermediateCode.Cjump;
-import ubordeaux.deptinfo.compilation.project.intermediateCode.Exp;
-import ubordeaux.deptinfo.compilation.project.intermediateCode.IntermediateCode;
-import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocation;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.*;
 
 public final class NodeWhile extends Node {
 
@@ -37,19 +34,19 @@ public final class NodeWhile extends Node {
 
 	@Override
 	public IntermediateCode generateIntermediateCode() {
-		// getStm().generateIntermediateCode();
-		// getExp().generateIntermediateCode();
-		// NodeRel exp = (NodeRel) getExp();
+		IntermediateCode getExp = getExp().generateIntermediateCode();
+		IntermediateCode getStm = getStm().generateIntermediateCode();
+		NodeRel exp = (NodeRel) getExp();
 
-		// Exp rel = getExp().getExpList().get(0);
-		// Exp expLeft = getExp().getExpList().get(1);
-		// Exp expRight = getExp().getExpList().get(2);
+		Exp expLeft = ((ExpList)getExp).get(0);
+		Exp expRight = ((ExpList)getExp).get(1);
 
 		// LabelLocation z = new LabelLocation();
 		// LabelLocation f = new LabelLocation();
 
-		// addStmList( new Cjump(exp.getRel().getCode(), expLeft, expRight, z, f) );	
-		return null;
-	}
+		return new Seq( new Cjump(exp.getRel().getCode(), expLeft, expRight, z, f) ,
+				new Seq( new Seq(new Label(z), (Stm)getStm ),
+						new Seq(new Label(f), new Jump((Exp)getExp, new LabelLocationList(z, null)))));
 
+	}
 }
