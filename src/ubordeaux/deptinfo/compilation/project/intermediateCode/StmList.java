@@ -1,32 +1,25 @@
 package ubordeaux.deptinfo.compilation.project.intermediateCode;
 
-public class StmList {
-	private Stm head;
-	private StmList tail;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-	public StmList(Stm head, StmList tail) {
+
+public class StmList {
+	private List<Stm> stms;
+
+	public StmList(Stm ... stms) {
 		super();
-		this.head = head;
-		this.tail = tail;
+		this.stms = new ArrayList<Stm>();
+		this.stms.addAll(Arrays.asList(stms));
 	}
 
-	public Stm getHead() {
-		return head;
+	public void add(Stm stm) {
+		this.stms.add(stm);
 	}
 
 	public Stm get(int i) {
-		return this.get(i);
+		return this.stms.get(i);
 	}
 
-	public void setHead(Stm head) {
-		this.head = head;
-	}
-
-	public StmList getTail() {
-		return tail;
-	}
-
-	public void setTail(StmList tail) {
-		this.tail = tail;
-	}
 }

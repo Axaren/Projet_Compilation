@@ -49,11 +49,11 @@ public class NodeRel extends NodeExp {
 				.getType() instanceof TypeInt);
 	}
 
-	private NodeExp getOp1() {
+	public NodeExp getOp1() {
 		return (NodeExp) this.get(0);
 	};
 
-	private NodeExp getOp2() {
+	public NodeExp getOp2() {
 		return (NodeExp) this.get(1);
 	}
 
