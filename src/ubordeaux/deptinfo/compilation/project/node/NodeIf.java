@@ -46,30 +46,35 @@ public final class NodeIf extends Node {
 
 	@Override
 	public IntermediateCode generateIntermediateCode() {
+
+		//Apply intermediate code to If, Then and Else expressions
 		IntermediateCode expIf = getExpNode().generateIntermediateCode();
-		getThenNode().generateIntermediateCode();
-		getElseNode().generateIntermediateCode();
+		IntermediateCode expThen = getThenNode().generateIntermediateCode();
+		IntermediateCode expElse = getElseNode().generateIntermediateCode();
 
+		//Useful for the binary operation in the If
 		NodeRel exp = (NodeRel) getExpNode();
-		NodeRel thenExp = (NodeRel) getThenNode();
-		NodeRel elseExp = (NodeRel) getElseNode();
-
-
-		LabelLocation z = new LabelLocation();
-		LabelLocation f = new LabelLocation();
-		LabelLocation t = new LabelLocation();
-
 		Exp expIfLeft = ((ExpList)expIf).get(0);
 		Exp expIfRight = ((ExpList)expIf).get(1);
-		Exp expThenLeft = ((ExpList)expIf).get(0);
-		Exp expThenRight = ((ExpList)expIf).get(1);
-		Exp expElseLeft = ((ExpList)expIf).get(0);
-		Exp expElseRight = ((ExpList)expIf).get(1);
 
-		return new Seq(new Cjump(exp.getRel().getCode(), expIfLeft, expIfRight,  z, f),
-				new Seq(new Seq(new Label(z), new Cjump(thenExp.getRel().getCode(), expThenLeft, expThenRight,  t, f)),
-						new Seq (new Label(f), new Cjump(elseExp.getRel().getCode(), expElseLeft, expElseRight, f, f))) );
+		//LabelLocation after a then
+		LabelLocation thenLabel = new LabelLocation();
+		//LabelLocation after an else
+		LabelLocation elseLabel = new LabelLocation();
+		//final label location
+		LabelLocation f = new LabelLocation();
 
+		//In case of if-then-else
+		if (getElseNode() != null) {
+			return new Seq(new Cjump(exp.getRel().getCode(), expIfLeft, expIfRight, thenLabel, elseLabel),
+					new Seq(new Seq(new Label(thenLabel), new Jump((Exp)expThen, new LabelLocationList(f, null))),
+							new Seq(new Label(elseLabel), new Jump((Exp)expElse, new LabelLocationList(f, null)))));
+		}
 
+		//In case of if-then only
+		else{
+			return new Seq(new Jump((Exp)expIf, new LabelLocationList(thenLabel, null)),
+					          new Seq(new Label(thenLabel), new Jump((Exp)expThen, new LabelLocationList(f, null))));
+		}
 	}
 }
