@@ -30,6 +30,7 @@ public class Main {
 					System.out.println(result.toString());
 					result.toDot("data/output_tree"+count+".dot");
 					count++;
+					System.err.println("*** Fichier " + arg);
 					System.err.println("*** Analyse syntaxique ok");
 					if (checksType) {
 						if (!result.checksType())
@@ -38,8 +39,14 @@ public class Main {
 							System.err.println("*** Typage correct");
 					}
 					Seq seq = (Seq)result.generateIntermediateCode();
-					System.out.println("**** CODE INTER");					
+					System.err.println("*** Fichier " + arg);
+					System.out.println("\n");
+					System.out.println("**** CODE INTER pour programme" + arg + "\n\n");
 					System.out.println(seq.toString());
+					System.out.println("\n\n");
+					System.out.println("**** FIN CODE INTER \n");
+					System.out.println("\n\n");
+
 				} catch (beaver.Parser.Exception e) {
 					System.err.println("*** Erreur de syntaxe: " + arg + ":" + e.getMessage());
 				} catch (RuntimeException e) {
