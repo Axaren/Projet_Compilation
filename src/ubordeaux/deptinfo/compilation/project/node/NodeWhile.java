@@ -50,7 +50,7 @@ public final class NodeWhile extends Node {
 					 new Seq(new Cjump(exp.getRel().getCode(), expLeft, expRight, body, end),
 							new Seq(new Label(body),
 									new Seq((Stm)getStm,
-											new Seq(new Label(end), new Jump((Exp)getExp, new LabelLocationList(head, null)))))));
+											new Seq(new Label(end), new Jump(expWhile, new LabelLocationList(head, null)))))));
 
 	}
 }
