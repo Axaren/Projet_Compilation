@@ -13,7 +13,7 @@ public class Main {
 	private static boolean debug;
 
 	public static void main(String[] args) throws Exception {
-		int count = 1;
+		int count = 0;
 		for (String arg : args) {
 			if (arg.charAt(0) == '-') {
 				if (arg.equals("-checkType"))
@@ -24,6 +24,7 @@ public class Main {
 				ScannerLea input = new ScannerLea(new FileReader(arg));
 				input.setDebug(debug);
 				Parser parser = new ParserLea();
+				count++;					
 				try {
 					System.err.println("*** Fichier " + arg);
 					Node result = (Node) parser.parse(input);
@@ -46,7 +47,6 @@ public class Main {
 					System.out.println("\n\n");
 					System.out.println("**** FIN CODE INTER \n");
 					System.out.println("\n\n");
-					count++;					
 				} catch (beaver.Parser.Exception e) {
 					System.err.println("*** Erreur de syntaxe: " + arg + ":" + e.getMessage());
 				} catch (RuntimeException e) {
