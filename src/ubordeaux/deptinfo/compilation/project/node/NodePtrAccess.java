@@ -39,7 +39,6 @@ public final class NodePtrAccess extends NodeExp {
 	@Override
 	public IntermediateCode generateIntermediateCode() {
 		IntermediateCode exp = this.get(0).generateIntermediateCode();
-
-		return new Jump((Exp)exp, new LabelLocationList(new LabelLocation(), null));
+		return new Mem((Exp)exp);
 	}
 }

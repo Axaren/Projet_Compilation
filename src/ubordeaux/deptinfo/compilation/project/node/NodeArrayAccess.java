@@ -8,7 +8,6 @@ import ubordeaux.deptinfo.compilation.project.type.TypeArray;
 import ubordeaux.deptinfo.compilation.project.type.TypeComplex;
 
 public final class NodeArrayAccess extends NodeExp {
-
 	// t [i]
 	public NodeArrayAccess(NodeExp t, Node i) {
 		super(t, i);
@@ -53,6 +52,6 @@ public final class NodeArrayAccess extends NodeExp {
 	@Override
 	public IntermediateCode generateIntermediateCode() {
 		IntermediateCode exp = this.get(0).generateIntermediateCode();
-		return new Jump((Exp)exp, new LabelLocationList(new LabelLocation(), null));
+		return new Mem((Exp)exp);
 	}
 }
