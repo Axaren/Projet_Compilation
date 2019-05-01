@@ -14,9 +14,13 @@ public class Binop extends Exp {
 	public final static int PLUS = 0, MINUS = 1, MUL = 2, DIV = 3, AND = 4, OR = 5, LSHIFT = 6, RSHIFT = 7, ARSHIFT = 8,
 			XOR = 9;
 
-	public String toString() {
-		String result = new String();
-		return result;
-	}
 
+	@Override
+	public String toString() {
+		return " Binop(" +
+				"binop=" + binop +
+				", left=" + left +
+				", right=" + right +
+				')';
+	}
 }

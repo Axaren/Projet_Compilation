@@ -14,8 +14,8 @@ public class Seq extends Stm {
 		if (this.left == null)
 			return "Seq(vide...)";
 		if (this.right == null)
-			return "Seq(" + this.left.toString() + ")";
-		return "Seq(" + this.left.toString() + ", " + this.right.toString() + ")";
+			return "Seq( " + this.left.toString() + " )";
+		return "Seq( " + this.left.toString() + ", " + this.right.toString() + " )";
 	}
 
 }

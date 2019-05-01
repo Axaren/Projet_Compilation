@@ -12,9 +12,9 @@ public class Call extends Exp {
 
 	@Override
 	public String toString() {
-		return "Call{" +
+		return " Call(" +
 				"func=" + func +
 				", args=" + args +
-				'}';
+				')';
 	}
 }
