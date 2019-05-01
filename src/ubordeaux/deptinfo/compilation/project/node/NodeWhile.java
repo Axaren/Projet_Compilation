@@ -38,15 +38,19 @@ public final class NodeWhile extends Node {
 		IntermediateCode getStm = getStm().generateIntermediateCode();
 		NodeRel exp = (NodeRel) getExp();
 
+		Exp expWhile = (Exp)(getExp().generateIntermediateCode());
 		Exp expLeft = ((ExpList)getExp).get(0);
 		Exp expRight = ((ExpList)getExp).get(1);
 
-		LabelLocation z = new LabelLocation();
-		LabelLocation f = new LabelLocation();
+		LabelLocation head = new LabelLocation();
+		LabelLocation body = new LabelLocation();
+		LabelLocation end = new LabelLocation();
 
-		return new Seq( new Cjump(exp.getRel().getCode(), expLeft, expRight, z, f) ,
-				new Seq( new Seq(new Label(z), (Stm)getStm ),
-						new Seq(new Label(f), new Jump((Exp)getExp, new LabelLocationList(z, null)))));
+		return new Seq( new Label(head),
+					 new Seq(new Cjump(exp.getRel().getCode(), expLeft, expRight, body, end),
+							new Seq(new Label(body),
+									new Seq((Stm)getStm,
+											new Seq(new Label(end), new Jump((Exp)getExp, new LabelLocationList(head, null)))))));
 
 	}
 }
