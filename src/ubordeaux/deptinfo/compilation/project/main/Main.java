@@ -26,26 +26,28 @@ public class Main {
 				Parser parser = new ParserLea();
 				count++;					
 				try {
-					System.err.println("*** Fichier " + arg);
+					// Syntax analysis
+					System.err.println("******** Fichier " + arg);
 					Node result = (Node) parser.parse(input);
 					System.out.println(result.toString());
 					result.toDot("data/output_tree"+count+".dot");
-					System.err.println("*** Fichier " + arg);
-					System.err.println("*** Analyse syntaxique ok");
+					System.err.println("Analyse syntaxique OK ! L'arbre syntaxique est disponible dans data/output_tree"+count+".dot\n");
+
+					//  Checking type
 					if (checksType) {
+						System.err.println("Vérification des types : ");
+						// System.err.println("Type OK pour les noeuds : ");
 						if (!result.checksType())
-							System.err.println("*** Erreur de typage");
+							System.err.println("/!\\ Erreur de typage\n");
 						else
-							System.err.println("*** Typage correct");
+							System.err.println("Typage correct !\n");
 					}
+
+					// Intermediate code generation
 					Seq seq = (Seq)result.generateIntermediateCode();
-					System.err.println("*** Fichier " + arg);
-					System.out.println("\n");
-					System.out.println("**** CODE INTER pour programme" + arg + "\n\n");
+					System.out.println("Code intermédiaire :");
 					System.out.println(seq.toString());
 					seq.toDot("data/code_tree"+count+".dot");
-					System.out.println("\n\n");
-					System.out.println("**** FIN CODE INTER \n");
 					System.out.println("\n\n");
 				} catch (beaver.Parser.Exception e) {
 					System.err.println("*** Erreur de syntaxe: " + arg + ":" + e.getMessage());

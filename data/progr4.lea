@@ -11,15 +11,14 @@ begin
    while (x <= 10) do begin
       println (x);
       if (x==10) then begin
-	 y = 1;
-	 while (y <= 5) do begin
-	    println (-1000-y);
-	    y = y + 1;
-	    end
+	      y = 1;
+         while (y <= 5) do begin
+	         println (-1000-y);
+            y = y + 1;
          end
+      end
       else
-	 println ("X");
-      x = x + 1;
+         println ("X");
+         x = x + 1;
    end
-   
 end

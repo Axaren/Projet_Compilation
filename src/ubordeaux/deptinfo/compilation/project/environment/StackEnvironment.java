@@ -41,7 +41,7 @@ public class StackEnvironment extends Environment {
    */
   public void newScope() {
     stack.add(new HashMap<String, Type>());
-    System.out.println("added scope, size="+stack.size());
+    // System.out.println("added scope, size="+stack.size());
   }
 
   /**
@@ -50,7 +50,7 @@ public class StackEnvironment extends Environment {
   public void removeScope() {
     if (stack.size() > 0)
       stack.remove(stack.size() - 1);
-    System.out.println("removed scope, size="+stack.size());
+    // System.out.println("removed scope, size="+stack.size());
   }
 
   /**

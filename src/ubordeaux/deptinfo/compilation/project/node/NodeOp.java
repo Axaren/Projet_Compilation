@@ -98,7 +98,7 @@ public class NodeOp extends NodeExp {
 	@Override
 	public IntermediateCode generateIntermediateCode() {
 
-		if (getOp2() != null)
+		if (this.elts.size() > 1)
 			return (new Binop(operation.getOp(), (Exp)getOp1().generateIntermediateCode(), (Exp)getOp2().generateIntermediateCode()));
 		else {
 			return (new Binop(operation.getOp(), new Const(0), (Exp)getOp1().generateIntermediateCode()));

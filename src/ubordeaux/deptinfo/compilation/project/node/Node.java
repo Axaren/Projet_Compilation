@@ -49,7 +49,7 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 
 	@Override
 	public boolean checksType() {
-		System.err.println("--- CheckType " + this.getClass().getSimpleName());
+		// System.err.print("" + this.getClass().getSimpleName()+ " | ");
 		return false;
 	}
 
@@ -64,7 +64,6 @@ public abstract class Node extends ClonableSymbol implements NodeInterface {
 	public int size() {
 		return elts.size();
 	}
-
 
 	private final void toDot(StringBuffer stringBuffer) {
 		stringBuffer.append("node_" + this.uniqId + " [shape=\"ellipse\", label=\"" + toDotNodeName() + "\"];\n");

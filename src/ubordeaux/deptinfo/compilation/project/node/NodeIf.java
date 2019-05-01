@@ -57,24 +57,24 @@ public final class NodeIf extends Node {
 		Exp expIfLeft = ((ExpList)expIf).get(0);
 		Exp expIfRight = ((ExpList)expIf).get(1);
 
-		//LabelLocation after a then
+		// LabelLocation after a then
 		LabelLocation thenLabel = new LabelLocation();
-		//LabelLocation after an else
+		// LabelLocation after an else
 		LabelLocation elseLabel = new LabelLocation();
-		//final label location
+		// final label location
 		LabelLocation f = new LabelLocation();
 
 		//In case of if-then-else
 		if (getElseNode() != null) {
 			return new Seq(new Cjump(exp.getRel().getCode(), expIfLeft, expIfRight, thenLabel, elseLabel),
-					new Seq(new Seq(new Label(thenLabel), new Jump((Exp)expThen, new LabelLocationList(f, null))),
-							new Seq(new Label(elseLabel), new Jump((Exp)expElse, new LabelLocationList(f, null)))));
+					new Seq(new Seq(new Label(thenLabel), new Jump(f)),
+							new Seq(new Label(elseLabel), new Jump(f))));
 		}
 
 		//In case of if-then only
 		else{
 			return new Seq(new Jump((Exp)expIf, new LabelLocationList(thenLabel, null)),
-					          new Seq(new Label(thenLabel), new Jump((Exp)expThen, new LabelLocationList(f, null))));
+					          new Seq(new Label(thenLabel), new Jump(f)));
 		}
 	}
 }

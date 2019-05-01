@@ -24,12 +24,12 @@ import beaver.Scanner;
   }
 
 	private Symbol newToken(short id) {
-	  if (debug) System.out.println("Detected: " + Terminals.NAMES[id]);
+	  if (debug) System.out.print("" + Terminals.NAMES[id]+" | ");
 		return new Symbol(id, yyline + 1, yycolumn + 1, yylength(), null);
 	}
 
 	private Symbol newToken(short id, Object value) {
-	  if (debug) System.out.println("Detected: " + Terminals.NAMES[id] + " Value: " + value);
+	  if (debug) System.out.print("" + Terminals.NAMES[id] + " Value: " + value+" | ");
 		return new Symbol(id, yyline + 1, yycolumn + 1, yylength(), value);
 	}
 
