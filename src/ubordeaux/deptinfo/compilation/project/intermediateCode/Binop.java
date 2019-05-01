@@ -21,6 +21,6 @@ public class Binop extends Exp {
 				"binop=" + binop +
 				", left=" + left +
 				", right=" + right +
-				')';
+				")";
 	}
 }

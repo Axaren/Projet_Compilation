@@ -14,6 +14,6 @@ public class Move extends Stm {
 		return " Move(" +
 				 dst +
 				"," + src +
-				')';
+				")";
 	}
 }

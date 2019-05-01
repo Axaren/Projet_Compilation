@@ -12,6 +12,6 @@ public class Label extends Stm {
 	public String toString() {
 		return " Label(" +
 				label +
-				')';
+				")";
 	}
 }

@@ -12,6 +12,6 @@ public class Name extends Exp {
 	public String toString() {
 		return " Name(" +
 				"label=" + label +
-				')';
+				")";
 	}
 }

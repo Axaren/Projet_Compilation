@@ -18,7 +18,7 @@ public class Jump extends Stm {
 	public String toString() {
 		return " Jump(" +
 				exp +
-				", " + targets +
-				')';
+				"," + targets +
+				")";
 	}
 }

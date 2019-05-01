@@ -13,9 +13,9 @@ public class Eseq extends Exp {
 
 	@Override
 	public String toString() {
-		return " Eseq(" +
+		return " Eseq( " +
 				"stm=" + stm +
 				", exp=" + exp +
-				')';
+				" )";
 	}
 }

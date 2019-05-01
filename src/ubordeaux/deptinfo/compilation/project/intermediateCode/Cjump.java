@@ -51,6 +51,6 @@ public class Cjump extends Stm {
 				", right=" + right +
 				", iftrue=" + iftrue +
 				", iffalse=" + iffalse +
-				')';
+				")";
 	}
 }
