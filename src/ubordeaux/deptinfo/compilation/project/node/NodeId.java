@@ -15,7 +15,7 @@ public final class NodeId extends NodeExp {
 	}
 
 	public void setTemp(boolean tmp) {
-		this.temp = tpm;
+		this.temp = tmp;
 	}
 
 	public String toString() {

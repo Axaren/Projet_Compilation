@@ -530,7 +530,7 @@ variable_access=
 				throw new UnknownTypeException("Type variable doesn't exist : " + name);
 		}
 		NodeId id = new NodeId(i, type);
-		id.setTemp(!(stackEnvironment.isGlobal())); // non-global variable are "temporary"
+		id.setTemp(!(stackEnvironment.isGlobal(i))); // non-global variable are "temporary"
 		return id; 
 	:} 
 	| variable_access.va TOKEN_LBRACKET expression.e TOKEN_RBRACKET {: 
