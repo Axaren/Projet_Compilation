@@ -31,4 +31,13 @@ public class ExpList implements IntermediateCode {
 		System.err.println("TODO: " + this.getClass().getSimpleName() + ".canonicalTransformation()()");
 	}
 
+	public String toString() {
+		String s = "[";
+		for (Exp exp : exps) {
+			s += exp.toString() + ", ";
+		}
+		s += "]";
+		return s;
+	}
+
 }

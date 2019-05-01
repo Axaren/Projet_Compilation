@@ -1,6 +1,6 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
-import ubordeaux.deptinfo.compilation.project.intermediateCode.IntermediateCode;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.*;
 import ubordeaux.deptinfo.compilation.project.type.Type;
 
 public final class NodeId extends NodeExp {
@@ -47,6 +47,9 @@ public final class NodeId extends NodeExp {
 
 	@Override
 	public IntermediateCode generateIntermediateCode() {
-		return super.generateIntermediateCode();
+		if (!temp)
+			return new Mem(new Name(new LabelLocation(name))); 
+		else
+			return new Temp(new TempValue());
 	}
 }

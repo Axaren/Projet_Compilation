@@ -18,4 +18,16 @@ public class Seq extends Stm {
 		return "Seq( " + this.left.toString() + ", " + this.right.toString() + " )";
 	}
 
+	public void toDot(StringBuffer stringBuffer) {
+		super.toDot(stringBuffer);
+		if (this.left != null) { 
+			this.left.toDot(stringBuffer);
+			if (this.left != null) stringBuffer.append("stm_"+this.uniqId+" -> stm_" + this.left.getUniqId()+";\n");
+		}
+		if (this.right != null) {
+			this.right.toDot(stringBuffer);
+			stringBuffer.append("stm_"+this.uniqId+" -> stm_" + this.right.getUniqId()+";\n");
+		}
+	}
+
 }

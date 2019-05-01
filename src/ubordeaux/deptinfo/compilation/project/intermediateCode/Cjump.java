@@ -53,4 +53,21 @@ public class Cjump extends Stm {
 				", iffalse=" + iffalse +
 				")";
 	}
+	
+	public void toDot(StringBuffer stringBuffer) {
+		super.toDot(stringBuffer);
+		stringBuffer.append("exp1_"+this.uniqId+ " [shape=\"ellipse\", label=\"" + left.toString() + "\"];\n");	
+		stringBuffer.append("exp2_"+this.uniqId+ " [shape=\"ellipse\", label=\"" + right.toString() + "\"];\n");		
+		stringBuffer.append("exp3_"+this.uniqId+ " [shape=\"ellipse\", label=\"" + iftrue.toString() + "\"];\n");		
+		stringBuffer.append("exp4_"+this.uniqId+ " [shape=\"ellipse\", label=\"" + iffalse.toString() + "\"];\n");				
+		stringBuffer.append("stm_"+this.uniqId+" -> exp1_" + this.getUniqId()+";\n");
+		stringBuffer.append("stm_"+this.uniqId+" -> exp2_" + this.getUniqId()+";\n");
+		stringBuffer.append("stm_"+this.uniqId+" -> exp3_" + this.getUniqId()+";\n");
+		stringBuffer.append("stm_"+this.uniqId+" -> exp4_" + this.getUniqId()+";\n");
+	}
+
+
+	protected String toDotNodeName() {
+		return getClass().getSimpleName() + " rel="+relop;
+	}
 }

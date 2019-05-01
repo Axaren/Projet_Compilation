@@ -14,7 +14,7 @@ public class Call extends Exp {
 	public String toString() {
 		return " Call(" +
 				"func=" + func +
-				", args=" + args +
+				", args=" + args.toString() +
 				")";
 	}
 }

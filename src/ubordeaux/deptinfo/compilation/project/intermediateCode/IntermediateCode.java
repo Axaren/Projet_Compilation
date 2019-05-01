@@ -7,5 +7,5 @@ public interface IntermediateCode {
 	
 	// Transforme l'arbre pour éliminer les ESEQ locaux
 	public void canonicalTransformation();
-	
+
 }

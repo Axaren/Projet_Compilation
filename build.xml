@@ -64,6 +64,7 @@
 			<fileset dir="bin" includes="**" />
 			<fileset dir="data" includes="output" />
 			<fileset dir="data" includes="output_tree*" />
+			<fileset dir="data" includes="code_tree*" />
 		</delete>
 	</target>
 

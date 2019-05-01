@@ -20,4 +20,10 @@ public class ExpStm extends Stm {
                 ")";
     }
 
+    public void toDot(StringBuffer stringBuffer) {
+		super.toDot(stringBuffer);
+		stringBuffer.append("exp1_"+this.uniqId+ " [shape=\"ellipse\", label=\"" + exp.toString() + "\"];\n");	
+		stringBuffer.append("stm_"+this.uniqId+" -> exp1_" + this.getUniqId()+";\n");
+	}
+
 }

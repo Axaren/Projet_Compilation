@@ -93,6 +93,8 @@ public final class NodeCallFct extends NodeExp {
 		while(itArgs.hasNext()){
 			expList.addExpList((Exp)itArgs.next().generateIntermediateCode());
 		}
+
+		System.out.println(this.name);
 		Name name = new Name(new LabelLocation(this.name));
 
 		return new Call(name, expList);

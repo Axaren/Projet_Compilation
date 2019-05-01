@@ -14,4 +14,9 @@ public class Label extends Stm {
 				label +
 				")";
 	}
+	
+	@Override
+	protected String toDotNodeName() {
+		return getClass().getSimpleName() + " " + label.toString();
+	}
 }

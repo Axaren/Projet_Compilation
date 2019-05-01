@@ -458,11 +458,11 @@ dispose_statement=
 	;
 	
 println_statement=
-	TOKEN_PRINTLN.func expression.e TOKEN_SEMIC {: return new NodeCallFct(func, new TypeFunct("println", new TypeTuple(new TypeFeature("e", e.getType())), new TypeVoid()), new NodeList(e)); :}
+	TOKEN_PRINTLN expression.e TOKEN_SEMIC {: return new NodeCallFct("println", new TypeFunct("println", new TypeTuple(new TypeFeature("e", e.getType())), new TypeVoid()), new NodeList(e)); :}
 	;	
 	
 readln_statement=
-	TOKEN_READLN.func expression.e TOKEN_SEMIC  {: return new NodeCallFct(func, new TypeFunct("readln", new TypeTuple(new TypeFeature("e", e.getType())), new TypeVoid()), new NodeList(e)); :}
+	TOKEN_READLN expression.e TOKEN_SEMIC  {: return new NodeCallFct("readln", new TypeFunct("readln", new TypeTuple(new TypeFeature("e", e.getType())), new TypeVoid()), new NodeList(e)); :}
 	;
 	
 return_statement=

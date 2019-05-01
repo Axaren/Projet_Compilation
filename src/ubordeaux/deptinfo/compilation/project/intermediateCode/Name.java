@@ -10,8 +10,6 @@ public class Name extends Exp {
 
 	@Override
 	public String toString() {
-		return " Name(" +
-				"label=" + label +
-				")";
+		return label.toString();
 	}
 }

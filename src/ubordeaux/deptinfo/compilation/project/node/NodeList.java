@@ -46,7 +46,9 @@ public final class NodeList extends Node {
 
 	public Seq generateSeq(int i) {
 		if (i >= this.size()) return null;
-		return new Seq((Stm)this.elts.get(i).generateIntermediateCode(), (Stm)generateSeq(i+1));
+		IntermediateCode elt = this.elts.get(i).generateIntermediateCode();
+		if (elt instanceof Exp) return new Seq(new ExpStm((Exp)elt), (Stm)generateSeq(i+1));
+		else return new Seq((Stm)elt, (Stm)generateSeq(i+1));
 	}
 
 	@Override

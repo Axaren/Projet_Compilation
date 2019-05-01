@@ -12,7 +12,7 @@ public class Temp extends Exp {
 	@Override
 	public String toString() {
 		return " Temp(" +
-				temp +
+				temp.toString() +
 				")";
 	}
 }

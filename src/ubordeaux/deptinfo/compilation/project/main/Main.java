@@ -29,7 +29,6 @@ public class Main {
 					Node result = (Node) parser.parse(input);
 					System.out.println(result.toString());
 					result.toDot("data/output_tree"+count+".dot");
-					count++;
 					System.err.println("*** Fichier " + arg);
 					System.err.println("*** Analyse syntaxique ok");
 					if (checksType) {
@@ -43,10 +42,11 @@ public class Main {
 					System.out.println("\n");
 					System.out.println("**** CODE INTER pour programme" + arg + "\n\n");
 					System.out.println(seq.toString());
+					seq.toDot("data/code_tree"+count+".dot");
 					System.out.println("\n\n");
 					System.out.println("**** FIN CODE INTER \n");
 					System.out.println("\n\n");
-
+					count++;					
 				} catch (beaver.Parser.Exception e) {
 					System.err.println("*** Erreur de syntaxe: " + arg + ":" + e.getMessage());
 				} catch (RuntimeException e) {

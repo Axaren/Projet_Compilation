@@ -21,7 +21,7 @@ public class NodeOp extends NodeExp {
 		RSHIFT(7),
 		ARSHIFT(8),
 		XOR(9),
-		NOT(-1);
+		NOT(10);
 
 		public int getOp() {
 			return op;

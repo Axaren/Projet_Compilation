@@ -12,4 +12,8 @@ public abstract class Exp implements IntermediateCode {
 	public String toString() {
 		return "Exp{}" + getClass().getSimpleName() ;
 	}
+
+	protected String toDotNodeName() {
+		return getClass().getSimpleName();
+	}
 }
