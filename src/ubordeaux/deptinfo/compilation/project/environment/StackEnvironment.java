@@ -69,6 +69,22 @@ public class StackEnvironment extends Environment {
       return null;
   }
 
+  /** 
+   * Retourne vrai si la variable "id" est globale (i.e elle est à la couche 0 du stack)
+   * Returne faux si elle ne l'est pas ou si elle n'existe pas
+   */
+  public boolean isGlobal() {
+    if (stack.size() == 0) return false;
+    HashMap<String, Type> currentScope;
+    for (int i = stack.size() - 1; i >= 0; i--) {
+      currentScope = stack.get(i);
+      if (currentScope.containsKey(id)) {
+        return i == 0;
+      }
+    }
+    return false;
+  }
+
   /**
    * Retourne vrai s'il existe une variable de nom "id" qui existe dans la portée actuelle (la plus haute)
    */
