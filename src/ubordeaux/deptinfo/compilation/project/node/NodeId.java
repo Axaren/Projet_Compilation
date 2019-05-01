@@ -6,11 +6,16 @@ import ubordeaux.deptinfo.compilation.project.type.Type;
 public final class NodeId extends NodeExp {
 
 	protected String name;
+	private boolean temp;
 
 	public NodeId(String name, Type type) {
 		super();
 		this.name = name;
 		this.type = type;
+	}
+
+	public void setTemp(boolean tmp) {
+		this.temp = tmp;
 	}
 
 	public String toString() {
@@ -19,6 +24,10 @@ public final class NodeId extends NodeExp {
 
 	public String getName() {
 		return name;
+	}
+
+	public boolean isTemp() {
+		return temp;
 	}
 
 	@Override

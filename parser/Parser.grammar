@@ -297,7 +297,7 @@ variable_declaration=
 				throw new VariableRedeclarationException("Identifer redeclared: "+ i);
 			else {
 				stackEnvironment.addToCurrentScope(i, t);
-				decl.add(new  NodeId(i, t));
+				decl.add(new NodeId(i, t));
 			}
 		}
 		return decl;
@@ -529,7 +529,9 @@ variable_access=
 			if (type == null)
 				throw new UnknownTypeException("Type variable doesn't exist : " + name);
 		}
-		return new NodeId(i, type); 
+		NodeId id = new NodeId(i, type);
+		id.setTemp(!(stackEnvironment.isGlobal(i))); // non-global variable are "temporary"
+		return id; 
 	:} 
 	| variable_access.va TOKEN_LBRACKET expression.e TOKEN_RBRACKET {: 
 		if (!(va.getType() instanceof TypeComplex))
