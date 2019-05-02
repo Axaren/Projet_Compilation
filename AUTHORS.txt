@@ -17,12 +17,17 @@ EVEN Melvin
 LESNE Nathan
 
 TOY-RIONT--LE DOSSEUR Maelle
+Parser :
 - Elaboration du parser
 - Déclaration de variable/type/fonction	
 - Résolution de bugs et problèmes de précédence
 - Traitement des programmes dans le parser 
 - Gestion de l'ambiguité avec dandling if/else
-- Code intermédiaire : NodeIf, NodeWhile, NodeSwitch, NodeCallFct, NodeAssign,NodeOp, NodePtrAccess
+- Traitement des arguments des fonctions avec la pile 
+Code intermédiaire : 
+- NodeIf, NodeWhile, NodeSwitch, NodeCallFct, NodeAssign,NodeOp, NodePtrAccess
 - Résolution de bugs dans le code intermédiaire
-- Refactoring du code  
+Autre :
+- Refactoring du code   
+- Gestion de l'affichage de l'arbre du code intermédiaire (résolution de bugs)
 - Réflexion autours des choix d'implémentation 
