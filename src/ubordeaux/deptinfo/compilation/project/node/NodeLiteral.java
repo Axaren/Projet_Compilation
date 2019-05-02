@@ -39,7 +39,7 @@ public final class NodeLiteral extends NodeExp {
 	}
 
 	public IntermediateCode generateIntermediateCode() {
-		if (value == null) return new Const(0); 
+		if (type instanceof TypePointer && value == null) return new Const(0); 
 
 		if (value instanceof Integer) {
 			return new Const((int)value);
@@ -50,7 +50,7 @@ public final class NodeLiteral extends NodeExp {
 				return new Const(0);
 		} else if (value instanceof String) {
 			// a literal string a statically allocated : we return a reference to its label
-			return new Name(new LabelLocation((String)value));
+			return new Name(new LabelLocation());
 		} 
 
 		System.err.println("Intermediate code error | Invalid value type "+value.getClass().getSimpleName());
