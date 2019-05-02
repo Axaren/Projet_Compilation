@@ -3,16 +3,15 @@ BROCARD Thimotee
 EVEN Melvin
 - Environemments 
     Parser : 
-- Déclaration de variable/type/fonction
-- Expressions/litéraux
-- Enumération/range
-- Accès aux variables
+- Toutes les règles
 - Détection des erreurs
     Code intermédiaire : 
-- generateIntermediateCode 
-    Autres : 
+- Code intermédiaire : NodeIf, NodeCallFct, NodeAssign, NodePtrAccess, NodeNew, NodeReturn, NodeId
 - L'affichage en .dot du code intermédiaire
+    Scanner : 
+- Mots clés et opérateurs
 - Le mode débug du scanner
+- Une partie du scanner
 
 LESNE Nathan
 
@@ -22,7 +21,7 @@ TOY-RIONT--LE DOSSEUR Maelle
 - Résolution de bugs et problèmes de précédence
 - Traitement des programmes dans le parser 
 - Gestion de l'ambiguité avec dandling if/else
-- Code intermédiaire : NodeIf, NodeWhile, NodeSwitch, NodeCallFct, NodeAssign,NodeOp, NodePtrAccess
+- Code intermédiaire : NodeIf, NodeWhile, NodeSwitch, NodeCallFct, NodeAssign,NodeOp, NodePtrAccess, NodeArrayList
 - Résolution de bugs dans le code intermédiaire
 - Refactoring du code  
 - Réflexion autours des choix d'implémentation 
