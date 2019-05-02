@@ -47,15 +47,12 @@ public final class NodeSwitch extends Node {
 			LabelLocation defaultLabel = new LabelLocation();
 			LabelLocation next = new LabelLocation();
 
-			res = new Seq( new Seq(new Label(next), new Seq( new Cjump(rel.getRel().getCode(), new Mem((Exp)exp), new Mem(new Name(new LabelLocation(nodeCase.getNameValue()))), l, next),
-					new Seq(new Label(l),
-							 new Seq( (Stm)stm, new Seq(new Label(defaultLabel), (Stm)stmDefault))))), res);
-
+			res = new Seq(new Label(next),
+							new Seq( new Cjump(rel.getRel().getCode(), new Mem((Exp)exp), new Mem(new Name(new LabelLocation(nodeCase.getNameValue()))), l, next),
+								new Seq(new Label(l),
+							 			new Seq( (Stm)stm, new Seq(res.getLeft(), res.getRight())))));
 
 		}
-
-
-
 
 		return res;
 
