@@ -1,4 +1,13 @@
 BROCARD Thimotee
+-Parser : 
+    Déclaration de var/type/fonc
+    Accès aux var
+    Détection des erreurs
+-Code intermédiaire :
+    NodeAssign, NodeOp, NodeNop
+-Environemments
+-Rapport
+
 
 EVEN Melvin
 - Environemments 
