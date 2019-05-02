@@ -4,7 +4,7 @@ import ubordeaux.deptinfo.compilation.project.intermediateCode.Const;
 import ubordeaux.deptinfo.compilation.project.intermediateCode.IntermediateCode;
 import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocation;
 import ubordeaux.deptinfo.compilation.project.intermediateCode.Name;
-import ubordeaux.deptinfo.compilation.project.type.Type;
+import ubordeaux.deptinfo.compilation.project.type.*;
 
 public final class NodeLiteral extends NodeExp {
 

@@ -17,12 +17,17 @@ public class Main {
 	private static boolean debug;
 
 	public static void linearize(Seq seq, ArrayList visited) {
-		visited.add(seq);
-
-		if (seq.getLeft() != null && seq.getLeft() instanceof Seq ) {
-			linearize((Seq) seq.getLeft(), visited);
-		} else if (seq.getRight()  != null && seq.getRight() instanceof Seq) {
-			linearize((Seq) seq.getRight(), visited);
+		if (seq.getLeft() != null && seq.getLeft() instanceof Stm) {
+			if (seq.getLeft() instanceof Seq)
+				linearize((Seq) seq.getLeft(), visited);
+			else
+				visited.add(seq.getLeft());
+		} 
+		if (seq.getRight()  != null && seq.getRight() instanceof Stm) {
+			if (seq.getRight() instanceof Seq)
+				linearize((Seq) seq.getRight(), visited);
+			else
+				visited.add(seq.getRight());
 		}
 
 	}
@@ -73,7 +78,7 @@ public class Main {
 
 					Iterator<IntermediateCode> it = visited.iterator();
 					while (it.hasNext()){
-						System.out.println("LINEARISATION : "  + it.next() + "\n");
+						System.out.println(" "  + it.next().getClass().getSimpleName() + "\n");
 					}
 
 				} catch (beaver.Parser.Exception e) {
