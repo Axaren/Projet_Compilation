@@ -48,33 +48,36 @@ public final class NodeIf extends Node {
 	public IntermediateCode generateIntermediateCode() {
 
 		//Apply intermediate code to If, Then and Else expressions
-		IntermediateCode expIf = getExpNode().generateIntermediateCode();
+		Cjump expIf = (Cjump)getExpNode().generateIntermediateCode();
 		IntermediateCode expThen = getThenNode().generateIntermediateCode();
-		IntermediateCode expElse = getElseNode().generateIntermediateCode();
-
+		Stm expThenStm;
+		Stm expElseStm;
+		if (expThen instanceof Exp) expThenStm = new ExpStm((Exp)expThen);
+		else expThenStm = (Stm) expThen;
+		
 		//Useful for the binary operation in the If
 		NodeRel exp = (NodeRel) getExpNode();
-		Exp expIfLeft = ((ExpList)expIf).get(0);
-		Exp expIfRight = ((ExpList)expIf).get(1);
-
-		// LabelLocation after a then
-		LabelLocation thenLabel = new LabelLocation();
-		// LabelLocation after an else
-		LabelLocation elseLabel = new LabelLocation();
-		// final label location
-		LabelLocation f = new LabelLocation();
+		LabelLocation L1 = expIf.getIftrue();
+		LabelLocation L2 = expIf.getIffalse();
 
 		//In case of if-then-else
 		if (getElseNode() != null) {
-			return new Seq(new Cjump(exp.getRel().getCode(), expIfLeft, expIfRight, thenLabel, elseLabel),
-					new Seq(new Seq(new Label(thenLabel), new Jump(f)),
-							new Seq(new Label(elseLabel), new Jump(f))));
+			IntermediateCode expElse = getElseNode().generateIntermediateCode();
+			if (expElse instanceof Exp) expElseStm = new ExpStm((Exp)expElse);
+			else expElseStm = (Stm) expElse;
+			LabelLocation L3 = new LabelLocation();
+			return new Seq(expIf, 
+							new Seq(new Label(L1), 
+								new Seq(expThenStm, 
+									new Seq(new Label(L2), 
+										new Seq(expElseStm, new Label(L3))))));
 		}
 
 		//In case of if-then only
 		else{
-			return new Seq(new Jump((Exp)expIf, new LabelLocationList(thenLabel, null)),
-					          new Seq(new Label(thenLabel), new Jump(f)));
+			return new Seq(expIf, 
+							new Seq(new Label(L1),
+								new Seq(expThenStm, new Label(L2))));
 		}
 	}
 }

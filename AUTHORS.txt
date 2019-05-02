@@ -1,0 +1,16 @@
+BROCARD Thimotee
+
+EVEN Melvin
+- Environemments
+- Déclaration de variable/type/fonction
+- Expressions/litéraux
+- Enumération/range
+- Accès aux variables
+- Détection des erreurs
+- Une partie des generateIntermediateCode
+- L'affichage en .dot du code intermédiaire
+- Le mode débug du scanner
+
+LESNE Nathan
+
+TOY-RIONT--LE DOSSEUR Maelle 
