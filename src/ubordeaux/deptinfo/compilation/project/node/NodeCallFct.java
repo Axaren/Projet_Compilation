@@ -50,6 +50,7 @@ public final class NodeCallFct extends NodeExp {
 				break;
 			}
 			Type argType = arg.getType();
+
 			// chaque paramètre est une feature nom : type
 			Type paramType = ((TypeFeature) itParams.next()).getType();
 			if (!paramType.equals(argType)) {

@@ -6,6 +6,7 @@ public abstract class NodeExp extends Node {
 
 	@Override
 	protected String toDotNodeName() {
+		if (type == null) return super.toDotNodeName();
 		return super.toDotNodeName() + type.toString();
 	}
 
