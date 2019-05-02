@@ -1,17 +1,20 @@
 BROCARD Thimotee
 
 EVEN Melvin
-- Environemments 
-    Parser : 
-- Toutes les règles
-- Détection des erreurs
-    Code intermédiaire : 
-- Code intermédiaire : NodeIf, NodeCallFct, NodeAssign, NodePtrAccess, NodeNew, NodeReturn, NodeId
-- L'affichage en .dot du code intermédiaire
-    Scanner : 
-- Mots clés et opérateurs
-- Le mode débug du scanner
-- Une partie du scanner
+Environemments :
+    - Implémentation de StackEnvironment
+    - Utilisation du stack dans le parser
+Parser : 
+    - Toutes les règles
+    - Détection des erreurs (redéfinition de variables/fonctions, redéclaration de fonction, etc...)
+Code intermédiaire : 
+    - Code intermédiaire : NodeIf, NodeCallFct, NodeAssign, NodePtrAccess, NodeNew, NodeReturn, NodeId, NodeRel
+    - L'affichage en .dot du code intermédiaire
+    - Linéarisation de l'arbre de code intermédiaire
+Scanner : 
+    - Mots clés et opérateurs
+    - Le mode débug du scanner
+    - Une partie du scanner
 
 LESNE Nathan
 - Scanner :
