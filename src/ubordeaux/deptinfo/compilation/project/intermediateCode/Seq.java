@@ -1,5 +1,10 @@
 package ubordeaux.deptinfo.compilation.project.intermediateCode;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 public class Seq extends Stm {
 	private Stm left, right;
 
@@ -29,5 +34,15 @@ public class Seq extends Stm {
 			stringBuffer.append("stm_"+this.uniqId+" -> stm_" + this.right.getUniqId()+";\n");
 		}
 	}
+
+	public Stm getLeft() {
+		return left;
+	}
+
+
+	public Stm getRight() {
+		return right;
+	}
+
 
 }

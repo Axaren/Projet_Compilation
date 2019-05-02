@@ -3,6 +3,10 @@ package ubordeaux.deptinfo.compilation.project.main;
 import beaver.Parser;
 import beaver.Scanner;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import ubordeaux.deptinfo.compilation.project.node.Node;
 import ubordeaux.deptinfo.compilation.project.intermediateCode.*;
@@ -11,6 +15,18 @@ import ubordeaux.deptinfo.compilation.project.intermediateCode.*;
 public class Main {
 	private static boolean checksType;
 	private static boolean debug;
+
+	public static void linearize(Seq seq, ArrayList visited) {
+		visited.add(seq);
+
+		if (seq.getLeft() != null && seq.getLeft() instanceof Seq ) {
+			linearize((Seq) seq.getLeft(), visited);
+		} else if (seq.getRight()  != null && seq.getRight() instanceof Seq) {
+			linearize((Seq) seq.getRight(), visited);
+		}
+
+	}
+
 
 	public static void main(String[] args) throws Exception {
 		int count = 0;
@@ -49,6 +65,17 @@ public class Main {
 					System.out.println(seq.toString());
 					seq.toDot("data/code_tree"+count+".dot");
 					System.out.println("\n\n");
+
+					ArrayList visited = new ArrayList<IntermediateCode>();
+
+					linearize(seq, visited);
+
+
+					Iterator<IntermediateCode> it = visited.iterator();
+					while (it.hasNext()){
+						System.out.println("LINEARISATION : "  + it.next() + "\n");
+					}
+
 				} catch (beaver.Parser.Exception e) {
 					System.err.println("*** Erreur de syntaxe: " + arg + ":" + e.getMessage());
 				} catch (RuntimeException e) {
