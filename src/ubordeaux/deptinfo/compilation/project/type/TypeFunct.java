@@ -4,6 +4,7 @@
 public class TypeFunct extends TypeComplex {
 
 	private boolean defined;
+	private boolean declared;
 	private String name;
 
 	public TypeFunct(String name, TypeTuple params, Type ret) {
@@ -52,8 +53,16 @@ public class TypeFunct extends TypeComplex {
 		this.defined = defined;
 	}
 
+	public void setDeclared(boolean declared) {
+		this.declared = declared;
+	}
+
 	public boolean getDefined() {
 		return this.defined;
+	}
+
+	public boolean getDeclared() {
+		return this.declared;
 	}
 
 	public String getName() {

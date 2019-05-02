@@ -140,8 +140,8 @@ program=
 	program_end
 	{:
 	 	NodeList prog = new NodeList(); 
-		if (td.size() != 0)	prog.add(td); 
-		if (vd.size() != 0)	prog.add(vd); 
+		//if (td.size() != 0)	prog.add(td); 
+		//if (vd.size() != 0)	prog.add(vd); 
 		if (pd.size() != 0)	prog.add(pd); 
 		prog.add(stm);
 		return prog; 
@@ -330,18 +330,17 @@ procedure_definition=
 		if (type2 != null && type2.getDefined()) 
 			throw new FunctionRedefinitionException("Function already defined : " + h.getName());
 		else {
-			if (type2 != null)
+			if (type2 != null) {
 				type2.setDefined(true);
-			else 
-				procedureEnvironment.put(h.getName(), type);
+			}
 		}
-		return h; 
+		return stm; 
 	:}
 	| procedure_declaration_head.h TOKEN_SEMIC {: 
-		if (procedureEnvironment.get(h.getName()) != null)
+		TypeFunct type2 = (TypeFunct)procedureEnvironment.get(h.getName());
+		if (type2 != null && type2.getDeclared())
 			throw new FunctionRedeclarationException("Function already declared : " + h.getName());
-		else 
-			procedureEnvironment.put(h.getName(), h.getType());
+		type2.setDeclared(true);
 		return h; 
 	:}
 	;
@@ -357,10 +356,16 @@ procedure_declaration_head=
 procedure_head=
 	TOKEN_PROCEDURE TOKEN_IDENTIFIER.i TOKEN_LPAR argt_part.args TOKEN_RPAR {: 
 		TypeFunct type = new TypeFunct(i, args, new TypeVoid()); 
+		TypeFunct type2 = (TypeFunct)procedureEnvironment.get(i);
+		if (type2 == null || !type2.getDeclared())
+			procedureEnvironment.put(i, type);
 		return new NodeId(i, type);
 	:}
 	| TOKEN_FUNCTION TOKEN_IDENTIFIER.i TOKEN_LPAR argt_part.args TOKEN_RPAR TOKEN_COLON type.t {:
 		TypeFunct type = new TypeFunct(i, args, t);
+		TypeFunct type2 = (TypeFunct)procedureEnvironment.get(i);
+		if (type2 == null || !type2.getDeclared())
+			procedureEnvironment.put(i, type);
 		return new NodeId(i, type);
 	:}
 	;
@@ -434,7 +439,7 @@ procedure_statement=
 procedure_expression=
 	TOKEN_IDENTIFIER.i TOKEN_LPAR expression_part.args TOKEN_RPAR {:
 		TypeFunct type = (TypeFunct)procedureEnvironment.get(i);
-		if (type == null) System.err.println();
+		if (type == null) throw new UnknownFunctionException("Unknown function "+i);
 		return new NodeCallFct(i, type, args);
 	:}
 	;
@@ -514,7 +519,7 @@ case_statement=
 	;
 	
 case_default=
-	/* empty */
+	/* empty */ 
 	| TOKEN_DEFAULT TOKEN_COLON statement.stm {: return new NodeCase(stm); :}
 	;
 		
