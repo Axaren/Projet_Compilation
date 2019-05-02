@@ -8,13 +8,14 @@ BROCARD Thimotee
 -Environemments
 -Rapport
 
+---------------------------------------------------------
 
 EVEN Melvin
 Environemments :
     - Implémentation de StackEnvironment
     - Utilisation du stack dans le parser
 Parser : 
-    - Toutes les règles
+    - Toutes les règles (l'entièreté du parser)
     - Détection des erreurs (redéfinition de variables/fonctions, redéclaration de fonction, etc...)
 Code intermédiaire : 
     - Code intermédiaire : NodeIf, NodeCallFct, NodeAssign, NodePtrAccess, NodeNew, NodeReturn, NodeId, NodeRel
@@ -24,6 +25,8 @@ Scanner :
     - Mots clés et opérateurs
     - Le mode débug du scanner
     - Une partie du scanner
+
+---------------------------------------------------------
 
 LESNE Nathan
 - Scanner :
@@ -36,6 +39,8 @@ LESNE Nathan
 - Enums dans NodeRel et NodeOp
 - Code intermédiaire :
     - NodeCase, NodeSwitch
+
+---------------------------------------------------------
 
 TOY-RIONT--LE DOSSEUR Maelle
 Parser :
