@@ -73,12 +73,11 @@ public class Main {
 					System.out.println("\n");
 
 					// Linearize the intermediate code tree
-					ArrayList visited = new ArrayList<IntermediateCode>();
+					ArrayList<IntermediateCode> visited = new ArrayList<>();
 					linearize(seq, visited);
-					Iterator<IntermediateCode> it = visited.iterator();
-					System.out.println("Code intermédiaire linéarisé (instructions) : ");					
-					while (it.hasNext()){
-						System.out.print(""  + it.next().getClass().getSimpleName()+", ");
+					System.out.println("Code intermédiaire linéarisé (instructions) : ");
+					for (IntermediateCode node : visited) {
+						System.out.print(""  + node.getClass().getSimpleName()+", ");
 					}
 					System.out.println("\n\n\n");
 
