@@ -41,13 +41,14 @@ public final class NodeSwitch extends Node {
 
     LabelLocation testLocation = new LabelLocation();
     LabelLocation nextLocation = new LabelLocation();
-    Label test = new Label(testLocation);
-    Label next = new Label(nextLocation);
+    Label test = new Label(testLocation); // Label where the CJUMPs start
+    Label next = new Label(nextLocation); // Label after the switch
 
     Seq currentSeq = new Seq();
     Seq res = new Seq(new Jump(testLocation), currentSeq);
     List<LabelLocation> casesLocations = new ArrayList<>(nbCaseList);
 
+    // For each case we add the Cases code and Labels
     for (int i = 0; i < nbCaseList; i++) {
       NodeCase currentCase = (NodeCase) caseList.get(i);
       LabelLocation currentCaseLocation = new LabelLocation(currentCase.getNameValue());
@@ -63,6 +64,7 @@ public final class NodeSwitch extends Node {
     currentSeq.setRight(testSeq);
     currentSeq = testSeq;
 
+    // For each Case we add the tests (CJUMPs)
     for (int i = 0; i < nbCaseList-1; i++) {
       NodeCase currentcase = (NodeCase) caseList.get(i);
       LabelLocation falseLocation = new LabelLocation();
