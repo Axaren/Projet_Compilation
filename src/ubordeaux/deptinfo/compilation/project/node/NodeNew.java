@@ -1,6 +1,9 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
 import ubordeaux.deptinfo.compilation.project.type.*;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.IntermediateCode;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.Temp;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.TempValue;
 
 public final class NodeNew extends Node {
 
@@ -26,6 +29,10 @@ public final class NodeNew extends Node {
 	@Override
 	public NodeNew clone() {
 		return new NodeNew((Node) this.get(0).clone());
+	}
+
+	public IntermediateCode generateIntermediateCode() {
+		return new Temp(new TempValue());
 	}
 
 }

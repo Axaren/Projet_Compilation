@@ -45,8 +45,7 @@ public class NodeRel extends NodeExp {
 	@Override
 	public boolean checksType() {
 		super.checksType();
-		return (this.getOp1().getType() instanceof TypeInt) && (this.getOp2()
-				.getType() instanceof TypeInt);
+		return (this.getOp1().getType() instanceof TypeInt) && (this.getOp2().getType() instanceof TypeInt);
 	}
 
 	public NodeExp getOp1() {

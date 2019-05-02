@@ -21,7 +21,11 @@ public final class NodeAssign extends Node {
 			return false;
 		Type lhsType = this.getLhs().getType();
 		Type rhsType = this.getRhs().getType();
-		return lhsType != null && rhsType != null && lhsType.equals(rhsType);
+		if (lhsType == null || rhsType == null || !(lhsType.equals(rhsType))) {
+			System.err.println("Type error in affectation : "+lhsType+" <- "+rhsType);
+			return false;
+		}
+		return true;
 	}
 
 	private NodeExp getLhs() {

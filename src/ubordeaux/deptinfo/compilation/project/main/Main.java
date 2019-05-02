@@ -15,7 +15,10 @@ import ubordeaux.deptinfo.compilation.project.intermediateCode.*;
 public class Main {
 	private static boolean checksType;
 	private static boolean debug;
-
+	
+	/**
+	 *	Linearize a tree of intermediate code (prefix depth-first search)
+	 */
 	public static void linearize(Seq seq, ArrayList visited) {
 		if (seq.getLeft() != null && seq.getLeft() instanceof Stm) {
 			if (seq.getLeft() instanceof Seq)
@@ -51,13 +54,11 @@ public class Main {
 					System.err.println("******** Fichier " + arg);
 					Node result = (Node) parser.parse(input);
 					System.out.println(result.toString());
-					result.toDot("data/output_tree"+count+".dot");
+					result.toDot("data/syntax_tree"+count+".dot");
 					System.err.println("Analyse syntaxique OK ! L'arbre syntaxique est disponible dans data/output_tree"+count+".dot\n");
 
 					//  Checking type
 					if (checksType) {
-						System.err.println("Vérification des types : ");
-						// System.err.println("Type OK pour les noeuds : ");
 						if (!result.checksType())
 							System.err.println("/!\\ Erreur de typage\n");
 						else
@@ -66,20 +67,21 @@ public class Main {
 
 					// Intermediate code generation
 					Seq seq = (Seq)result.generateIntermediateCode();
-					System.out.println("Code intermédiaire :");
+					System.out.println("Code intermédiaire (arbre). L'arbre au format dot est disponible dans data/code_tree"+count+".dot\n");
 					System.out.println(seq.toString());
 					seq.toDot("data/code_tree"+count+".dot");
-					System.out.println("\n\n");
+					System.out.println("\n");
 
+					// Linearize the intermediate code tree
 					ArrayList visited = new ArrayList<IntermediateCode>();
-
 					linearize(seq, visited);
-
-
 					Iterator<IntermediateCode> it = visited.iterator();
+					System.out.println("Code intermédiaire linéarisé (instructions) : ");					
 					while (it.hasNext()){
-						System.out.println(" "  + it.next().getClass().getSimpleName() + "\n");
+						System.out.print(""  + it.next().getClass().getSimpleName()+", ");
 					}
+					System.out.println("\n\n\n");
+
 
 				} catch (beaver.Parser.Exception e) {
 					System.err.println("*** Erreur de syntaxe: " + arg + ":" + e.getMessage());

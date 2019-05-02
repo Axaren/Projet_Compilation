@@ -63,7 +63,7 @@
 			<fileset dir="src" includes="**/ParserLea.java,**/ScannerLea.java,**/Terminals.java" />
 			<fileset dir="bin" includes="**" />
 			<fileset dir="data" includes="output" />
-			<fileset dir="data" includes="output_tree*" />
+			<fileset dir="data" includes="syntax_tree*" />
 			<fileset dir="data" includes="code_tree*" />
 		</delete>
 	</target>
