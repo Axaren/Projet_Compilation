@@ -52,6 +52,8 @@ public final class NodeArrayAccess extends NodeExp {
 	@Override
 	public IntermediateCode generateIntermediateCode() {
 		IntermediateCode exp = this.get(0).generateIntermediateCode();
-		return new Mem((Exp)exp);
+		IntermediateCode i = this.get(1).generateIntermediateCode();
+		Mem mem = (Mem)exp;
+		return new Mem(new Binop(Binop.PLUS, mem.getExp(), (Exp)i));
 	}
 }

@@ -8,6 +8,9 @@ public class Mem extends Exp {
 		this.exp = exp;
 	}
 
+	public Exp getExp() {
+		return exp;
+	}
 
 	@Override
 	public String toString() {
