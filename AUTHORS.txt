@@ -36,6 +36,7 @@ LESNE Nathan
     - Ponctuation
 
 - Création + utilisation des Exceptions
+- Début du Parser (Typeof, règles de priorités)
 - Enums dans NodeRel et NodeOp
 - Code intermédiaire :
     - NodeCase, NodeSwitch
