@@ -28,12 +28,20 @@ public final class NodeCase extends Node {
 		return true;
 	}
 
+	public String getNameValue() {
+		return nameValue;
+	}
+
+	public void setNameValue(String nameValue) {
+		this.nameValue = nameValue;
+	}
+
 	@Override
 	public NodeCase clone() {
 		return new NodeCase(nameValue, (Node) this.getStm().clone());
 	}
 
-	private Node getStm() {
+	public Node getStm() {
 		return super.get(0);
 	}
 

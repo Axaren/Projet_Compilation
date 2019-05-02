@@ -16,4 +16,13 @@ EVEN Melvin
 
 LESNE Nathan
 
-TOY-RIONT--LE DOSSEUR Maelle 
+TOY-RIONT--LE DOSSEUR Maelle
+- Elaboration du parser
+- Déclaration de variable/type/fonction	
+- Résolution de bugs et problèmes de précédence
+- Traitement des programmes dans le parser 
+- Gestion de l'ambiguité avec dandling if/else
+- Code intermédiaire : NodeIf, NodeWhile, NodeSwitch, NodeCallFct, NodeAssign,NodeOp, NodePtrAccess
+- Résolution de bugs dans le code intermédiaire
+- Refactoring du code  
+- Réflexion autours des choix d'implémentation 

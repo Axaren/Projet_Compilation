@@ -1,6 +1,6 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
-import ubordeaux.deptinfo.compilation.project.intermediateCode.IntermediateCode;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.*;
 
 public final class NodeSwitch extends Node {
 
@@ -33,8 +33,28 @@ public final class NodeSwitch extends Node {
 
 	@Override
 	public IntermediateCode generateIntermediateCode() {
-		// getExp().generateIntermediateCode();
-		// getStm().generateIntermediateCode();
-		return null;
+		int size = getStm().size();
+		IntermediateCode exp = getExp().generateIntermediateCode();
+		getStm().generateIntermediateCode();
+		NodeRel rel = (NodeRel)getExp();
+		Seq res = null;
+		IntermediateCode stmDefault =  ((NodeCase) getStm().get(size)).getStm().generateIntermediateCode();
+
+		for (int i = 0; i < size-1; i++){
+			NodeCase nodeCase = ((NodeCase) getStm().get(i));
+			IntermediateCode stm =  ((NodeCase) getStm().get(i)).getStm().generateIntermediateCode();
+			LabelLocation l = new LabelLocation();
+			LabelLocation defaultLabel = new LabelLocation();
+			LabelLocation next = new LabelLocation();
+
+			res = new Seq(new Label(next),
+							new Seq( new Cjump(rel.getRel().getCode(), new Mem((Exp)exp), new Mem(new Name(new LabelLocation(nodeCase.getNameValue()))), l, next),
+								new Seq(new Label(l),
+							 			new Seq( (Stm)stm, new Seq(res.getLeft(), res.getRight())))));
+
+		}
+
+		return res;
+
 	}
 }
