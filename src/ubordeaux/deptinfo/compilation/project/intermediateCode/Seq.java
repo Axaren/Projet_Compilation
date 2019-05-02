@@ -23,6 +23,15 @@ public class Seq extends Stm {
 		this.right = right;
 	}
 
+	public Seq(Stm left) {
+	  super();
+	  this.left = left;
+  }
+
+  public Seq() {
+	  super();
+  }
+
 	@Override
 	public String toString() {
 		if (this.left == null)

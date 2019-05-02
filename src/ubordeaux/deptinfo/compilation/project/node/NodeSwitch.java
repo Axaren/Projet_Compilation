@@ -1,5 +1,7 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
+import java.util.ArrayList;
+import java.util.List;
 import ubordeaux.deptinfo.compilation.project.intermediateCode.*;
 
 public final class NodeSwitch extends Node {
@@ -33,28 +35,49 @@ public final class NodeSwitch extends Node {
 
 	@Override
 	public IntermediateCode generateIntermediateCode() {
-		int size = getStm().size();
-		IntermediateCode exp = getExp().generateIntermediateCode();
-		getStm().generateIntermediateCode();
-		NodeRel rel = (NodeRel)getExp();
-		Seq res = null;
-		IntermediateCode stmDefault =  ((NodeCase) getStm().get(size)).getStm().generateIntermediateCode();
+    IntermediateCode exp = getExp().generateIntermediateCode();
+    NodeList caseList = (NodeList) getStm();
+    int nbCaseList = caseList.size();
 
-		for (int i = 0; i < size-1; i++){
-			NodeCase nodeCase = ((NodeCase) getStm().get(i));
-			IntermediateCode stm =  ((NodeCase) getStm().get(i)).getStm().generateIntermediateCode();
-			LabelLocation l = new LabelLocation();
-			LabelLocation defaultLabel = new LabelLocation();
-			LabelLocation next = new LabelLocation();
+    LabelLocation testLocation = new LabelLocation();
+    LabelLocation nextLocation = new LabelLocation();
+    Label test = new Label(testLocation);
+    Label next = new Label(nextLocation);
 
-			res = new Seq(new Label(next),
-							new Seq( new Cjump(rel.getRel().getCode(), new Mem((Exp)exp), new Mem(new Name(new LabelLocation(nodeCase.getNameValue()))), l, next),
-								new Seq(new Label(l),
-							 			new Seq( (Stm)stm, new Seq(res.getLeft(), res.getRight())))));
+    Seq currentSeq = new Seq();
+    Seq res = new Seq(new Jump(testLocation), currentSeq);
+    List<LabelLocation> casesLocations = new ArrayList<>(nbCaseList);
 
-		}
+    for (int i = 0; i < nbCaseList; i++) {
+      NodeCase currentCase = (NodeCase) caseList.get(i);
+      LabelLocation currentCaseLocation = new LabelLocation(currentCase.getNameValue());
+      casesLocations.add(currentCaseLocation);
+      Seq newCurrentSeq = new Seq((Stm) currentCase.generateIntermediateCode());
+      currentSeq.setRight(new Seq(
+          new Label(currentCaseLocation),
+          newCurrentSeq));
+      currentSeq = newCurrentSeq;
+    }
 
-		return res;
+    Seq testSeq = new Seq(test);
+    currentSeq.setRight(testSeq);
+    currentSeq = testSeq;
+
+    for (int i = 0; i < nbCaseList-1; i++) {
+      NodeCase currentcase = (NodeCase) caseList.get(i);
+      LabelLocation falseLocation = new LabelLocation();
+      Label falseLabel = new Label(falseLocation);
+      Seq newCurrentSeq = new Seq(falseLabel);
+      Seq CjumpSeq = new Seq(
+          new Cjump(0, new Mem((Exp) exp), new Mem(new Name(new LabelLocation(currentcase.getNameValue()))),casesLocations.get(i),falseLocation),
+          newCurrentSeq);
+      currentSeq.setRight(CjumpSeq);
+      currentSeq = newCurrentSeq;
+    }
+
+    currentSeq.setRight(next);
+
+    return res;
 
 	}
 }
