@@ -14,14 +14,29 @@ EVEN Melvin
 - Une partie du scanner
 
 LESNE Nathan
+- Scanner :
+    - Utilisation des  états
+    - Gestion des strings et des nombres Héxadécimaux/Octaux
+    - Mode débug
+    - Ponctuation
+
+- Création + utilisation des Exceptions
+- Enums dans NodeRel et NodeOp
+- Code intermédiaire :
+    - NodeCase, NodeSwitch
 
 TOY-RIONT--LE DOSSEUR Maelle
+Parser :
 - Elaboration du parser
 - Déclaration de variable/type/fonction	
 - Résolution de bugs et problèmes de précédence
 - Traitement des programmes dans le parser 
 - Gestion de l'ambiguité avec dandling if/else
-- Code intermédiaire : NodeIf, NodeWhile, NodeSwitch, NodeCallFct, NodeAssign,NodeOp, NodePtrAccess, NodeArrayList
+- Traitement des arguments des fonctions avec la pile 
+Code intermédiaire : 
+- NodeIf, NodeWhile, NodeSwitch, NodeCallFct, NodeAssign, NodeOp, NodePtrAccess, NodeArrayAccess
 - Résolution de bugs dans le code intermédiaire
-- Refactoring du code  
+Autre :
+- Refactoring du code   
+- Gestion de l'affichage de l'arbre du code intermédiaire (résolution de bugs)
 - Réflexion autours des choix d'implémentation 
