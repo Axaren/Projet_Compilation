@@ -66,6 +66,5 @@ public class NodeRel extends NodeExp {
 		Exp exp1 = (Exp)getOp1().generateIntermediateCode();
 		Exp exp2 = (Exp)getOp2().generateIntermediateCode();
 		return new Cjump(rel.getCode(), exp1, exp2, l1, l2);
-		// return new ExpList((Exp)getOp1().generateIntermediateCode(), (Exp)getOp2().generateIntermediateCode());
 	}
 }
