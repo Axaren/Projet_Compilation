@@ -86,7 +86,7 @@ begin
 	// x = z2 [ 1 ];
 	// b = goo(z2 [ 1 ], 1);
 	// y = z [ false ]; b = 2; // error "Type error in affectation"
-	l = m2; // error "Type error in affectation"
+	//l = m2; // error "Type error in affectation"
 	// l = l;
 	
 	// b = foo(3, 7)^;
