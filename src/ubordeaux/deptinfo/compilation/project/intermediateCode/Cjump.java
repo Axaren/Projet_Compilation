@@ -42,6 +42,14 @@ public class Cjump extends Stm {
 			throw new Error("bad relop in CJUMP.notRel");
 		}
 	}
+	
+	public LabelLocation getIftrue() {
+		return iftrue;
+	}
+
+	public LabelLocation getIffalse() {
+		return iffalse;
+	}
 
 	@Override
 	public String toString() {
