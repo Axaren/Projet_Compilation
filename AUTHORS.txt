@@ -15,6 +15,16 @@ EVEN Melvin
 - Le mode débug du scanner
 
 LESNE Nathan
+- Scanner :
+    - Utilisation des  états
+    - Gestion des strings et des nombres Héxadécimaux/Octaux
+    - Mode débug
+    - Ponctuation
+
+- Création + utilisation des Exceptions
+- Enums dans NodeRel et NodeOp
+- Code intermédiaire :
+    - NodeCase, NodeSwitch
 
 TOY-RIONT--LE DOSSEUR Maelle
 - Elaboration du parser
