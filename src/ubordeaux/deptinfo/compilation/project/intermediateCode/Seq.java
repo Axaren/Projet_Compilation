@@ -6,6 +6,15 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class Seq extends Stm {
+
+	public void setLeft(Stm left) {
+		this.left = left;
+	}
+
+	public void setRight(Stm right) {
+		this.right = right;
+	}
+
 	private Stm left, right;
 
 	public Seq(Stm left, Stm right) {

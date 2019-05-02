@@ -91,7 +91,7 @@
 %typeof if_statement = "NodeIf";
 %typeof while_statement = "NodeWhile";
 %typeof switch_statement = "NodeSwitch";
-%typeof case_statement_list = "NodeCaseList";
+%typeof case_statement_list = "NodeList";
 %typeof case_statement = "NodeList";
 %typeof case_default = "NodeCase";
 %typeof variable_access, expression = "NodeExp";
@@ -497,12 +497,14 @@ switch_statement=
 	;
 	
 case_statement_list=
-	case_statement_list.lst case_statement.stms case_default.def {: 
+	case_statement_list.lst case_statement.stms case_default.def {:
 		Iterator<Node> it = stms.iterator();
 		while (it.hasNext()) {
 			lst.add(it.next());
 		}
-		lst.add(def);
+		if (def != null) {
+			lst.add(def);
+		}
 		return lst;
 	:}
 	| case_statement.stms {: return stms; :}

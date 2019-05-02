@@ -1,5 +1,7 @@
 package ubordeaux.deptinfo.compilation.project.node;
 
+import ubordeaux.deptinfo.compilation.project.intermediateCode.Exp;
+import ubordeaux.deptinfo.compilation.project.intermediateCode.ExpStm;
 import ubordeaux.deptinfo.compilation.project.intermediateCode.IntermediateCode;
 import ubordeaux.deptinfo.compilation.project.intermediateCode.Label;
 import ubordeaux.deptinfo.compilation.project.intermediateCode.LabelLocation;
@@ -58,6 +60,10 @@ public final class NodeCase extends Node {
 		}
 		else {
 			lloc = new LabelLocation(nameValue);
+		}
+
+		if (stmCode instanceof Exp) {
+			stmCode = new ExpStm((Exp) stmCode);
 		}
 
 		return new Seq(new Label(lloc), (Stm) stmCode);
