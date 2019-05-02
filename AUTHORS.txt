@@ -18,7 +18,7 @@ Parser :
     - Toutes les règles (l'entièreté du parser)
     - Détection des erreurs (redéfinition de variables/fonctions, redéclaration de fonction, etc...)
 Code intermédiaire : 
-    - Code intermédiaire : NodeIf, NodeCallFct, NodeAssign, NodePtrAccess, NodeNew, NodeReturn, NodeId, NodeRel
+    - Code intermédiaire : NodeIf, NodeCallFct, NodeAssign, NodePtrAccess, NodeNew, NodeReturn, NodeId, NodeRel, NodeArrayAccess
     - L'affichage en .dot du code intermédiaire
     - Linéarisation de l'arbre de code intermédiaire
 Scanner : 
