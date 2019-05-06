@@ -392,7 +392,7 @@ argt=
 	
 block=
 	block_begin
-	variable_declaration_part /** TODO: add to tree **/
+	variable_declaration_part 
 	TOKEN_BEGIN	
 	statement_list.stmList
 	TOKEN_END 			
