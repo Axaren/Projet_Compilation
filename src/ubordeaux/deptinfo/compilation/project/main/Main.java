@@ -86,7 +86,7 @@ public class Main {
 					System.err.println("*** Erreur de syntaxe: " + arg + ":" + e.getMessage());
 				} catch (RuntimeException e) {
 					System.err.println("*** Compilation error in \""+arg+"\" : "+e.getMessage());
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			}
 		}
